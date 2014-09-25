@@ -1,0 +1,12 @@
+ddms.logcat.auotmonitor.level=error
+ddms.logcat.automonitor.userprompt=true
+eclipse.preferences.version=1
+logcat.view.colsize.Application=170
+logcat.view.colsize.Level=30
+logcat.view.colsize.PID=70
+logcat.view.colsize.TID=70
+logcat.view.colsize.Tag=133
+logcat.view.colsize.Text=1093
+logcat.view.colsize.Time=198
+logcat.view.display.filters=false
+logcat.view.font=1|Inconsolata|8.0|0|GTK|1|;
