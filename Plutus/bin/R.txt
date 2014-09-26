@@ -354,21 +354,21 @@ int string abc_searchview_description_submit 0x7f0a0007
 int string abc_searchview_description_voice 0x7f0a0008
 int string abc_shareactionprovider_share_with 0x7f0a000c
 int string abc_shareactionprovider_share_with_application 0x7f0a000b
-int string action_help 0x7f0a0014
-int string action_logout 0x7f0a0015
+int string action_help 0x7f0a0013
+int string action_logout 0x7f0a0014
 int string action_settings 0x7f0a000f
 int string app_name 0x7f0a000d
-int string button_login 0x7f0a0012
+int string button_login 0x7f0a0017
 int string button_update_account_setting 0x7f0a001a
 int string button_view_account_balance 0x7f0a0018
 int string button_view_account_statistic 0x7f0a0019
 int string edit_password 0x7f0a0011
 int string edit_username 0x7f0a0010
 int string hello_world 0x7f0a000e
-int string intent_key 0x7f0a0017
+int string intent_key 0x7f0a0016
 int string title_activity_update_account_setting 0x7f0a001c
-int string title_activity_user_main 0x7f0a0013
-int string title_activity_view_account_balance 0x7f0a0016
+int string title_activity_user_main 0x7f0a0012
+int string title_activity_view_account_balance 0x7f0a0015
 int string title_activity_view_account_statistics 0x7f0a001b
 int style AppBaseTheme 0x7f0b008b
 int style AppTheme 0x7f0b008c
@@ -584,7 +584,7 @@ int styleable MenuItem_android_title 7
 int styleable MenuItem_android_titleCondensed 8
 int styleable MenuItem_android_visible 4
 int styleable MenuItem_showAsAction 13
-int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x01010435 }
+int[] styleable MenuView { 0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e, 0x0101012f, 0x01010130, 0x01010131, 0x01010438 }
 int styleable MenuView_android_headerBackground 4
 int styleable MenuView_android_horizontalDivider 2
 int styleable MenuView_android_itemBackground 5

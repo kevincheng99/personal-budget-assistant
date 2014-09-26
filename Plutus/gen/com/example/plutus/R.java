@@ -1256,21 +1256,21 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
-        public static final int action_help=0x7f0a0014;
-        public static final int action_logout=0x7f0a0015;
+        public static final int action_help=0x7f0a0013;
+        public static final int action_logout=0x7f0a0014;
         public static final int action_settings=0x7f0a000f;
         public static final int app_name=0x7f0a000d;
-        public static final int button_login=0x7f0a0012;
+        public static final int button_login=0x7f0a0017;
         public static final int button_update_account_setting=0x7f0a001a;
         public static final int button_view_account_balance=0x7f0a0018;
         public static final int button_view_account_statistic=0x7f0a0019;
         public static final int edit_password=0x7f0a0011;
         public static final int edit_username=0x7f0a0010;
         public static final int hello_world=0x7f0a000e;
-        public static final int intent_key=0x7f0a0017;
+        public static final int intent_key=0x7f0a0016;
         public static final int title_activity_update_account_setting=0x7f0a001c;
-        public static final int title_activity_user_main=0x7f0a0013;
-        public static final int title_activity_view_account_balance=0x7f0a0016;
+        public static final int title_activity_user_main=0x7f0a0012;
+        public static final int title_activity_view_account_balance=0x7f0a0015;
         public static final int title_activity_view_account_statistics=0x7f0a001b;
     }
     public static final class style {
@@ -2650,7 +2650,7 @@ containing a value of this type.
          */
         public static final int[] MenuView = {
             0x010100ae, 0x0101012c, 0x0101012d, 0x0101012e,
-            0x0101012f, 0x01010130, 0x01010131, 0x01010435
+            0x0101012f, 0x01010130, 0x01010131, 0x01010438
         };
         /**
           <p>
