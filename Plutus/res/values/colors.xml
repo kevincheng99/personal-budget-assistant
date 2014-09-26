@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bkgd_col">#878da6</color>
+    <color name="txt_col">#ffffff</color>
+    <color name="hint_col">#d9e6f4</color>
+</resources>

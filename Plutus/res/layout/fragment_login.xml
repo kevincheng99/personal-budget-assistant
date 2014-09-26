@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -13,25 +13,35 @@
         android:id="@+id/edit_uername"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="@string/edit_username" />
+        android:layout_above="@+id/edit_password"
+        android:layout_alignLeft="@+id/edit_password"
+        android:layout_alignRight="@+id/edit_password"
+        android:ems="10"
+        android:hint="@string/edit_username">
 
+        <requestFocus />
+
+    </EditText>
+    
     <EditText
         android:id="@+id/edit_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
         android:hint="@string/edit_password"
         android:inputType="textPassword" />
 
     <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/button_login" 
-        android:onClick="loginUserMainActivity"/>
-    
-</LinearLayout>
-<!--
-     <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
--->
+        android:layout_alignLeft="@+id/edit_password"
+        android:layout_alignRight="@+id/edit_uername"
+        android:layout_below="@+id/edit_password"
+        android:layout_marginTop="17dp"
+        android:onClick="loginUserMainActivity"
+        android:text="@string/button_login" />
+
+</RelativeLayout>
