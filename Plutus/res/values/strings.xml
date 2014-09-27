@@ -17,5 +17,6 @@
     <string name="button_update_account_setting">Update Account Settings</string>
     <string name="title_activity_view_account_statistics">Account Statistics</string>
     <string name="title_activity_update_account_setting">Update Account</string>
+    <string name="content_img">Plutus Logo</string>
 
 </resources> <!-- We will change the title for each activity -->

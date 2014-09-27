@@ -9,26 +9,25 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.example.plutus.LoginActivity$PlaceholderFragment" >
 
-    <EditText
-        android:id="@+id/edit_uername"
+    <ImageView
+        android:id="@+id/imageView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/edit_password"
-        android:layout_alignLeft="@+id/edit_password"
-        android:layout_alignRight="@+id/edit_password"
-        android:ems="10"
-        android:hint="@string/edit_username">
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:contentDescription="@string/content_img"
+        android:src="@drawable/plutuslogo600" />
 
-        <requestFocus />
-
-    </EditText>
-    
     <EditText
         android:id="@+id/edit_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/edit_uername"
+        android:layout_alignRight="@+id/edit_uername"
+        android:layout_below="@+id/edit_uername"
+        android:layout_marginTop="33dp"
+        android:background="@drawable/abc_textfield_searchview_holo_light"
         android:ems="10"
         android:hint="@string/edit_password"
         android:inputType="textPassword" />
@@ -38,10 +37,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/edit_password"
-        android:layout_alignRight="@+id/edit_uername"
+        android:layout_alignRight="@+id/edit_password"
         android:layout_below="@+id/edit_password"
-        android:layout_marginTop="17dp"
+        android:layout_marginTop="24dp"
         android:onClick="loginUserMainActivity"
         android:text="@string/button_login" />
+
+    <EditText
+        android:id="@+id/edit_uername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/imageView1"
+        android:layout_alignRight="@+id/imageView1"
+        android:layout_below="@+id/imageView1"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/abc_textfield_searchview_holo_light"
+        android:ems="10"
+        android:hint="@string/edit_username" >
+
+        <requestFocus />
+    </EditText>
 
 </RelativeLayout>
