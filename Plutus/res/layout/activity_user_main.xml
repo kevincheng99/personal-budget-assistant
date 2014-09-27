@@ -3,6 +3,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bkgd_col"
+    android:background="@drawable/checker"
     tools:context="com.example.plutus.UserMainActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame" >
+    
+        <ListView
+        android:id="@+id/um_lv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" >
+
+    </ListView>
+    
+</FrameLayout>

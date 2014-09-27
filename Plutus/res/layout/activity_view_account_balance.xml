@@ -3,6 +3,6 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bkgd_col"
+    android:background="@drawable/checker"
     tools:context="com.example.plutus.ViewAccountBalanceActivity"
     tools:ignore="MergeRootFrame" />
