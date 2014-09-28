@@ -34,7 +34,7 @@ public class LoginActivity extends ActionBarActivity {
   public void loginUserMainActivity(View view) {
     // Initialize the intent to user's main activity
     Intent userMainIntent = new Intent(this, UserMainActivity.class);
-
+    int userId = 5;
     // Get the user name.
     
     // Get the password.
@@ -42,7 +42,7 @@ public class LoginActivity extends ActionBarActivity {
     // Retrieve the user id from the Bank database.
 
     // Build the intent with the user id.
-
+    userMainIntent.putExtra("uid", userId);
     // Start the user's main activity.
     startActivity(userMainIntent);
   }
