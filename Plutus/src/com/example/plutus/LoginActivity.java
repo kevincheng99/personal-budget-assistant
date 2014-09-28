@@ -9,36 +9,40 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity 
+{
   /**
    * Define the key for the intent's extra content using a public constant here or in strings.xml,
    * which can be used in the code as R.string.indent_key;
    */
 
+	private LoginFragment lf = null;
+	
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) 
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
-
-    if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment())
-          .commit();
-    }
+    lf = new LoginFragment();
+    if (savedInstanceState == null) 
+    	getSupportFragmentManager().beginTransaction().add(R.id.container, lf).commit();
   }
 
 
   /**
    * Upon login, the System direct the user to his or her main activity.
    */
-  public void loginUserMainActivity(View view) {
+  public void loginUserMainActivity(View view) 
+  {
     // Initialize the intent to user's main activity
     Intent userMainIntent = new Intent(this, UserMainActivity.class);
     int userId = 5;
     // Get the user name.
-    
+    String uname = lf.GetUsernameText();
     // Get the password.
-
+    String pwd = lf.GetPwdText();
     // Retrieve the user id from the Bank database.
 
     // Build the intent with the user id.
@@ -97,15 +101,35 @@ public class LoginActivity extends ActionBarActivity {
   /**
    * A placeholder fragment containing a simple view.
    */
-  public static class PlaceholderFragment extends Fragment {
+  public static class LoginFragment extends Fragment 
+  {
+	  //This is the edit text for the user name field
+	  private EditText unameEt = null;
+	  //This is the edit text for the password field
+	  private EditText pwdEt = null;
+	  public LoginFragment() {}
 
-    public PlaceholderFragment() {}
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-      return rootView;
-    }
+	  //Function for getting the username text from the fragment
+	  public String GetUsernameText()
+	  {
+		  return unameEt.getText().toString();
+	  }
+	  
+	  //Function for getting the password text from the fragment
+	  public String GetPwdText()
+	  {
+		  return pwdEt.getText().toString();
+	  }
+	  
+	  @Override
+	  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+	  {	  //Inflate the fragment
+		  View rootView = inflater.inflate(R.layout.fragment_login, container, false);
+		  //Get the EditText views from the inflated fragment
+		  unameEt = (EditText) rootView.findViewById(R.id.edit_uername);
+		  pwdEt = (EditText) rootView.findViewById(R.id.edit_password);
+		  return rootView;
+	  }
   }
 
 }

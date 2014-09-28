@@ -2,7 +2,6 @@ package com.example.plutus;
 
 import java.util.ArrayList;
 import java.util.Locale;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
@@ -77,7 +76,6 @@ public class UserMainActivity extends ActionBarActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) 
   {
-
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.user_main, menu);
     return true;
@@ -124,7 +122,7 @@ public class UserMainActivity extends ActionBarActivity {
   }
 
   /**
-   * A placeholder fragment containing a simple view.
+   * A fragment for the list adapter that holds the main menu
    */
   public class MainMenuFragment extends Fragment 
   {
@@ -136,7 +134,7 @@ public class UserMainActivity extends ActionBarActivity {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-	{
+	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
 		//Populate the list view items for the UI
 		listElems = new ArrayList<String>();
