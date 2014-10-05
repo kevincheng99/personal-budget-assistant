@@ -3,7 +3,15 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/checker"
     tools:context="com.example.plutus.UserMainActivity"
-    tools:ignore="MergeRootFrame" />
+    tools:ignore="MergeRootFrame" >
+    
+	<ImageView 
+	android:contentDescription="@string/bkgd_img"
+	android:layout_width="fill_parent"
+	android:layout_height="fill_parent"
+	android:src="@drawable/checker"
+	android:scaleType="center" />
+    
+</FrameLayout>
     

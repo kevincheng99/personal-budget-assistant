@@ -19,7 +19,8 @@ public class UpdateAccountSettingActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_update_account_setting);
 
-    if (savedInstanceState == null) {
+    if (savedInstanceState == null) 
+    {
       getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment())
           .commit();
     }

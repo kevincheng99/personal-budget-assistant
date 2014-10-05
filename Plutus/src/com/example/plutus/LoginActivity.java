@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class LoginActivity extends ActionBarActivity 
 {
@@ -19,6 +20,7 @@ public class LoginActivity extends ActionBarActivity
    */
 
 	private LoginFragment lf = null;
+	private Bank bnk = new Bank();
 	
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -38,31 +40,37 @@ public class LoginActivity extends ActionBarActivity
   {
     // Initialize the intent to user's main activity
     Intent userMainIntent = new Intent(this, UserMainActivity.class);
-    int userId = 5;
+    int userId = -1;
     // Get the user name.
     String uname = lf.GetUsernameText();
     // Get the password.
     String pwd = lf.GetPwdText();
     // Retrieve the user id from the Bank database.
-
-    // Build the intent with the user id.
-    userMainIntent.putExtra("uid", userId);
-    // Start the user's main activity.
-    startActivity(userMainIntent);
+    userId = bnk.GetUserIndex(uname, pwd);
+    if(userId < 0)
+    {	//The user credentials were invalid, do nothing
+    	Toast.makeText(getApplicationContext(), "Invalid credentials.", Toast.LENGTH_SHORT).show();
+    }
+    else
+    {	//The credentials were valid, open main menu
+        // Build the intent with the user id.
+        userMainIntent.putExtra("uid", userId);
+        // Start the user's main activity.
+        startActivity(userMainIntent);
+    }
   }
 
 
-
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-
-    // Inflate the menu; this adds items to the action bar if it is present.
+  public boolean onCreateOptionsMenu(Menu menu) 
+  { // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.login, menu);
     return true;
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) 
+  {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.

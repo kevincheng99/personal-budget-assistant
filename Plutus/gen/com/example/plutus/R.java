@@ -1094,8 +1094,8 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f050023;
         public static final int action_bar_title=0x7f050022;
         public static final int action_context_bar=0x7f05001d;
-        public static final int action_help=0x7f050043;
-        public static final int action_logout=0x7f050044;
+        public static final int action_help=0x7f050046;
+        public static final int action_logout=0x7f050047;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
@@ -1122,9 +1122,12 @@ containing a value of this type.
         public static final int ifRoom=0x7f05000a;
         public static final int image=0x7f050027;
         public static final int imageView1=0x7f05003d;
-        public static final int label=0x7f050042;
+        public static final int label=0x7f050045;
         public static final int listMode=0x7f050001;
         public static final int list_item=0x7f050029;
+        public static final int menuPb1=0x7f050042;
+        public static final int menuTv1=0x7f050043;
+        public static final int menuTv2=0x7f050044;
         public static final int middle=0x7f050012;
         public static final int never=0x7f050009;
         public static final int none=0x7f050010;
@@ -1267,10 +1270,12 @@ containing a value of this type.
         /**  Description of a share target (both in the list of such or the default share button) in a ShareActionProvider (share UI). [CHAR LIMIT=NONE] 
          */
         public static final int abc_shareactionprovider_share_with_application=0x7f0a000b;
+        public static final int acnt_sum=0x7f0a001f;
         public static final int action_help=0x7f0a0013;
         public static final int action_logout=0x7f0a0014;
         public static final int action_settings=0x7f0a000f;
         public static final int app_name=0x7f0a000d;
+        public static final int bkgd_img=0x7f0a001e;
         public static final int button_login=0x7f0a0017;
         public static final int button_update_account_setting=0x7f0a001a;
         public static final int button_view_account_balance=0x7f0a0018;

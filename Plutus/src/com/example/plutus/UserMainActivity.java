@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class UserMainActivity extends ActionBarActivity {
@@ -22,15 +24,17 @@ public class UserMainActivity extends ActionBarActivity {
   private int userid = -1;
   private TextToSpeech tts;
   private Intent umaIntent = null;
-  
+  private MainMenuFragment mmf = null;
+  private Bank bank = new Bank();
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_user_main);
+    mmf = new MainMenuFragment();
     if (savedInstanceState == null) 
     {
-      getSupportFragmentManager().beginTransaction().add(R.id.container, new MainMenuFragment())
-          .commit();
+      getSupportFragmentManager().beginTransaction().add(R.id.container, mmf).commit();
     }
     /**
      * We may start our implementations here.
@@ -43,11 +47,15 @@ public class UserMainActivity extends ActionBarActivity {
     {
     	//TODO: Handle -1
     }
+    double acntBalance = bank.GetUserBalance(userid);
+    double acntThresh = bank.GetUserThreshold(userid);
+    mmf.SetTv2(String.format("%5.2f (%5.2f above threshold)", acntBalance, acntBalance - acntThresh));
+    mmf.SetPb1((int) (acntBalance - acntThresh) / 10);
     /**
      * Check if any account is over-budget and send an alert notification in the form of text, email
      * or pop-up messages.
      */
-
+    
     //Text to speech to welcome the user
     tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() 
     {
@@ -130,16 +138,40 @@ public class UserMainActivity extends ActionBarActivity {
 	private ArrayAdapter<String> arrAdpt = null;
 	private ArrayList<String> listElems = null;
 	private ListView lv = null;
+	private TextView menuTv2 = null;
+	private ProgressBar menuPb1 = null; 
+	private String tv2Text = "";
+	private int pb1 = 0;
 	public MainMenuFragment() {}
+	
+	public void SetTv2(String txt)
+	{
+		if(menuTv2 == null)
+			tv2Text = txt;
+		else
+			menuTv2.setText(txt);
+	}
+	
+	public void SetPb1(int prog)
+	{
+		if(menuTv2 == null)
+			pb1 = prog;
+		else
+			menuPb1.setProgress(prog);
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
+		menuTv2 = (TextView) rootView.findViewById(R.id.menuTv2);
+		menuPb1 = (ProgressBar) rootView.findViewById(R.id.menuPb1);
+		menuTv2.setText(tv2Text);
+		menuPb1.setProgress(pb1);
 		//Populate the list view items for the UI
 		listElems = new ArrayList<String>();
 		String[] values = new String[] { "\tAccount Balance", "\tAccount Statistics", "\tUpdate Account" };
-		for(int i = 0; i < 3; ++i)
+		for(int i = 0; i < values.length; ++i)
 			listElems.add(values[i]);
 		lv = (ListView) rootView.findViewById(R.id.um_lv);
 		arrAdpt = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.list_item, R.id.label, listElems);
