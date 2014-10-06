@@ -1,5 +1,7 @@
 package com.example.plutus;
 
+import java.util.ArrayList;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -9,6 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 public class ViewAccountBalanceActivity extends ActionBarActivity {
   // Initialize the user id.
@@ -18,10 +25,10 @@ public class ViewAccountBalanceActivity extends ActionBarActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_account_balance);
-
-    if (savedInstanceState == null) {
-      getSupportFragmentManager().beginTransaction().add(R.id.container, new PlaceholderFragment())
-          .commit();
+    AcntMenuFragment amf = new AcntMenuFragment(3);
+    if (savedInstanceState == null) 
+    {
+      getSupportFragmentManager().beginTransaction().add(R.id.container, amf).commit();
     }
 
     /**
@@ -93,17 +100,57 @@ public class ViewAccountBalanceActivity extends ActionBarActivity {
   }
 
   /**
-   * A placeholder fragment containing a simple view.
+   * A fragment for the list adapter that holds the main menu
    */
-  public static class PlaceholderFragment extends Fragment {
+  public class AcntMenuFragment extends Fragment 
+  {
 
-    public PlaceholderFragment() {}
+	private MenuItemAdapter arrAdpt = null;
+	private ArrayList<AccountMenuItem> listElems = null;
+	private ListView lv = null;
+	private TextView menuTv2 = null;
+	private ProgressBar[] pbs = null; 
+	private String tv2Text = "";
+	private int[] tempPbProg = null;
+	public AcntMenuFragment(int numAcnts) 
+	{
+		pbs = new ProgressBar[numAcnts];
+		tempPbProg = new int[numAcnts];
+	}
+	
+	public void SetTv2(String txt)
+	{
+		if(menuTv2 == null)
+			tv2Text = txt;
+		else
+			menuTv2.setText(txt);
+	}
+	
+	public void SetPb(int prog, int ind)
+	{
+		if(menuTv2 == null)
+			tempPbProg[ind] = prog;
+		else
+			pbs[ind].setProgress(prog);
+	}
+	
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
+	{	//When the fragment is created instantiate the list on the UI
+		View rootView = inflater.inflate(R.layout.fragment_view_account_balance, container, false);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-      View rootView = inflater.inflate(R.layout.fragment_view_account_balance, container, false);
-      return rootView;
-    }
+		//Populate the list view items for the UI
+		listElems = new ArrayList<AccountMenuItem>();
+		String[] values = {"\tChecking Account", "\tSavings Account", "\tCash"};
+		for(int i = 0; i < 3; ++i)
+			listElems.add(new AccountMenuItem((i + 1) * 20, values[i], String.format("$%.2f ($%.2f above threshold)", (i + 100) * Math.PI, Math.E * Math.PI * (i + 1))));
+		lv = (ListView) rootView.findViewById(R.id.ab_lv);
+		arrAdpt = new MenuItemAdapter(getActivity().getApplicationContext(), listElems);
+		lv.setAdapter(arrAdpt);
+
+
+		return rootView;
+	}
   }
 
 }

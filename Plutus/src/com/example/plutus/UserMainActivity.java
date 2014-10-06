@@ -49,7 +49,7 @@ public class UserMainActivity extends ActionBarActivity {
     }
     double acntBalance = bank.GetUserBalance(userid);
     double acntThresh = bank.GetUserThreshold(userid);
-    mmf.SetTv2(String.format("%5.2f (%5.2f above threshold)", acntBalance, acntBalance - acntThresh));
+    mmf.SetTv2(String.format("$%.2f ($%.2f above threshold)", acntBalance, acntBalance - acntThresh));
     mmf.SetPb1((int) (acntBalance - acntThresh) / 10);
     /**
      * Check if any account is over-budget and send an alert notification in the form of text, email
