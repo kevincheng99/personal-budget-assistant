@@ -15,7 +15,9 @@
         android:layout_height="150dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/menuPb1" >
+        android:layout_below="@+id/menuPb1"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10.0sp" >
 
     </ListView>
 
