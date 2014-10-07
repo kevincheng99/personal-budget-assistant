@@ -1,0 +1,237 @@
+/**
+ * 
+ */
+package com.example.plutusbank;
+
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
+/**
+ * BankDataBaseManager create and maintain the Plutus SQLite database. The functionality may
+ * includes the followings or more: create tables, delete tables, insert and update.
+ * 
+ * @author Kevin Cheng
+ * 
+ */
+public class BankDatabaseManager {
+  /**
+   * Dummy constructor
+   */
+  public BankDatabaseManager() {}
+
+  /**
+   * SQLite storage class.
+   */
+  private static final String TEXT_TYPE = " TEXT";
+  private static final String INTEGER_TYPE = " INTEGER";
+  private static final String REAL_TYPE = " REAL";
+
+  /**
+   * SQLite configuration phrase.
+   */
+  private static final String COMMA = ",";
+
+  /**
+   * SQLite statement: create table.
+   */
+  // Create User table.
+  private static final String CREATE_USER_TABLE = "CREATE TABLE IF NOT EXISTS "
+      + BankDatabaseSchema.User.TABLE_NAME + " (" + BankDatabaseSchema.User._ID
+      + " INTEGER PRIMARY KEY," + BankDatabaseSchema.User.COLUMN_NAME_USERNAME + TEXT_TYPE + COMMA
+      + BankDatabaseSchema.User.COLUMN_NAME_PASSWORD + TEXT_TYPE + COMMA
+      + BankDatabaseSchema.User.COLUMN_NAME_FIRST_NAME + TEXT_TYPE + COMMA
+      + BankDatabaseSchema.User.COLUMN_NAME_LAST_NAME + TEXT_TYPE + COMMA
+      + BankDatabaseSchema.User.COLUMN_NAME_PHONE + INTEGER_TYPE + COMMA
+      + BankDatabaseSchema.User.COLUMN_NAME_EMAIL + TEXT_TYPE + COMMA + " )";
+
+  /**
+   * SQLite Statement: delete table.
+   */
+  // Delete User table.
+  private static final String DELETE_USER_TABLE = "DROP TABLE IF EXISTS "
+      + BankDatabaseSchema.User.TABLE_NAME;
+
+
+
+  /**
+   * SQLiteOpenHelper class helps to manage database creation and version management.
+   */
+  public class BankDatabaseHelper extends SQLiteOpenHelper {
+    // If we change the database schema, we need to update the database version.
+    public static final int DATABASE_VERSION = 1;
+
+    // Generic database name
+    public static final String DATABASE_NAME = "Bank.db";
+
+    /**
+     * Default constructor calls SQLiteHelper to initialize the SQLite database with the specified
+     * database name and databae version.
+     * 
+     * @param myContext
+     */
+    public BankDatabaseHelper(Context myContext) {
+      super(myContext, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    /**
+     * onCreate is called when the database is created for the first time.
+     */
+    @Override
+    public void onCreate(SQLiteDatabase myBankDatabase) {
+      // While the creation of user table, we can catch the exception by try-catch statements.
+
+      // Create User table.
+      myBankDatabase.execSQL(BankDatabaseManager.CREATE_USER_TABLE);
+
+      // Create BankAccount table.
+
+      // Create Transaction table.
+
+      // Create UserBankAccount table.
+
+      // Create Purchase table.
+    }
+
+    /**
+     * onUpgrade is called when we need to update the database. The implementation should use
+     * onUpgrade to add tables, drop tables and upgrade new schema version.
+     */
+    @Override
+    public void onUpgrade(SQLiteDatabase myBankDatabase, int oldVersion, int newVersion) {
+      // Delete User table.
+      myBankDatabase.execSQL(BankDatabaseManager.DELETE_USER_TABLE);
+      
+      // create the SQLite database with the newer version.
+      onCreate(myBankDatabase);
+    }
+
+
+
+  }
+
+
+} // end of BankDatabaseManager
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

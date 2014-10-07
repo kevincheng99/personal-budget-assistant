@@ -1,0 +1,111 @@
+package com.example.plutusbank;
+
+import android.provider.BaseColumns;
+
+/**
+ * BankDatabaseSchema defines the bank database tables for Plutus.
+ * 
+ * It is a contract class that defines names of columns in each table. The contract class allows us
+ * to use the same constants across all the other classes in the same package. This lets us change a
+ * column name in one place and have it propagate throughout our code.
+ * 
+ * Each inner class is an abstract class defining the table name and column names and implements the
+ * interface BaseColumns. The inner class inherits the primary key field, _ID, that some Android
+ * classes such as cursor adaptors will expect it to have.
+ * 
+ * Or we can also use interface class in our case.
+ * 
+ * @author Kevin Cheng
+ * 
+ */
+public final class BankDatabaseSchema {
+  // Define an empty constructor; in case, we accidentally instantiate the contract class.
+  public BankDatabaseSchema() {}
+  
+  /**
+   * User table = (userid, firstname, lastname, username, password)
+   */
+  public static abstract class User implements BaseColumns {
+    public static final String TABLE_NAME = "user";
+    public static final String COLUMN_NAME_USERID = "userid";
+    public static final String COLUMN_NAME_USERNAME = "userName";
+    public static final String COLUMN_NAME_PASSWORD = "password";
+    public static final String COLUMN_NAME_FIRST_NAME = "firstName";
+    public static final String COLUMN_NAME_LAST_NAME = "lastName";
+    public static final String COLUMN_NAME_PHONE = "phone";
+    public static final String COLUMN_NAME_EMAIL= "email";
+  }
+  
+  /**
+   * Bank Account table = (accountNumber, type, balance, threshold)
+   */
+  public static abstract class BankAccount implements BaseColumns {
+    public static final String TABLE_NAME = "bankAccount";
+    public static final String COLUMN_NAME_ACCOUNT_NUMBER = "accountNumber";
+    public static final String COLUMN_NAME_TYPE = "type";
+    public static final String COLUMN_NAME_BALANCE = "balance";
+    public static final String COLUMN_NAME_THRESHOLD = "threshold";
+    
+  }
+
+  /**
+   * Transaction table = (transactionID, type, amount, date)
+   */
+  public static abstract class Transaction implements BaseColumns {
+    public static final String TABLE_NAME = "transaction";
+    public static final String COLUMN_NAME_TRASACTION_ID = "transactionID";
+    
+    
+  }
+  
+  
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+////
+//vv

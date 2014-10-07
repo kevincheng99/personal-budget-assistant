@@ -1,0 +1,181 @@
+/**
+ * 
+ */
+package com.example.plutusbank;
+
+/**
+ * BankDataBaseManager create and maintain the Plutus SQLite database. The functionality may
+ * includes the followings or more: create tables, delete tables, insert and update.
+ * 
+ * @author Kevin Cheng
+ * 
+ */
+public class BankDatabaseManager {
+  /**
+   * SQLite storage class.
+   */
+  private static final String TEXT_TYPE = " TEXT";
+  private static final String REAL_TYPE = " REAL";
+
+  /**
+   * Comma
+   */
+  private static final String COMMA = ",";
+
+  /**
+   * SQLite statement: create table.
+   */
+  private static final String CREATE_USER_TABLE = "CREATE TABLE "
+      + BankDatabaseSchema.User.TABLE_NAME
+      + " ("
+      + BankDatabaseSchema.User._ID
+      + " INTEGER PRIMARY KEY,"
+      + BankDatabaseSchema.User.COLUMN_NAME_USERNAME
+      + BankDatabaseSchema.User.COLUMN_NAME_PASSWORD
+      + BankDatabaseSchema.User.COLUMN_NAME_FIRST_NAME
+      + BankDatabaseSchema.User.COLUMN_NAME_LAST_NAME
+      + BankDatabaseSchema.User.COLUMN_NAME_PHONE
+      + BankDatabaseSchema.User.COLUMN_NAME_EMAIL;
+
+
+
+  // private static final String SQL_CREATE_ENTRIES =
+  // "CREATE TABLE " + FeedEntry.TABLE_NAME + " (" +
+  // FeedEntry._ID + " INTEGER PRIMARY KEY," +
+  // FeedEntry.COLUMN_NAME_ENTRY_ID + TEXT_TYPE + COMMA_SEP +
+  // FeedEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+  // ... // Any other options for the CREATE command
+  // " )";
+
+
+
+  /**
+   * SQLite Statement: delete table.
+   */
+
+
+
+} // end of BankDatabaseManager
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//

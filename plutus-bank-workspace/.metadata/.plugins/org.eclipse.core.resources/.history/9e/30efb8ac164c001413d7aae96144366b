@@ -1,0 +1,15 @@
+/**
+ * 
+ */
+package com.example.plutusbank;
+
+/**
+ * BankDataBaseManager create and maintain the Plutus database. The functionality may includes the
+ * followings or more: create tables, delete tables, insert and update.
+ * 
+ * @author kevin
+ * 
+ */
+public class BankDatabaseManager {
+
+}

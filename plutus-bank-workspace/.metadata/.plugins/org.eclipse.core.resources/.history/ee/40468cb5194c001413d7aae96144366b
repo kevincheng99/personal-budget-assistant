@@ -1,0 +1,114 @@
+/**
+ * 
+ */
+package com.example.plutusbank;
+
+/**
+ * BankDataBaseManager create and maintain the Plutus SQLite database. The functionality may
+ * includes the followings or more: create tables, delete tables, insert and update.
+ * 
+ * @author Kevin Cheng
+ * 
+ */
+public class BankDatabaseManager {
+  /**
+   * SQLite storage class.
+   */
+  private static final String TEXT_TYPE = " TEXT";
+  private static final String REAL_TYPE = " REAL";
+  
+  /**
+   * Comma
+   */
+  private static final String COMMA = ",";
+  
+  /**
+   * SQLite statement: create table.
+   */
+  
+  
+  /**
+   * SQLite Statement: delete table.
+   */
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+} // end of BankDatabaseManager
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+

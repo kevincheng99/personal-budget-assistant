@@ -1,0 +1,349 @@
+package com.example.plutusbank;
+
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class MainActivity extends ActionBarActivity {
+    private static final String DEBUG_TAG = "DebugMainActivity";
+
+    // Declare a database manager
+    private BankDatabaseManager plutusDbManager = null;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment()).commit();
+        }
+
+        /**
+         * Start coding the development code of driver here and move the drive
+         * to its own class.
+         */
+        // Start to initialize the bank database with the bank database manager.
+        plutusDbManager = new BankDatabaseManager(this);
+
+        // Test the User table.
+        // testUserTable(plutusDbManager);
+
+        // Test the Bank Account table.
+//         testBankAccountTable(plutusDbManager);
+
+        // Test the transaction table.
+         testTransactionTable(plutusDbManager);
+
+        /**
+         * DANGER: Clear the database by dropping all the tables.
+         */
+        plutusDbManager.dropAllTable();
+    }
+
+    /**
+     * Test a table.
+     */
+    // The function test the bank account table.
+    public void testTransactionTable(BankDatabaseManager myDatabaseManager) {
+        // Define the first transaction.
+        String type = "food";
+        double amount = 100.0;
+        String date = "10-05-2014";
+
+        // Insert the transaction.
+        myDatabaseManager.addTransaction(type, amount, date);
+
+        // Define the second transaction.
+        type = "clothing";
+        amount = 300.0;
+        date = "10-01-2014";
+
+        // Insert the second transaction
+        myDatabaseManager.addTransaction(type, amount, date);
+
+        // Display bank accounts.
+        printTransactionTable(myDatabaseManager);
+    }
+
+    // The function test the bank account table.
+    public void testBankAccountTable(BankDatabaseManager myDatabaseManager) {
+        // Define the first bank account.
+        String type = "checking";
+        double balance = 100.0;
+        double threshold = 20.0;
+
+        // Insert the first bank account.
+        myDatabaseManager.addBankAccount(type, balance, threshold);
+
+        // Define the second bank account.
+        type = "saving";
+        balance = 300.0;
+        threshold = 50.0;
+
+        // Insert the second bank account.
+        myDatabaseManager.addBankAccount(type, balance, threshold);
+
+        // Update the account threshold.
+        // plutusDbManager.updateAccountThreshold(2, 1000);
+
+        // Display bank accounts.
+        printBankAccountTable(myDatabaseManager);
+    }
+
+    // The function test the user table.
+    public void testUserTable(BankDatabaseManager myDatabaseManager) {
+        // Define an user data, including username, password, full name, phone
+        // number and email address.
+        String username = "kevin";
+        String password = "12345";
+        String fullName = "kevin cheng";
+        String phoneNumber = "(123)456-7890";
+        String email = "kevincheng99@csu.fullerton.edu";
+
+        // Insert the new user data.
+        long newRowId = myDatabaseManager.addUser(username, password, fullName,
+                phoneNumber, email);
+
+        // Update user information
+        // plutusDbManager.updateUser(1, "5339", "kevin zu", "", "abc");
+
+        // Display the user tables
+        printUserTable(myDatabaseManager);
+    }
+
+    /**
+     * Print a table.
+     */
+    // The function prints the BankAccount table.
+    public void printTransactionTable(BankDatabaseManager myDatabaseManager) {
+        // Retrieve the transaction table.
+        Cursor transactionTableCursor = myDatabaseManager.getAllTransaction();
+
+        // Print the transaction table.
+        while (!transactionTableCursor.isAfterLast()) {
+            // Initialize a row string for the display purpose.
+            String transactionData = "";
+
+            // Get the column index for the transaction id.
+            int columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.Transaction._ID);
+
+            // Get the account number.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the transaction type..
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.Transaction.COLUMN_NAME_TYPE);
+
+            // Get the account type.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the amount of transaction
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.Transaction.COLUMN_NAME_AMOUNT);
+
+            // Get the amount of transaction.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the transaction date.
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.Transaction.COLUMN_NAME_DATE);
+
+            // Get the account threshold.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Display the user data.
+            Log.d(DEBUG_TAG, "Transaction: " + transactionData);
+
+            // Move to the next entry.
+            transactionTableCursor.moveToNext();
+        }
+
+        // Close the cursor to release related resources.
+        transactionTableCursor.close();
+    }
+
+    // The function prints the BankAccount table.
+    public void printBankAccountTable(BankDatabaseManager myDatabaseManager) {
+        // Retrieve the bank account table.
+        Cursor bankAccountTableCursor = myDatabaseManager.getAllBankAccount();
+
+        // Print the bank account table.
+        while (!bankAccountTableCursor.isAfterLast()) {
+            // Initialize a row string for the display purpose.
+            String bankAccountData = "";
+
+            // Get the column index for the account number.
+            int columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount._ID);
+
+            // Get the account number.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account type..
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+
+            // Get the account type.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account balance.
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+
+            // Get the account balance.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account threshold.
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+
+            // Get the account threshold.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Display the user data.
+            Log.d(DEBUG_TAG, "Bank Account: " + bankAccountData);
+
+            // Move to the next entry.
+            bankAccountTableCursor.moveToNext();
+        }
+
+        // Close the cursor to release related resources.
+        bankAccountTableCursor.close();
+    }
+
+    // The function prints the User table.
+    public void printUserTable(BankDatabaseManager myDatabaseManager) {
+        // Retrieve the user table.
+        Cursor userTableCursor = myDatabaseManager.getAllUser();
+
+        // Print the user table.
+        while (!userTableCursor.isAfterLast()) {
+            // Initialize a row string for the display purpose.
+            String userData = "";
+
+            // Get the column index for the userid.
+            int columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User._ID);
+
+            // Get the username.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the userid.
+            columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_USERNAME);
+
+            // Get the username.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the password.
+            columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_PASSWORD);
+
+            // Get the password.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the full name.
+            columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_FULL_NAME);
+
+            // Get the full name.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the phone number.
+            columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_PHONE);
+
+            // Get the phone number.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the email.
+            columnIndex = userTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_EMAIL);
+
+            // Get the email.
+            userData = userData + userTableCursor.getString(columnIndex) + "|";
+
+            // Display the user data.
+            Log.d(DEBUG_TAG, "User: " + userData);
+
+            // Move to the next entry.
+            userTableCursor.moveToNext();
+        }
+
+        // Close the cursor to release related resources.
+        userTableCursor.close();
+    }
+
+    // When resume/running/visible to the user, open the database for the read
+    // and
+    // write.
+    @Override
+    protected void onResume() {
+        plutusDbManager.openReadWriteMode();
+        super.onResume();
+    }
+
+    // When pause, close any open database.
+    @Override
+    protected void onPause() {
+        plutusDbManager.close();
+        super.onPause();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.fragment_main, container,
+                    false);
+            return rootView;
+        }
+    }
+
+}

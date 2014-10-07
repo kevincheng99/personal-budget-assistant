@@ -1,0 +1,5 @@
+INDEX VERSION 1.126+/run/media/kevin/DATA/cpsc462/plutus-bank-workspace/.metadata/.plugins/org.eclipse.jdt.core
+1035771132.index
+1270315800.index
+2018791793.index
+220729263.index
