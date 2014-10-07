@@ -108,12 +108,14 @@ public class BankDatabaseManager {
 
     // Open the database in the read and write mode. Throw the exception when
     // the database cannot be opened.
+    // TODO: We need to do synchronization to prevent the write concurrently.
     public void openReadWriteMode() throws SQLException {
         bankDatabase = bankDatabaseHelper.getWritableDatabase();
     }
 
     // Open the database in the read mode. Throw the exception when the database
     // cannot be opened.
+    // For read, we may not need to do the synchrnoization.
     public SQLiteDatabase openReadMode() throws SQLException {
         bankDatabase = bankDatabaseHelper.getReadableDatabase();
 
