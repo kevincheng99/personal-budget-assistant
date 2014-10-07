@@ -2,9 +2,13 @@ package com.example.plutus;
 
 public class AccountMenuItem 
 {
-	private int progress = 0;
-	private String acntName = "";
-	private String acntTotal = "";
+	public int progress = 0;
+	public String acntTitle = "";
+	public String acntName = "";
+	public String acntTotal = "";
+	public String threshText = "";
+	public String emailTxt = "";
+	public String phoneTxt = "";
 	public AccountMenuItem() 
 	{
 		progress = 0;
@@ -12,40 +16,15 @@ public class AccountMenuItem
 		acntTotal = "";
 	}
 	
-	public AccountMenuItem(int p, String an, String at) 
+	public AccountMenuItem(int p, String an, String at, String threshT, String title, String emlTxt, String phnTxt) 
 	{
 		progress = p;
 		acntName = an;
 		acntTotal = at;
+		threshText = threshT;
+		acntTitle = title;
+		emailTxt = emlTxt;
+		phoneTxt = phnTxt;
 	}
-	
-	public int GetProg()
-	{
-		return progress;
-	}
-	
-	public void SetProg(int p)
-	{
-		progress = 0;
-	}
-	
-	public String GetAcntName()
-	{
-		return acntName;
-	}
-	
-	public void SetAcntName(String an)
-	{
-		acntName = an;
-	}
-	
-	public String GetAcntTotal()
-	{
-		return acntTotal;
-	}
-	
-	public void setAcntTotal(String t)
-	{
-		acntTotal = t;
-	}
+
 }

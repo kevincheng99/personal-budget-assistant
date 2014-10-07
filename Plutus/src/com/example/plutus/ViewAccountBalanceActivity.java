@@ -141,9 +141,9 @@ public class ViewAccountBalanceActivity extends ActionBarActivity {
 
 		//Populate the list view items for the UI
 		listElems = new ArrayList<AccountMenuItem>();
-		String[] values = {"\tChecking Account", "\tSavings Account", "\tCash"};
+		String[] values = {"Checking", "Savings", "Cash"};
 		for(int i = 0; i < 3; ++i)
-			listElems.add(new AccountMenuItem((i + 1) * 20, values[i], String.format("$%.2f ($%.2f above threshold)", (i + 100) * Math.PI, Math.E * Math.PI * (i + 1))));
+			listElems.add(new AccountMenuItem((i + 1) * 20, "..................... " + values[i], String.format("$%.2f", (i + 100) * Math.PI), String.format("$%.2f above threshold", Math.E * Math.PI * (i + 1)), "Account #" + (i + 1), "foo@foo.com", "555-5555-5555"));
 		lv = (ListView) rootView.findViewById(R.id.ab_lv);
 		arrAdpt = new MenuItemAdapter(getActivity().getApplicationContext(), listElems);
 		lv.setAdapter(arrAdpt);

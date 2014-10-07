@@ -20,5 +20,6 @@
     <string name="content_img">Plutus Logo</string>
     <string name="bkgd_img">Background Image</string>
     <string name="acnt_sum">Account Summary: </string>
-
+    <string name="alrt_set">Alerts Set:</string>
+    <string name="dst_thres">Distance From Threshold:</string>
 </resources> <!-- We will change the title for each activity -->
