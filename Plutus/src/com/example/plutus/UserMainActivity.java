@@ -136,7 +136,6 @@ public class UserMainActivity extends ActionBarActivity {
   {
 
 	private ArrayAdapter<String> arrAdpt = null;
-	private ArrayAdapter<String> sumArrAdpt = null;
 	private ArrayList<String> listElems = null;
 	private ListView optLv = null;
 	private ListView sumLv = null;
@@ -167,12 +166,6 @@ public class UserMainActivity extends ActionBarActivity {
 	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
 
-		//Populate the list view containing account summary
-		ArrayList<String> menuListStr = new ArrayList<String>();
-		menuListStr.add("Account Summary:");
-		sumArrAdpt = new ArrayAdapter<String>(getActivity().getApplicationContext(), R.layout.menu_sum_li, R.id.menu_title_tv, menuListStr);
-		sumLv = (ListView) rootView.findViewById(R.id.um_sum_lv);
-		sumLv.setAdapter(sumArrAdpt);
 		//Populate the list view for the menu options
 		listElems = new ArrayList<String>();
 		String[] values = new String[] { "\tAccount Balance", "\tAccount Statistics", "\tUpdate Account" };

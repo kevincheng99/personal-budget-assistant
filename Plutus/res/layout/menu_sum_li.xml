@@ -102,7 +102,7 @@
            android:layout_below="@+id/menu_rate_tv"
            android:clickable="false"
            android:stepSize="0.5"
-           android:numStars="4"
+           android:numStars="5"
            android:rating="3.5" />
 
 	 </RelativeLayout>
