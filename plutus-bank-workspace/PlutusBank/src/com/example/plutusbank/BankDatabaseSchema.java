@@ -66,7 +66,7 @@ public final class BankDatabaseSchema {
     /**
      * User-BankAccount table = (userid, accountNumber)
      */
-    public static abstract class userBankAccount implements BaseColumns {
+    public static abstract class UserBankAccount implements BaseColumns {
         public static final String TABLE_NAME = "userBankAccount";
         // public static final String COLUMN_NAME_ENTRY_ID = "entryID"; // use
         // _ID
