@@ -19,6 +19,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 public class UserMainActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
@@ -168,8 +169,8 @@ public class UserMainActivity extends ActionBarActivity {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
-		totSpend = (TextView) rootView.findViewById(R.id.)
-		totSpend = (TextView) rootView.findViewById(R.id.)
+		totSpend = (TextView) rootView.findViewById(R.id.menu_amnt_tv);
+		totSpend = (TextView) rootView.findViewById(R.id.menu_expns_tv);
 		totSpend.setText(totFundTxt);
 		totSpend.setText(totSpendTxt);
 		//Populate the list view for the menu options
