@@ -1,0 +1,24 @@
+/**
+ * 
+ */
+package com.example.plutusbank;
+
+/**
+ * @author Kevin Cheng
+ *
+ */
+public class TestPurchaseTable {
+ // Initialize a debug tag while testing the user-bank-account table.
+    private static final String DEBUG_TAG = "DebugPurchaseTable";
+
+    // Declare a BankDatabaseManager.
+    private BankDatabaseManager myDatabaseManager = null;
+
+    public TestPurchaseTable(BankDatabaseManager inputDatabaseManager) {
+        myDatabaseManager = inputDatabaseManager;
+    }
+    
+    
+    
+
+}
