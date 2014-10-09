@@ -49,7 +49,9 @@ public class UserMainActivity extends ActionBarActivity {
     }
     double acntBalance = bank.GetUserBalance(userid);
     double acntThresh = bank.GetUserThreshold(userid);
-    mmf.SetTv2(String.format("$%.2f ($%.2f above threshold)", acntBalance, acntBalance - acntThresh));
+    double acntSpent = bank.GetUserSpending(userid);
+    mmf.SetTotFundTxt(String.format("$%.2f", acntBalance));
+    mmf.SetTotSpendTxt(String.format("$%.2f", acntSpent));
     mmf.SetPb1((int) (acntBalance - acntThresh) / 10);
     /**
      * Check if any account is over-budget and send an alert notification in the form of text, email
@@ -138,34 +140,38 @@ public class UserMainActivity extends ActionBarActivity {
 	private ArrayAdapter<String> arrAdpt = null;
 	private ArrayList<String> listElems = null;
 	private ListView optLv = null;
-	private ListView sumLv = null;
-	private TextView menuTv2 = null;
+	private TextView totFunds = null;
+	private TextView totSpend = null;
 	private ProgressBar menuPb1 = null; 
-	private String tv2Text = "";
+	private RatingBar ratBar = null;
+	private String totFundTxt = "";
+	private String totSpendTxt = "";
+	private float rating = 0.0;
 	private int pb1 = 0;
 	public MainMenuFragment() {}
 	
-	public void SetTv2(String txt)
+	private SetRating(float r)
 	{
-		if(menuTv2 == null)
-			tv2Text = txt;
-		else
-			menuTv2.setText(txt);
+		rating = r;
 	}
 	
-	public void SetPb1(int prog)
+	private SetTotFundTxt(String t)
 	{
-		if(menuTv2 == null)
-			pb1 = prog;
-		else
-			menuPb1.setProgress(prog);
+		totFundTxt = t;
 	}
+	
+	private SetTotSpendTxt(String t)
+	{
+		totSpendTxt = t;
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
-
+		totSpend = (TextView) rootView.findViewById(R.id.)
+		totSpend = (TextView) rootView.findViewById(R.id.)
+		totSpend.setText(totFundTxt);
+		totSpend.setText(totSpendTxt);
 		//Populate the list view for the menu options
 		listElems = new ArrayList<String>();
 		String[] values = new String[] { "\tAccount Balance", "\tAccount Statistics", "\tUpdate Account" };
