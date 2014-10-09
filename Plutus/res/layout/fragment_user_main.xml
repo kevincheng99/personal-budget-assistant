@@ -36,8 +36,9 @@
 		android:scaleType="fitXY" />
 	    
 	   <RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
+	       	android:id="@+id/acnt_sum_rl"
+	    	android:layout_width="match_parent"
+	    	android:layout_height="match_parent" >
 	
 	       <TextView
 	        android:id="@+id/menu_title_tv"
@@ -46,8 +47,8 @@
 	        android:layout_alignParentLeft="true"
 	        android:layout_alignParentRight="true"
 	        android:layout_alignParentTop="true"
-	        android:layout_marginLeft="40dp"
-	        android:layout_marginRight="40dp"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
 	        android:text="@string/acnt_sum"
 	        android:textColor="@color/txt_col"
 	        android:textSize="24sp" />
@@ -99,7 +100,7 @@
 	   </RelativeLayout>
 	</FrameLayout>
 	
-	<FrameLayout 
+	<RelativeLayout 
 	 android:id="@+id/menu_2nd_fl"
 	 android:layout_width="fill_parent"
 	 android:layout_height="wrap_content"
@@ -109,40 +110,35 @@
 		<ImageView 
 		android:contentDescription="@string/bkgd_img"
 		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
+		android:layout_height="wrap_content"
 		android:src="@drawable/lstitem"
 		android:scaleType="fitXY" />
 	    
-	   <RelativeLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="match_parent" >
 	  
-	       <TextView
-	        android:id="@+id/menu_rate_tv"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentLeft="true"
-	        android:layout_alignParentRight="true"
-	        android:layout_alignParentTop="true"
-	        android:layout_marginLeft="40dp"
-	        android:layout_marginRight="40dp"
-	        android:text="Performance:"
-	        android:textColor="@color/txt_col"
-	        android:textSize="24sp" />
+       <TextView
+        android:id="@+id/menu_rate_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:text="Alerts:"
+        android:textColor="@color/txt_col"
+        android:textSize="24sp" />
+
+       <TextView
+          android:id="@+id/menu_alert_tv"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_centerHorizontal="true"
+          android:layout_centerVertical="true"
+          android:text="1 Alert"
+          android:textColor="@color/red_txt"
+          android:textSize="24sp" />
 	
-	       <RatingBar
-	         android:id="@+id/menu_rb"
-	         android:layout_width="wrap_content"
-	         android:layout_height="wrap_content"
-	         android:layout_alignLeft="@+id/menu_rate_tv"
-	         android:layout_below="@+id/menu_rate_tv"
-	         android:clickable="false"
-	         android:stepSize="0.5"
-	         android:numStars="5"
-	         android:rating="3.5" />
-	
-		 </RelativeLayout>
-	</FrameLayout>
+	</RelativeLayout>
 
     <ListView
         android:id="@+id/um_lv"

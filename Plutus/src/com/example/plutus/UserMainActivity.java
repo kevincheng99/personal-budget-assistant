@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ public class UserMainActivity extends ActionBarActivity {
   private Intent umaIntent = null;
   private MainMenuFragment mmf = null;
   private Bank bank = new Bank();
+  private String txtToSpeek = "";
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -48,18 +50,23 @@ public class UserMainActivity extends ActionBarActivity {
     {
     	//TODO: Handle -1
     }
+    //Retreive the user's total account balance (savings + checking)
     double acntBalance = bank.GetUserBalance(userid);
     double acntThresh = bank.GetUserThreshold(userid);
     double acntSpent = bank.GetUserSpending(userid);
+    int numAlert = bank.NumAccountBelowThresh(userid);
+    String userName = bank.GetUserName(userid);
+    //Set the fragment's text to display the user's balance
     mmf.SetTotFundTxt(String.format("$%.2f", acntBalance));
     mmf.SetTotSpendTxt(String.format("$%.2f", acntSpent));
-    mmf.SetPb1((int) (acntBalance - acntThresh) / 10);
+    mmf.SetAlertTxt(numAlert + " Alerts");
     /**
      * Check if any account is over-budget and send an alert notification in the form of text, email
      * or pop-up messages.
      */
     
     //Text to speech to welcome the user
+    txtToSpeek = "Welcome " + userName + ". You have " + numAlert + " alerts.";
     tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() 
     {
     	@Override
@@ -69,9 +76,8 @@ public class UserMainActivity extends ActionBarActivity {
             {
             	tts.setLanguage(Locale.US);
             	//TODO: Put user name here
-            	String txtSpeech = "Welcome user";
-            	Toast.makeText(getApplicationContext(), txtSpeech, Toast.LENGTH_SHORT).show();
-            	tts.speak(txtSpeech, TextToSpeech.QUEUE_FLUSH, null);
+            	Toast.makeText(getApplicationContext(), txtToSpeek, Toast.LENGTH_SHORT).show();
+            	tts.speak(txtToSpeek, TextToSpeech.QUEUE_FLUSH, null);
             }				
     	}
     });
@@ -137,45 +143,71 @@ public class UserMainActivity extends ActionBarActivity {
    */
   public class MainMenuFragment extends Fragment 
   {
-
+	 
+	private RelativeLayout acntSumRl = null;  
 	private ArrayAdapter<String> arrAdpt = null;
 	private ArrayList<String> listElems = null;
 	private ListView optLv = null;
 	private TextView totFunds = null;
 	private TextView totSpend = null;
+	private TextView alertTv = null;
 	private ProgressBar menuPb1 = null; 
-	private RatingBar ratBar = null;
 	private String totFundTxt = "";
 	private String totSpendTxt = "";
-	private float rating = 0.0;
+	private String alertTxt = "";
 	private int pb1 = 0;
 	public MainMenuFragment() {}
 	
-	private SetRating(float r)
+	private void SetAlertTxt(String t)
 	{
-		rating = r;
+		alertTxt = t;
 	}
 	
-	private SetTotFundTxt(String t)
+	private void SetTotFundTxt(String t)
 	{
 		totFundTxt = t;
 	}
 	
-	private SetTotSpendTxt(String t)
+	private void SetTotSpendTxt(String t)
 	{
 		totSpendTxt = t;
+	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
 	{	//When the fragment is created instantiate the list on the UI
 		View rootView = inflater.inflate(R.layout.fragment_user_main, container, false);
+		//Find all the views
+		alertTv = (TextView) rootView.findViewById(R.id.menu_alert_tv);
 		totSpend = (TextView) rootView.findViewById(R.id.menu_amnt_tv);
 		totSpend = (TextView) rootView.findViewById(R.id.menu_expns_tv);
+		acntSumRl = (RelativeLayout) rootView.findViewById(R.id.acnt_sum_rl);
+		//Make the Account Summary clickable
+		acntSumRl.setOnClickListener(new View.OnClickListener() 
+		{	
+			@Override
+			public void onClick(View v) 
+			{
+				// Initialize the intent to view user account balance activity.
+				Intent userViewAccountBalanceIntent = new Intent(UserMainActivity.this, ViewAccountBalanceActivity.class);
+				// Build the intent with the user id.
+				// Start the view-account-balance activity
+				startActivity(userViewAccountBalanceIntent);	
+			}
+		});
+		//Fill the text views with the strings that have been set from the main activity
 		totSpend.setText(totFundTxt);
 		totSpend.setText(totSpendTxt);
+		//If the user has an account below threshold set the alert text to red, otherwise green
+		if(alertTxt.charAt(0) == '0')
+			alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
+		else
+			alertTv.setTextColor(getResources().getColor(R.color.red_txt));
+		alertTv.setText(alertTxt);
+		
 		//Populate the list view for the menu options
 		listElems = new ArrayList<String>();
-		String[] values = new String[] { "\tAccount Balance", "\tAccount Statistics", "\tUpdate Account" };
+		String[] values = new String[] { "\tAccount Statistics", "\tUpdate Account" };
 		for(int i = 0; i < values.length; ++i)
 			listElems.add(values[i]);
 		optLv = (ListView) rootView.findViewById(R.id.um_lv);
@@ -189,21 +221,14 @@ public class UserMainActivity extends ActionBarActivity {
 			{
 				switch(position)
 				{
-					case 0:
-					// Initialize the intent to view user account balance activity.
-					Intent userViewAccountBalanceIntent = new Intent(UserMainActivity.this, ViewAccountBalanceActivity.class);
-					// Build the intent with the user id.
-					// Start the view-account-balance activity
-					startActivity(userViewAccountBalanceIntent);
-					break;
-				case 1:
+				case 0:
 					// Initialize the intent to view user account balance activity.
 					Intent userViewAccountStatisticsIntent = new Intent(UserMainActivity.this, ViewAccountStatisticsActivity.class);
 					// Build the intent with the user id.
 					// Start the view-account-statistics activity.
 					startActivity(userViewAccountStatisticsIntent);
 					break;
-				case 2:
+				case 1:
 					// Initialize the intent to view user account balance activity.
 					Intent userUpdateAccountStatisticsIntent = new Intent(UserMainActivity.this, UpdateAccountSettingActivity.class);
 					// Build the intent with the user id.
