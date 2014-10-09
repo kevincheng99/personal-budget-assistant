@@ -10,6 +10,7 @@ public class Bank
 	
 	public double GetUserThreshold(int uid) { return 500.00; }
 	
+	public double GetUserSpending(int uid) { return 5432.21; }
 	
 
 }
