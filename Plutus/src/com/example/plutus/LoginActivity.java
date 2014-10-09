@@ -2,13 +2,10 @@ package com.example.plutus;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -19,17 +16,20 @@ public class LoginActivity extends ActionBarActivity
    * which can be used in the code as R.string.indent_key;
    */
 
-	private LoginFragment lf = null;
 	private Bank bnk = new Bank();
+	//This is the edit text for the user name field
+	private EditText unameEt = null;
+	//This is the edit text for the password field
+	private EditText pwdEt = null;
 	
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_login);
-    lf = new LoginFragment();
-    if (savedInstanceState == null) 
-    	getSupportFragmentManager().beginTransaction().add(R.id.container, lf).commit();
+	unameEt = (EditText) findViewById(R.id.edit_uername);
+	pwdEt = (EditText) findViewById(R.id.edit_password);
+
   }
 
 
@@ -42,9 +42,9 @@ public class LoginActivity extends ActionBarActivity
     Intent userMainIntent = new Intent(this, UserMainActivity.class);
     int userId = -1;
     // Get the user name.
-    String uname = lf.GetUsernameText();
+    String uname = unameEt.getText().toString();
     // Get the password.
-    String pwd = lf.GetPwdText();
+    String pwd = pwdEt.getText().toString();
     // Retrieve the user id from the Bank database.
     userId = bnk.GetUserIndex(uname, pwd);
     if(userId < 0)
@@ -77,7 +77,8 @@ public class LoginActivity extends ActionBarActivity
     int id = item.getItemId();
 
     // Select the help event, logout event or default event.
-    switch (id) {
+    switch (id) 
+    {
       case R.id.action_help:
         // Display a help documentation for the login activity.
 
@@ -98,46 +99,7 @@ public class LoginActivity extends ActionBarActivity
       default:
         return super.onOptionsItemSelected(item);
     }
-
-    // Here are the original Android codes.
-    // if (id == R.id.action_settings) {
-    // return true;
-    // }
-    // return super.onOptionsItemSelected(item);
   }
 
-  /**
-   * A placeholder fragment containing a simple view.
-   */
-  public static class LoginFragment extends Fragment 
-  {
-	  //This is the edit text for the user name field
-	  private EditText unameEt = null;
-	  //This is the edit text for the password field
-	  private EditText pwdEt = null;
-	  public LoginFragment() {}
-
-	  //Function for getting the username text from the fragment
-	  public String GetUsernameText()
-	  {
-		  return unameEt.getText().toString();
-	  }
-	  
-	  //Function for getting the password text from the fragment
-	  public String GetPwdText()
-	  {
-		  return pwdEt.getText().toString();
-	  }
-	  
-	  @Override
-	  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-	  {	  //Inflate the fragment
-		  View rootView = inflater.inflate(R.layout.fragment_login, container, false);
-		  //Get the EditText views from the inflated fragment
-		  unameEt = (EditText) rootView.findViewById(R.id.edit_uername);
-		  pwdEt = (EditText) rootView.findViewById(R.id.edit_password);
-		  return rootView;
-	  }
-  }
 
 }

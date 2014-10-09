@@ -53,6 +53,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.plutus.UserMainActivity" />
         </activity>
+        <activity
+         android:name="com.example.plutus.TransactionHistoryActivity"
+         android:label="@string/trns_title"
+         android:parentActivityName="com.example.plutus.UserMainActivity" >
+         <meta-data
+             android:name="android.support.PARENT_ACTIVITY"
+             android:value="com.example.plutus.UserMainActivity" />
+     </activity>
     </application>
 
 </manifest>

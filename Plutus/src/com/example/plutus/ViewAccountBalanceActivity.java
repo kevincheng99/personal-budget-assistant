@@ -1,54 +1,73 @@
 package com.example.plutus;
 
-import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 public class ViewAccountBalanceActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
-
+  //Amount, spending, and progress bar for savings
+  private TextView acntSpendTv = null;
+  private TextView acntAmntTv = null;
+  private ProgressBar acntPb = null;
+  //Amount, spending, and progress bar for checking
+  private TextView acntSpendTv2 = null;
+  private TextView acntAmntTv2 = null;
+  private ProgressBar acntPb2 = null;
+  //Bank object for accessing bank's database
+  private Bank bank = new Bank();
+  private Intent vabIntent = null;
+  private double userSavBal = 0.0;
+  private double userSavThresh = 0.0;
+  private double userSavSpend = 0.0;
+  private double userCheckBal = 0.0;
+  private double userCheckThresh = 0.0;
+  private double userCheckSpend = 0.0;
+  
+  
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) 
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_account_balance);
-    AcntMenuFragment amf = new AcntMenuFragment(3);
-    if (savedInstanceState == null) 
+    //Get the intent that started the activity
+    vabIntent = getIntent();
+    //Get the user's id
+    userid = vabIntent.getIntExtra("uid", -1);
+    if(userid == -1)
     {
-      getSupportFragmentManager().beginTransaction().add(R.id.container, amf).commit();
+    	//TODO handle -1
     }
-
-    /**
-     * We may start our implementations here.
-     */
-
-    /**
-     * Retrieve the user id.
-     */
-    // Receive an intent from the login Activity.
-
-    // Extract the user id.
-
-    /**
-     * Retrieve account balances.
-     */
-
-    /**
-     * Display account balances.
-     */
+    //Get the user's account info
+    //TODO replace these stub functions with the actually account values
+    userSavBal = bank.GetUserBalance(userid);
+    userSavThresh = bank.GetUserThreshold(userid);
+    userSavSpend = bank.GetUserSpending(userid);
+    userCheckBal = bank.GetUserBalance(userid) * 2;
+    userCheckThresh = bank.GetUserThreshold(userid) * 2;
+    userCheckSpend = bank.GetUserSpending(userid) * 2;
+    //Find views for savings account
+    acntSpendTv = (TextView) findViewById(R.id.acnt_expns_tv);
+    acntAmntTv = (TextView) findViewById(R.id.acnt_amnt_tv);
+    acntPb = (ProgressBar) findViewById(R.id.acnt_thresh_pb);
+    //Find views for checking
+    acntSpendTv2 = (TextView) findViewById(R.id.acnt_expns_tv2);
+    acntAmntTv2 = (TextView) findViewById(R.id.acnt_amnt_tv2);
+    acntPb2 = (ProgressBar) findViewById(R.id.acnt_thresh_pb2);
+    //Set the text views and progress bars appropriately
+    acntSpendTv.setText(String.format("%,.2f", userSavSpend));
+    acntAmntTv.setText(String.format("%,.2f", userSavBal));
+    //TODO need formula for progress bar
+    acntPb.setProgress(Math.min(100, (int) (userSavBal - userSavThresh))); 
+    acntSpendTv2.setText(String.format("%,.2f", userCheckSpend));
+    acntAmntTv2.setText(String.format("%,.2f", userCheckBal));
+    acntPb2.setProgress(Math.min(100, (int) (userCheckBal - userCheckThresh))); 
 
   }
 
@@ -98,59 +117,23 @@ public class ViewAccountBalanceActivity extends ActionBarActivity {
     // return super.onOptionsItemSelected(item);
 
   }
+  
 
-  /**
-   * A fragment for the list adapter that holds the main menu
-   */
-  public class AcntMenuFragment extends Fragment 
+  public void loadSavingTransHistory(View view) 
   {
-
-	private MenuItemAdapter arrAdpt = null;
-	private ArrayList<AccountMenuItem> listElems = null;
-	private ListView lv = null;
-	private TextView menuTv2 = null;
-	private ProgressBar[] pbs = null; 
-	private String tv2Text = "";
-	private int[] tempPbProg = null;
-	public AcntMenuFragment(int numAcnts) 
-	{
-		pbs = new ProgressBar[numAcnts];
-		tempPbProg = new int[numAcnts];
-	}
-	
-	public void SetTv2(String txt)
-	{
-		if(menuTv2 == null)
-			tv2Text = txt;
-		else
-			menuTv2.setText(txt);
-	}
-	
-	public void SetPb(int prog, int ind)
-	{
-		if(menuTv2 == null)
-			tempPbProg[ind] = prog;
-		else
-			pbs[ind].setProgress(prog);
-	}
-	
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) 
-	{	//When the fragment is created instantiate the list on the UI
-		View rootView = inflater.inflate(R.layout.fragment_view_account_balance, container, false);
-
-		//Populate the list view items for the UI
-		listElems = new ArrayList<AccountMenuItem>();
-		String[] values = {"Checking", "Savings", "Cash"};
-		for(int i = 0; i < 3; ++i)
-			listElems.add(new AccountMenuItem((i + 1) * 20, "..................... " + values[i], String.format("$%.2f", (i + 100) * Math.PI), String.format("$%.2f above threshold", Math.E * Math.PI * (i + 1)), "Account #" + (i + 1), "foo@foo.com", "555-5555-5555"));
-		lv = (ListView) rootView.findViewById(R.id.ab_lv);
-		arrAdpt = new MenuItemAdapter(getActivity().getApplicationContext(), listElems);
-		lv.setAdapter(arrAdpt);
-
-
-		return rootView;
-	}
+    // Initialize the intent to user's main activity
+    Intent userTrnsIntent = new Intent(this, TransactionHistoryActivity.class);
+    userTrnsIntent.putExtra("uid", userid);
+    userTrnsIntent.putExtra("acntType", 0);
+    startActivity(userTrnsIntent);
   }
-
+  
+  public void loadCheckTransHistory(View view) 
+  {
+    // Initialize the intent to user's main activity
+    Intent userTrnsIntent = new Intent(this, TransactionHistoryActivity.class);
+    userTrnsIntent.putExtra("uid", userid);
+    userTrnsIntent.putExtra("acntType", 1);
+    startActivity(userTrnsIntent);
+  }
 }

@@ -12,5 +12,9 @@ public class Bank
 	
 	public double GetUserSpending(int uid) { return 5432.21; }
 	
+	public int NumAccountBelowThresh(int uid) { return 0; }
+	
+	public String GetUserName(int uid) { return "Nicholas"; }
+	
 
 }
