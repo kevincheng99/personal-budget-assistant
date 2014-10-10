@@ -13,7 +13,7 @@ import android.util.Log;
 
 /**
  * BankDataBaseManager create and maintain the Plutus SQLite database. The
- * functionality may includes the followings or more: create tables, delete
+ * functionality may includes the following or more: create tables, delete
  * tables, insert and update.
  * 
  * NOTE: Inner class, BankDatabaseHelper, helps to manage database creation and
@@ -149,21 +149,34 @@ public class BankDatabaseManager {
     // Declare a SQLite database object.
     private SQLiteDatabase bankDatabase = null;
 
-    // Constructor to initialize/initiate the bank database thru
-    // BankDatabaseHelper.
+    /**
+     * Constructor to initialize/initiate the bank database thru
+     * BankDatabaseHelper.
+     * 
+     * @param myContext
+     */
     public BankDatabaseManager(Context myContext) {
         bankDatabaseHelper = new BankDatabaseHelper(myContext);
     }
 
-    // Open the database in the read and write mode. Throw the exception when
-    // the database cannot be opened.
+    /**
+     * Open the database in the read and write mode. Throw the exception when
+     * the database cannot be opened.
+     * 
+     * @throws SQLException
+     */
     public synchronized void openReadWriteMode() throws SQLException {
         bankDatabase = bankDatabaseHelper.getWritableDatabase();
     }
 
-    // Open the database in the read mode. Throw the exception when the database
-    // cannot be opened.
-    // For read, we may not need to do the synchrnoization.
+    /**
+     * Open the database in the read mode. Throw the exception when the database
+     * cannot be opened. For the read mode, we may not need to do the
+     * synchrnoization.
+     * 
+     * @return SQLiteDatabase object.
+     * @throws SQLException
+     */
     public SQLiteDatabase openReadMode() throws SQLException {
         bankDatabase = bankDatabaseHelper.getReadableDatabase();
 
@@ -173,12 +186,18 @@ public class BankDatabaseManager {
         return bankDatabase;
     }
 
-    // Close any database object.
+    /**
+     * Close any opened database object.
+     */
     public void close() {
         bankDatabaseHelper.close();
     }
 
-    // DANGER: DROP every tables in the bank database.
+    /**
+     * DANGER: DROP every table in the bank database.
+     * 
+     * @throws SQLException
+     */
     public void dropAllTable() throws SQLException {
         // Just to open the database so we can start to drop tables.
         openReadMode();
@@ -200,7 +219,17 @@ public class BankDatabaseManager {
     /**
      * SQLite Insert.
      */
-    // The function add a user entries
+
+    /**
+     * The function add a user entries
+     * 
+     * @param username
+     * @param password
+     * @param fullName
+     * @param phoneNumber
+     * @param email
+     * @return the new user ID, or -1 if an error occurred.
+     */
     public long addUser(String username, String password, String fullName,
             String phoneNumber, String email) {
         // Open the database in the read and write mode.
@@ -210,7 +239,7 @@ public class BankDatabaseManager {
         // process.
         ContentValues userData = new ContentValues();
 
-        // If the username is not null and not empty, it's a valid new password.
+        // If the username is not null and not empty, it's a valid username.
         if (username == null || username == "") {
             throw new IllegalArgumentException(
                     "The username is NOT null and NOT empty!");
@@ -219,8 +248,7 @@ public class BankDatabaseManager {
             userData.put(BankDatabaseSchema.User.COLUMN_NAME_USERNAME, username);
         }
 
-        // If the new password is not null and not empty, it's a valid new
-        // password.
+        // If the new password is not null and not empty, it's a valid password.
         if (password == null || password == "") {
             throw new IllegalArgumentException(
                     "The password is NOT null and NOT empty!");
@@ -229,7 +257,7 @@ public class BankDatabaseManager {
             userData.put(BankDatabaseSchema.User.COLUMN_NAME_PASSWORD, password);
         }
 
-        // If the full name is not null and not empty, it's a valid full name
+        // If the full name is not null and not empty, it's a valid full name.
         if (fullName == null || fullName == "") {
             throw new IllegalArgumentException(
                     "The full name is NOT null and NOT empty!");
@@ -245,17 +273,25 @@ public class BankDatabaseManager {
         // Create a map of email and its column names as the key.
         userData.put(BankDatabaseSchema.User.COLUMN_NAME_EMAIL, email);
 
-        // Insert the user data.
-        long newRowId = bankDatabase.insert(BankDatabaseSchema.User.TABLE_NAME,
-                null, userData);
+        // Insert the new user data.
+        long newUserid = bankDatabase.insert(
+                BankDatabaseSchema.User.TABLE_NAME, null, userData);
 
         // Close the database connection.
         close();
 
-        return newRowId;
+        // return the new userid.
+        return newUserid;
     }
 
-    // The function add a bank account entry.
+    /**
+     * The function add a bank account entry.
+     * 
+     * @param type
+     * @param balance
+     * @param threshold
+     * @return the new bank account number, or -1 if an error occurred.
+     */
     public long addBankAccount(String type, double balance, double threshold) {
         // Open the database in the read and write mode.
         openReadWriteMode();
@@ -290,18 +326,26 @@ public class BankDatabaseManager {
                 .put(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD,
                         threshold);
 
-        // Insert the bank account data.
-        long newRowId = bankDatabase.insert(
+        // Insert the new bank account data.
+        long newBankAccountNumber = bankDatabase.insert(
                 BankDatabaseSchema.BankAccount.TABLE_NAME, null,
                 bankAccountData);
 
         // Close the database connection.
         close();
 
-        return newRowId;
+        // Return the new bank account number.
+        return newBankAccountNumber;
     }
 
-    // The function add a transaction entry.
+    /**
+     * The function add a transaction entry.
+     * 
+     * @param type
+     * @param amount
+     * @param date
+     * @return the new transaction id, or -1 if an error occurred.
+     */
     public long addTransactionRecord(String type, double amount, String date) {
         // Open the database in the read and write mode.
         openReadWriteMode();
@@ -346,17 +390,24 @@ public class BankDatabaseManager {
         }
 
         // Insert the transaction data.
-        long newRowId = bankDatabase.insert(
+        long newTransactionId = bankDatabase.insert(
                 BankDatabaseSchema.TransactionRecord.TABLE_NAME, null,
                 transactionData);
 
         // Close the database connection.
         close();
 
-        return newRowId;
+        // Return the new transaction id.
+        return newTransactionId;
     }
 
-    // The function add a user-bankAccount entry.
+    /**
+     * The function add a user-bankAccount entry.
+     * 
+     * @param userid
+     * @param accountNumber
+     * @return the new entry id or -1 if an error occurred.
+     */
     public long addUserToBankAccount(int userid, int accountNumber) {
         // Open the database in the read and write mode.
         openReadWriteMode();
@@ -381,10 +432,18 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
+        // Return the new entry ID.
         return newRowId;
     }
 
-    // The function add a purchase record.
+    /**
+     * The function add a purchase record.
+     * 
+     * @param userid
+     * @param accountNumber
+     * @param transactionId
+     * @return the purchase id or -1 if an error occurred.
+     */
     public long addPurchaseRecord(int userid, int accountNumber,
             int transactionId) {
         // Open the database in the read and write mode.
@@ -406,20 +465,30 @@ public class BankDatabaseManager {
         purchaseData.put(BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID,
                 transactionId);
 
-        // Insert the transaction data.
-        long newRowId = bankDatabase.insert(
+        // Insert the purchase data.
+        long newPurchaseId = bankDatabase.insert(
                 BankDatabaseSchema.Purchase.TABLE_NAME, null, purchaseData);
 
         // Close the database connection.
         close();
 
-        return newRowId;
+        return newPurchaseId;
     }
 
     /**
      * SQLite: Update.
      */
-    // The function update the user information in the User table.
+
+    /**
+     * The function update the user information in the User table.
+     * 
+     * @param userid
+     * @param newPassword
+     * @param newFullName
+     * @param newPhoneNumber
+     * @param newEmail
+     * @return the number of rows affected by the userid.
+     */
     public int updateUser(int userid, String newPassword, String newFullName,
             String newPhoneNumber, String newEmail) {
         // Open the database in the read and write mode.
@@ -432,8 +501,7 @@ public class BankDatabaseManager {
         // Initialize a container storing values.
         ContentValues newUserData = new ContentValues();
 
-        // If the new password is not null and not empty, it's a valid new
-        // password.
+        // If the new password is not null and not empty, it's a valid password.
         if (newPassword != null && newPassword != "") {
             // Create a map of new password and its column names as the key.
             newUserData.put(BankDatabaseSchema.User.COLUMN_NAME_PASSWORD,
@@ -443,8 +511,8 @@ public class BankDatabaseManager {
             hasData = true;
         }
 
-        // If the new full name is not null and not empty, it's a valid new
-        // full name.
+        // If the new full name is not null and not empty, it's a valid full
+        // name.
         if (newFullName != null && newFullName != "") {
             // Create a map of new password and its column names as the key.
             newUserData.put(BankDatabaseSchema.User.COLUMN_NAME_FULL_NAME,
@@ -454,8 +522,9 @@ public class BankDatabaseManager {
             hasData = true;
         }
 
-        // Create a map of new phone number and its column names as the key.
+        // If the new email is not null and not empty, it's a valid email.
         if (newPhoneNumber != null && newPhoneNumber != "") {
+            // Create a map of new phone number and its column names as the key.
             newUserData.put(BankDatabaseSchema.User.COLUMN_NAME_PHONE,
                     newPhoneNumber);
 
@@ -463,8 +532,9 @@ public class BankDatabaseManager {
             hasData = true;
         }
 
-        // Create a map of new email and its column names as the key.
+        // If the new email is not null and not empty, it's a valid email.
         if (newEmail != null && newEmail != "") {
+            // Create a map of new email and its column names as the key.
             newUserData
                     .put(BankDatabaseSchema.User.COLUMN_NAME_EMAIL, newEmail);
 
@@ -491,11 +561,17 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the number of effective rows associated with the userid.
+        // Return the number of effected rows associated with the userid.
         return nEffectRow;
     }
 
-    // The function update the account threshold in the Bank Account table.
+    /**
+     * The function update the account threshold in the Bank Account table.
+     * 
+     * @param accountNumber
+     * @param newThreshold
+     * @return the number of rows affected by the account number.
+     */
     public int updateAccountThreshold(int accountNumber, double newThreshold) {
         // Open the database in the read and write mode.
         openReadWriteMode();
@@ -527,13 +603,22 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
+        // Return the number of effected rows associated with the account
+        // number.
         return nEffectRow;
     }
 
     /**
      * SQLite: query userid, bank account cursor and transactions cursor.
      */
-    // The function retrieve the userid based on the username and password.
+
+    /**
+     * The function retrieve the userid based on the username and password.
+     * 
+     * @param username
+     * @param password
+     * @return the userid or -1 if an error occurs during the retrieval.
+     */
     public int getUserid(String username, String password) {
         // Open the database in the read mode.
         openReadMode();
@@ -541,10 +626,10 @@ public class BankDatabaseManager {
         /**
          * Set up the query
          */
-        // SELECT clause: specify the column of interests.
+        // SELECT clause.
         String[] columnList = new String[] { BankDatabaseSchema.User._ID };
 
-        // WHERE clause: specify the selection condition.
+        // WHERE clause.
         String whereClause = BankDatabaseSchema.User.COLUMN_NAME_USERNAME
                 + " = ? " + " AND "
                 + BankDatabaseSchema.User.COLUMN_NAME_PASSWORD + " = ?";
@@ -583,15 +668,20 @@ public class BankDatabaseManager {
         // Close the cursor to release resources.
         useridCursor.close();
 
-        // Cloase the database.
+        // Close the database.
         close();
 
+        // Retrun the retrieved userid.
         return userid;
     }
 
-    // The function retrieve the cursor of bank account table associated with
-    // the userid. When user uses a cursor, the user should be responsible to
-    // close the cursor and release resources.
+    /**
+     * The function retrieve the cursor of bank account table associated with
+     * the userid.
+     * 
+     * @param userid
+     * @return the cursor of bank account table associated with the userid.
+     */
     public Cursor getBankAccountTableCursor(int userid) {
         // Open the database in the read mode.
         openReadMode();
@@ -651,7 +741,7 @@ public class BankDatabaseManager {
         String orderBy = null;
 
         /**
-         * Query the databse by the method 2.
+         * Query the database by the method 2.
          */
         Cursor bankAccountCursor = bankDatabase.query(table, columnList,
                 whereClause, whereClauseArgumentList, groupBy, having, orderBy);
@@ -667,11 +757,17 @@ public class BankDatabaseManager {
         // Close the database.
         close();
 
+        // Return the cursor of bank account table associated with the userid.
         return bankAccountCursor;
     }
 
-    // The function retrieves the cursor of transaction table, order by date and
-    // assocaited with the userid.
+    /**
+     * The function retrieves the cursor of transaction table, order by date and
+     * associated with the userid.
+     * 
+     * @param userid
+     * @return the cursor of transaction table associated with the userid.
+     */
     public Cursor getTransactionTableCursor(int userid) {
         // Open database in the read mode.
         openReadMode();
@@ -749,13 +845,19 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
+        // Return the cursor of transaction table associated with the userid.
         return transactionTableCursor;
     }
 
     /**
      * SQLite: query all entries in a table.
      */
-    // The function get all the user information from the User table.
+
+    /**
+     * The function get all the user information from the User table.
+     * 
+     * @return the cursor to the user table.
+     */
     public Cursor getAllUser() {
         // Open the database in the read mode.
         openReadMode();
@@ -783,13 +885,16 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the cursor of use table, where the cursor points at the first
-        // entry.
+        // Return the cursor of use table.
         return userTableCursor;
     }
 
-    // The function retrieves all the bank account information from the
-    // BankAccount table.
+    /**
+     * The function retrieves all the bank account information from the
+     * BankAccount table.
+     * 
+     * @return the cursor of bank account table.
+     */
     public Cursor getAllBankAccount() {
         // Open the database in the read mode.
         openReadMode();
@@ -818,13 +923,16 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the cursor of use table, where the cursor points at the first
-        // entry.
+        // Return the cursor of bank account table.
         return bankAccountTableCursor;
     }
 
-    // The function retrieves all the transaction information from the
-    // Transaction table.
+    /**
+     * The function retrieves all the transaction information from the
+     * Transaction table.
+     * 
+     * @return the cursor to the transaction table.
+     */
     public Cursor getAllTransactionRecord() {
         // Open the database in the read mode.
         openReadMode();
@@ -853,13 +961,16 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the cursor of use table, where the cursor points at the first
-        // entry.
+        // Return the cursor of transaction table.
         return transactionTableCursor;
     }
 
-    // The function get all the user-to-bank-accounts entries from the
-    // UserBankAccount table.
+    /**
+     * The function get all the user-to-bank-accounts entries from the
+     * User-BankAccount table.
+     * 
+     * @return the cursor of User-BankAccount table.
+     */
     public Cursor getAllUserBankAccountRecord() {
         // Open the database in the read mode.
         openReadMode();
@@ -888,12 +999,15 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the cursor of use table, where the cursor points at the first
-        // entry.
+        // Return the cursor of user-bankaccount table.
         return userBankAccountTableCursor;
     }
 
-    // The function get all the purchase records from the Purchase table.
+    /**
+     * The function get all the purchase records from the Purchase table.
+     * 
+     * @return the cursor of purchase table.
+     */
     public Cursor getAllPurchaseRecord() {
         // Open the database in the read mode.
         openReadMode();
@@ -922,8 +1036,7 @@ public class BankDatabaseManager {
         // Close the database connection.
         close();
 
-        // Return the cursor of use table, where the cursor points at the first
-        // entry.
+        // Return the cursor of purchase table.
         return purchaseTableCursor;
     }
 
@@ -936,7 +1049,7 @@ public class BankDatabaseManager {
         // version.
         public static final int DATABASE_VERSION = 1;
 
-        // Generic database name
+        // Define the database name
         public static final String DATABASE_NAME = "PlutusBankDatabase";
 
         /**
@@ -1015,143 +1128,7 @@ public class BankDatabaseManager {
             // Call onUpgrade to update the database version and tables.
             onUpgrade(myBankDatabase, oldVersion, newVersion);
         }
-    } // end of BankDatabaseHelper
-} // end of BankDatabaseManager
 
-// // If the new phone number is not null, it's a valid new phone number.
-// if (newPhoneNumber != null) {
-// // Create a map of new phone number and its column names as the key.
-// newUserData
-// .put(BankDatabaseSchema.User.COLUMN_NAME_PHONE, newPhoneNumber);
-// } else {
-// throw new
-// IllegalArgumentException("The new phone number cannot be null!");
-// }
-//
-// // If the new email address is not null, it's a valid new email address.
-// if (newEmail != null) {
-// // Create a map of new email and its column names as the key.
-// newUserData.put(BankDatabaseSchema.User.COLUMN_NAME_EMAIL, newEmail);
-// } else {
-// throw new IllegalArgumentException("The Email address cannot be null!");
-// }
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+    } // end of BankDatabaseHelper
+
+} // end of BankDatabaseManager

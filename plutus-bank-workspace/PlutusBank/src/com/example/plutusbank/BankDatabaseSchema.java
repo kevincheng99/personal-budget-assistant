@@ -27,7 +27,7 @@ public final class BankDatabaseSchema {
     }
 
     /**
-     * User table = (userid, username, passowrd, firstName, lastName)
+     * User table = (userid or _ID, username, passowrd, full name, phone number, email)
      */
     public static abstract class User implements BaseColumns {
         public static final String TABLE_NAME = "user";
@@ -40,7 +40,7 @@ public final class BankDatabaseSchema {
     }
 
     /**
-     * BankAccount table = (accountNumber, type, balance, threshold)
+     * BankAccount table = (accountNumber of _ID, type, balance, threshold)
      */
     public static abstract class BankAccount implements BaseColumns {
         public static final String TABLE_NAME = "bankAccount";
@@ -52,7 +52,7 @@ public final class BankDatabaseSchema {
     }
 
     /**
-     * Transaction table = (transactionID, type, amount, date)
+     * Transaction table = (transactionID or _ID, type, amount, date)
      */
     public static abstract class TransactionRecord implements BaseColumns {
         public static final String TABLE_NAME = "transactionRecord";
@@ -64,7 +64,7 @@ public final class BankDatabaseSchema {
     }
 
     /**
-     * User-BankAccount table = (userid, accountNumber)
+     * User-BankAccount table = (entry id or _ID, userid, accountNumber)
      */
     public static abstract class UserBankAccount implements BaseColumns {
         public static final String TABLE_NAME = "userBankAccount";
@@ -75,7 +75,7 @@ public final class BankDatabaseSchema {
     }
 
     /**
-     * Purchase table = (userid, accountNumber, transactionID)
+     * Purchase table = (purchase id or _ID, userid, accountNumber, transactionID)
      */
     public static abstract class Purchase implements BaseColumns {
         public static final String TABLE_NAME = "purchase";
