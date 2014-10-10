@@ -1,7 +1,4 @@
 INDEX VERSION 1.126+/run/media/kevin/DATA/cpsc462/personal-budget-assistant/.metadata/.plugins/org.eclipse.jdt.core
 1270315800.index
-5248831.index
-3763417090.index
 1619540391.index
-798960189.index
-1818211487.index
+1687692742.index

@@ -9,6 +9,7 @@
     <string name="title_activity_user_main">Home</string>
     <string name="action_help">Help</string>
     <string name="action_logout">Log out</string>
+    <string name="action_db_admin_login">DB Admin</string>
     <string name="title_activity_view_account_balance">Account Balance</string>
     <string name="intent_key">com.example.plutus</string>
     <string name="button_login">Login</string>
@@ -39,4 +40,9 @@
     <string name="pwd_txt">Password:</string>
     <string name="email_txt">Email:</string>
     <string name="pie_txt">Pie Chart</string>
+    <string name="title_activity_bank_database_simulation">BankDatabaseSimulationActivity</string>
+    <string name="button_simulate">Simulate</string>
+    <string name="button_test_update">Test Update</string>
+    <string name="button_test_retrieval">Test Retrieval</string>
+
 </resources> <!-- We will change the title for each activity -->

@@ -7,8 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
 
-public class UpdateAccountSettingActivity extends ActionBarActivity 
-{
+public class UpdateAccountSettingActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
   private EditText et1 = null;
@@ -16,13 +15,15 @@ public class UpdateAccountSettingActivity extends ActionBarActivity
   private EditText et3 = null;
   private EditText et4 = null;
   private Bank bank = new Bank();
-  
+
+  // Initialize the bank database with the bank database manager.
+  private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
+
   @Override
-  protected void onCreate(Bundle savedInstanceState) 
-  {
+  protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_update_account_setting);
-    //Find the views
+    // Find the views
     et1 = (EditText) findViewById(R.id.ua_email_tv);
     et2 = (EditText) findViewById(R.id.ua_phone_tv);
     et3 = (EditText) findViewById(R.id.ua_pwd_tv);
@@ -30,24 +31,38 @@ public class UpdateAccountSettingActivity extends ActionBarActivity
 
   }
 
+  @Override
+  public void onDestroy() { // Write any changes back to the bank database
+    bank.WriteChanges(et1.getText().toString(), et2.getText().toString(), et3
+        .getText().toString(), et4.getText().toString());
+    super.onDestroy();
+  }
+
+  // When resume/running/visible to the user, open the database for the read
+  // and write.
+  @Override
+  protected void onResume() {
+    plutusDbManager.openReadWriteMode();
+    super.onResume();
+  }
+
+  // When pause, close any open database.
+  @Override
+  protected void onPause() {
+    plutusDbManager.close();
+    super.onPause();
+  }
 
   @Override
-  public void onDestroy()
-  {	  //Write any changes back to the bank database
-	  bank.WriteChanges(et1.getText().toString(), et2.getText().toString(), et3.getText().toString(), et4.getText().toString());
-	  super.onDestroy();
-  }
-  
-  @Override
-  public boolean onCreateOptionsMenu(Menu menu) 
-  { // Inflate the menu; this adds items to the action bar if it is present.
+  public boolean onCreateOptionsMenu(Menu menu) { // Inflate the menu; this adds
+                                                  // items to the action bar if
+                                                  // it is present.
     getMenuInflater().inflate(R.menu.update_account_setting, menu);
     return true;
   }
-  
+
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) 
-  {
+  public boolean onOptionsItemSelected(MenuItem item) {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.
@@ -55,26 +70,27 @@ public class UpdateAccountSettingActivity extends ActionBarActivity
 
     // Select the help event, logout event or default event.
     switch (id) {
-      case R.id.action_help:
-        // Display a help documentation to describe the activity of update account settings.
+    case R.id.action_help:
+      // Display a help documentation to describe the activity of update account
+      // settings.
 
-        // When successfully handling a menu item, return true.
-        return true;
-      case R.id.action_logout:
-        // Initialize the intent to the login activity.
-        Intent loginIntent = new Intent(this, LoginActivity.class);
+      // When successfully handling a menu item, return true.
+      return true;
+    case R.id.action_logout:
+      // Initialize the intent to the login activity.
+      Intent loginIntent = new Intent(this, LoginActivity.class);
 
-        // Clear the top activities in the task stack and go back to log in activity.
-        loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+      // Clear the top activities in the task stack and go back to log in
+      // activity.
+      loginIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // Redirect the user the login activity.
-        startActivity(loginIntent);
+      // Redirect the user the login activity.
+      startActivity(loginIntent);
 
-        // When successfully handling a menu item, return true.
-        return true;
-      default:
-        return super.onOptionsItemSelected(item);
+      // When successfully handling a menu item, return true.
+      return true;
+    default:
+      return super.onOptionsItemSelected(item);
     }
   }
 }
-
