@@ -30,7 +30,175 @@
 			    android:text="@string/acnt_inf_txt"
 			  	android:textColor="@color/txt_col"
 			  	android:textSize="24sp"  />
-		    
+			
+		    <RelativeLayout 
+			 android:id="@+id/ua_1st_rl"
+			 android:layout_width="fill_parent"
+			 android:layout_height="wrap_content"
+			 android:background="@android:color/transparent"
+			 android:layout_below="@+id/ua_title_tv" >
+		
+				<ImageView 
+				android:contentDescription="@string/bkgd_img"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:src="@drawable/lstitem"
+				android:scaleType="fitXY" />
+			    
+			  
+		       <TextView
+		        android:id="@+id/ua_emailtitle_tv"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:text="@string/email_txt"
+		        android:textColor="@color/txt_col"
+		        android:textSize="24sp" />
+		       
+		       <EditText
+		        android:id="@+id/ua_email_tv"
+		        android:inputType="textEmailAddress"
+		        android:background="@android:color/transparent"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+		        android:text="foo@foo.com"
+		        android:textColor="@color/txt_col"
+		        android:textSize="20sp" />      
+		
 		</RelativeLayout>
+	
+		<RelativeLayout 
+			 android:id="@+id/ua_2nd_rl"
+			 android:layout_width="fill_parent"
+			 android:layout_height="wrap_content"
+			 android:background="@android:color/transparent"
+			 android:layout_below="@+id/ua_1st_rl" >
+		
+				<ImageView 
+				android:contentDescription="@string/bkgd_img"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:src="@drawable/lstitem"
+				android:scaleType="fitXY" />
+			    
+			  
+		       <TextView
+		        android:id="@+id/ua_phonetitle_tv"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:text="@string/phone_txt"
+		        android:textColor="@color/txt_col"
+		        android:textSize="24sp" />
+		       
+		       <EditText
+		        android:id="@+id/ua_phone_tv"
+		        android:inputType="phone"
+		        android:background="@android:color/transparent"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+		        android:text="555-555-5555"
+		        android:textColor="@color/txt_col"
+		        android:textSize="20sp" />      
+		
+		</RelativeLayout>
+		
+		<RelativeLayout 
+			 android:id="@+id/ua_3rd_rl"
+			 android:layout_width="fill_parent"
+			 android:layout_height="wrap_content"
+			 android:background="@android:color/transparent"
+			 android:layout_below="@+id/ua_2nd_rl" >
+		
+				<ImageView 
+				android:contentDescription="@string/bkgd_img"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:src="@drawable/lstitem"
+				android:scaleType="fitXY" />
+			    
+			  
+		       <TextView
+		        android:id="@+id/ua_pwdtitle_tv"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:text="@string/pwd_txt"
+		        android:textColor="@color/txt_col"
+		        android:textSize="24sp" />
+		       
+		       <EditText
+		        android:id="@+id/ua_pwd_tv"
+		        android:inputType="textPassword"
+		        android:background="@android:color/transparent"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+		        android:text="********"
+		        android:textColor="@color/txt_col"
+		        android:textSize="20sp" />      
+		
+		</RelativeLayout>			
+		    
+		<RelativeLayout 
+			 android:id="@+id/ua_4th_rl"
+			 android:layout_width="fill_parent"
+			 android:layout_height="wrap_content"
+			 android:background="@android:color/transparent"
+			 android:layout_below="@+id/ua_3rd_rl" >
+		
+				<ImageView 
+				android:contentDescription="@string/bkgd_img"
+				android:layout_width="fill_parent"
+				android:layout_height="wrap_content"
+				android:src="@drawable/lstitem"
+				android:scaleType="fitXY" />
+			    
+			  
+		       <TextView
+		        android:id="@+id/ua_threshtitle_tv"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:layout_alignParentLeft="true"
+		        android:layout_alignParentRight="true"
+		        android:layout_alignParentTop="true"
+		        android:layout_marginLeft="30dp"
+		        android:layout_marginRight="30dp"
+		        android:text="@string/thresh_txt"
+		        android:textColor="@color/txt_col"
+		        android:textSize="24sp" />
+		       
+		       <EditText
+		        android:id="@+id/ua_thresh_tv"
+		        android:inputType="text"
+		        android:background="@android:color/transparent"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+				android:layout_centerHorizontal="true"
+				android:layout_centerVertical="true"
+		        android:text="$20.00"
+		        android:textColor="@color/txt_col"
+		        android:textSize="20sp" />      
+		
+		</RelativeLayout>	
+		
+	</RelativeLayout>
     
 </FrameLayout>

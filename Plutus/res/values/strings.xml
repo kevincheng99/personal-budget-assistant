@@ -35,4 +35,8 @@
     <string name="thresh_txt">Threshold: </string>
     <string name="check_acnt_txt">Checking Account</string>
     <string name="acnt_inf_txt">Account Info:</string>
+    <string name="phone_txt">Phone:</string>
+    <string name="pwd_txt">Password:</string>
+    <string name="email_txt">Email:</string>
+    <string name="pie_txt">Pie Chart</string>
 </resources> <!-- We will change the title for each activity -->

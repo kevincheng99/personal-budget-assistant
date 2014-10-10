@@ -1,7 +1,6 @@
 package com.example.plutus;
 
 import java.util.ArrayList;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -13,12 +12,13 @@ import android.widget.TextView;
 public class TransactionHistoryActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
-  private ArrayList<TransMenuItem> listElems = null;
+  private ArrayList<Transaction> listElems = null;
   private ListView lv = null;
   private TransItemAdapter lstAdpt = null;
   private Intent thaIntent = null;
   private int acntType = -1;
   private TextView titleTv = null;
+  private Bank bank = new Bank();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -38,14 +38,10 @@ public class TransactionHistoryActivity extends ActionBarActivity {
     	titleTv.setText("Checking:");
     //TODO get the transaction list for the user
     //Populate transaction list
-	listElems = new ArrayList<TransMenuItem>();
-	for(int i = 0; i < 20; ++i)
-		listElems.add(new TransMenuItem("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("$%,.2f", Math.PI * (i + 5)), "Junk"));
+	listElems = bank.GetTransactions(userid);
 	lv = (ListView) findViewById(R.id.trns_lv);
 	lstAdpt = new TransItemAdapter(getApplicationContext(), listElems);
 	lv.setAdapter(lstAdpt);
-
-
   }
  
   

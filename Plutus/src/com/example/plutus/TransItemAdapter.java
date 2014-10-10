@@ -9,10 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class TransItemAdapter extends ArrayAdapter<TransMenuItem>
+public class TransItemAdapter extends ArrayAdapter<Transaction>
 {
 	
-	public TransItemAdapter(Context context, ArrayList<TransMenuItem> listItems) 
+	public TransItemAdapter(Context context, ArrayList<Transaction> listItems) 
 	{
         super(context, R.layout.trns_li, listItems);
     }
@@ -33,7 +33,7 @@ public class TransItemAdapter extends ArrayAdapter<TransMenuItem>
         {
             holder = (ViewHolder)row.getTag();
         }
-        TransMenuItem temp = getItem(position);
+        Transaction temp = getItem(position);
         holder.titleTv.setText(temp.trnsTitle);
         holder.dateTv.setText(temp.trnsDate);
         holder.amntTv.setText(temp.trnsTotal);

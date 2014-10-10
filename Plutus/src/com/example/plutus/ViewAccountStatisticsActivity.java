@@ -5,42 +5,25 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.webkit.WebView;
 
 public class ViewAccountStatisticsActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
+  private WebView wv1 = null;
+  private WebView wv2 = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_account_statistics);
+    wv1 = (WebView) findViewById(R.id.webView1);
+    wv2 = (WebView) findViewById(R.id.webView2);
 
-    /**
-     * We may start our implementations here.
-     */
-
-    /**
-     * Retreive the user id.
-     */
-    // Receive an intent from the login Activity.
-
-    // Extract the user id.
-
-    /**
-     * Retrieve transaction records.
-     */
-
-    /**
-     * Display daily, weekly and bi-weekly expense summary in a table based on the user's choice. Or
-     * the default can be weekly expense summary in a table.
-     */
-
-    /**
-     * Display daily, weekly and bi-weekly expense summary in a pie chart based on the user's
-     * choice. Or the default can be weekly expense summary in a pie chart.
-     */
-
+    String url = "http://chart.apis.google.com/chart?cht=p3&chs=500x200&chd=e:TNTNTNGa&chts=000000,16&chtt=A+Better+Web&chl=Hello|Hi|anas|Explorer&chco=FF5533,237745,9011D3,335423&chdl=Apple|Mozilla|Google|Microsoft";
+    wv1.loadUrl(url);
+    wv2.loadUrl(url);
   }
 
 

@@ -3,6 +3,8 @@
     package="com.example.plutus"
     android:versionCode="1"
     android:versionName="1.0" >
+    
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -48,7 +50,7 @@
         <activity
             android:name="com.example.plutus.UpdateAccountSettingActivity"
             android:label="@string/title_activity_update_account_setting"
-            android:parentActivityName="com.example.plutus.UserMainActivity" >
+            android:parentActivityName="com.example.plutus.UserMainActivity">"
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.plutus.UserMainActivity" />
