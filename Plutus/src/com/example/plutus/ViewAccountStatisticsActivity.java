@@ -25,9 +25,13 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
     wv2 = (WebView) findViewById(R.id.webView2);
     wv1.getSettings().setJavaScriptEnabled(true);
     wv2.getSettings().setJavaScriptEnabled(true);
-    
+    //Load the chart from local html file (needs Internet for java script)
     wv1.loadUrl("file:///android_asset/piechart.html");
     wv2.loadUrl("file:///android_asset/piechart2.html");
+    //Need to set transparency AFTER loading web page (if you set before it doesn't work)
+    wv1.setBackgroundColor(0x00000000);
+    wv2.setBackgroundColor(0x00000000);
+    
   }
 
   // When resume/running/visible to the user, open the database for the read
