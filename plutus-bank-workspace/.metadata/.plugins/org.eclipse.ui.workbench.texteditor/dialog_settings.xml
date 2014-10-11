@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="291" key="DIALOG_WIDTH"/>
-		<item value="226" key="DIALOG_Y_ORIGIN"/>
-		<item value="532" key="DIALOG_X_ORIGIN"/>
-		<item value="481" key="DIALOG_HEIGHT"/>
+		<item value="293" key="DIALOG_WIDTH"/>
+		<item value="233" key="DIALOG_Y_ORIGIN"/>
+		<item value="482" key="DIALOG_HEIGHT"/>
+		<item value="1279" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Cantarell|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog">
 		<item value="true" key="wrap"/>
-		<item value="false" key="casesensitive"/>
 		<item value="false" key="isRegEx"/>
+		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="populateTransactionTable" key="selection"/>
+		<item value="Cursor" key="selection"/>
 		<list key="findhistory">
+			<item value="Cursor"/>
+			<item value="ACCOUNT_BALANCE_FACTOR"/>
+			<item value="return"/>
 			<item value="populateTransactionTable"/>
 			<item value="printBankAccountTable"/>
 			<item value="!= null"/>
 			<item value="print"/>
 			<item value="testSelectBankAccountFromUserTable"/>
-			<item value="FromUserTable"/>
-			<item value="testSelectUseridFromUserTable1"/>
-			<item value="testSelectUseridFromUserTable"/>
 		</list>
 		<list key="replacehistory">
 			<item value="purchaseData"/>
