@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 
 public class UpdateAccountSettingActivity extends ActionBarActivity 
 {
@@ -16,6 +18,7 @@ public class UpdateAccountSettingActivity extends ActionBarActivity
   private EditText et3 = null;
   private EditText et4 = null;
   private Bank bank = new Bank();
+  private RelativeLayout rl1 = null;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -23,6 +26,7 @@ public class UpdateAccountSettingActivity extends ActionBarActivity
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_update_account_setting);
     //Find the views
+    rl1 = (RelativeLayout) findViewById(R.id.ua_1st_rl);
     et1 = (EditText) findViewById(R.id.ua_email_tv);
     et2 = (EditText) findViewById(R.id.ua_phone_tv);
     et3 = (EditText) findViewById(R.id.ua_pwd_tv);

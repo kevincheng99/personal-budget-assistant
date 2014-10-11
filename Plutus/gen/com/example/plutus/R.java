@@ -1083,15 +1083,9 @@ containing a value of this type.
         public static final int abc_textfield_searchview_right_holo_dark=0x7f020055;
         public static final int abc_textfield_searchview_right_holo_light=0x7f020056;
         public static final int bkgd=0x7f020057;
-        public static final int checker=0x7f020058;
-        public static final int dashboard=0x7f020059;
-        public static final int ic_launcher=0x7f02005a;
-        public static final int libkfd=0x7f02005b;
-        public static final int liitem=0x7f02005c;
-        public static final int lstitem=0x7f02005d;
-        public static final int optitem=0x7f02005e;
-        public static final int plutuslogo400=0x7f02005f;
-        public static final int plutuslogo600=0x7f020060;
+        public static final int ic_launcher=0x7f020058;
+        public static final int lstitem=0x7f020059;
+        public static final int plutuslogo600=0x7f02005a;
     }
     public static final class id {
         public static final int ab_tv1=0x7f05005b;

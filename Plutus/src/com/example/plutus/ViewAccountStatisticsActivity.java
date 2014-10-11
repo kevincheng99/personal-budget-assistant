@@ -20,10 +20,11 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
     setContentView(R.layout.activity_view_account_statistics);
     wv1 = (WebView) findViewById(R.id.webView1);
     wv2 = (WebView) findViewById(R.id.webView2);
-
-    String url = "http://chart.apis.google.com/chart?cht=p3&chs=500x200&chd=e:TNTNTNGa&chts=000000,16&chtt=A+Better+Web&chl=Hello|Hi|anas|Explorer&chco=FF5533,237745,9011D3,335423&chdl=Apple|Mozilla|Google|Microsoft";
-    wv1.loadUrl(url);
-    wv2.loadUrl(url);
+    wv1.getSettings().setJavaScriptEnabled(true);
+    wv2.getSettings().setJavaScriptEnabled(true);
+    
+    wv1.loadUrl("file:///android_asset/piechart.html");
+    wv2.loadUrl("file:///android_asset/piechart2.html");
   }
 
 
