@@ -1,10 +1,6 @@
 package com.example.plutus;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Random;
-
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;

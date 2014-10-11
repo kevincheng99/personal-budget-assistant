@@ -7,9 +7,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-import android.database.Cursor;
-import android.util.Log;
-
 /**
  * BankDatabaseSimulation creates a simple databases. It has a pre-defined three
  * users. Each user has a checking and saving account, which may have 0 to 1000

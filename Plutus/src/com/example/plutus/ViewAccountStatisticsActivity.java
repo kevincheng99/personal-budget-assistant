@@ -17,7 +17,8 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
   private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) 
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_account_statistics);
     wv1 = (WebView) findViewById(R.id.webView1);
@@ -32,28 +33,31 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
   // When resume/running/visible to the user, open the database for the read
   // and write.
   @Override
-  protected void onResume() {
+  protected void onResume() 
+  {
     plutusDbManager.openReadMode();
     super.onResume();
   }
 
   // When pause, close any open database.
   @Override
-  protected void onPause() {
+  protected void onPause() 
+  {
     plutusDbManager.close();
     super.onPause();
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) {
-
+  public boolean onCreateOptionsMenu(Menu menu) 
+  {
     // Inflate the menu; this adds items to the action bar if it is present.
     getMenuInflater().inflate(R.menu.view_account_statistics, menu);
     return true;
   }
 
   @Override
-  public boolean onOptionsItemSelected(MenuItem item) {
+  public boolean onOptionsItemSelected(MenuItem item) 
+  {
     // Handle action bar item clicks here. The action bar will
     // automatically handle clicks on the Home/Up button, so long
     // as you specify a parent activity in AndroidManifest.xml.

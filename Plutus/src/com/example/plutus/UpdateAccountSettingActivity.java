@@ -5,9 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
 
 public class UpdateAccountSettingActivity extends ActionBarActivity {
   // Initialize the user id.
@@ -17,34 +15,25 @@ public class UpdateAccountSettingActivity extends ActionBarActivity {
   private EditText et3 = null;
   private EditText et4 = null;
   private Bank bank = new Bank();
-<<<<<<< HEAD
-  private RelativeLayout rl1 = null;
-  
-=======
 
   // Initialize the bank database with the bank database manager.
   private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
-
->>>>>>> origin/master
+  
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) 
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_update_account_setting);
-<<<<<<< HEAD
     //Find the views
-    rl1 = (RelativeLayout) findViewById(R.id.ua_1st_rl);
-=======
-    // Find the views
->>>>>>> origin/master
     et1 = (EditText) findViewById(R.id.ua_email_tv);
     et2 = (EditText) findViewById(R.id.ua_phone_tv);
     et3 = (EditText) findViewById(R.id.ua_pwd_tv);
     et4 = (EditText) findViewById(R.id.ua_thresh_tv);
-
   }
 
   @Override
-  public void onDestroy() { // Write any changes back to the bank database
+  public void onDestroy() 
+  { // Write any changes back to the bank database
     bank.WriteChanges(et1.getText().toString(), et2.getText().toString(), et3
         .getText().toString(), et4.getText().toString());
     super.onDestroy();
@@ -53,22 +42,25 @@ public class UpdateAccountSettingActivity extends ActionBarActivity {
   // When resume/running/visible to the user, open the database for the read
   // and write.
   @Override
-  protected void onResume() {
+  protected void onResume() 
+  {
     plutusDbManager.openReadWriteMode();
     super.onResume();
   }
 
   // When pause, close any open database.
   @Override
-  protected void onPause() {
+  protected void onPause() 
+  {
     plutusDbManager.close();
     super.onPause();
   }
 
   @Override
-  public boolean onCreateOptionsMenu(Menu menu) { // Inflate the menu; this adds
-                                                  // items to the action bar if
-                                                  // it is present.
+  public boolean onCreateOptionsMenu(Menu menu) 
+  { // Inflate the menu; this adds
+	// items to the action bar if
+	// it is present.
     getMenuInflater().inflate(R.menu.update_account_setting, menu);
     return true;
   }
