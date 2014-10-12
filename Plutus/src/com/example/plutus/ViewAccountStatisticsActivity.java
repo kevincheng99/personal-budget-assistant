@@ -23,11 +23,24 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
     setContentView(R.layout.activity_view_account_statistics);
     wv1 = (WebView) findViewById(R.id.webView1);
     wv2 = (WebView) findViewById(R.id.webView2);
-    wv1.getSettings().setJavaScriptEnabled(true);
-    wv2.getSettings().setJavaScriptEnabled(true);
-    //Load the chart from local html file (needs Internet for java script)
-    wv1.loadUrl("file:///android_asset/piechart.html");
-    wv2.loadUrl("file:///android_asset/piechart2.html");
+    //Check if the android browser has SVG or not
+    String url1 = "";
+    String url2 = "";
+    if(android.os.Build.VERSION.RELEASE.startsWith("1.") || android.os.Build.VERSION.RELEASE.startsWith("2."))
+    { //Use old google image chart API for android version 1.0 and 2.0
+    	url1 = "https://chart.googleapis.com/chart?chco=0000FF&cht=p3&chd=s:Uf9a&chs=280x130&chl=Food|Gas|Bills|Drugs&chf=bg,s,65432100";
+    	url2 = "https://chart.googleapis.com/chart?chco=0000FF&cht=p3&chd=s:Uf9a&chs=280x130&chl=Gas|Drugs|Food&chf=bg,s,65432100";
+    }
+    else
+    {	//Use latest google chart api
+        wv1.getSettings().setJavaScriptEnabled(true);
+        wv2.getSettings().setJavaScriptEnabled(true);
+    	url1 = "file:///android_asset/piechart.html";
+    	url2 = "file:///android_asset/piechart2.html";
+    }
+    //Load the chart
+    wv1.loadUrl(url1);
+    wv2.loadUrl(url2);
     //Need to set transparency AFTER loading web page (if you set before it doesn't work)
     wv1.setBackgroundColor(0x00000000);
     wv2.setBackgroundColor(0x00000000);
