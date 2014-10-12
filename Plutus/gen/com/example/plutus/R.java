@@ -1117,9 +1117,9 @@ containing a value of this type.
         public static final int action_bar_subtitle=0x7f050023;
         public static final int action_bar_title=0x7f050022;
         public static final int action_context_bar=0x7f05001d;
-        public static final int action_db_admin_login=0x7f05007a;
-        public static final int action_help=0x7f050078;
-        public static final int action_logout=0x7f050079;
+        public static final int action_db_admin_login=0x7f05007f;
+        public static final int action_help=0x7f05007d;
+        public static final int action_logout=0x7f05007e;
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
@@ -1154,7 +1154,7 @@ containing a value of this type.
         public static final int menu_expns_tv=0x7f050054;
         public static final int menu_expnst_tv=0x7f050055;
         public static final int menu_fnds_tv=0x7f050052;
-        public static final int menu_item_tv=0x7f050071;
+        public static final int menu_item_tv=0x7f050076;
         public static final int menu_rate_tv=0x7f050057;
         public static final int menu_title_tv=0x7f050051;
         public static final int menu_top_fl=0x7f05004f;
@@ -1180,18 +1180,24 @@ containing a value of this type.
         public static final int showHome=0x7f050004;
         public static final int showTitle=0x7f050006;
         public static final int split_action_bar=0x7f05001e;
+        public static final int stat_acnt_btn=0x7f050070;
+        public static final int stat_acnt_txt=0x7f050072;
+        public static final int stat_grph_btn=0x7f050073;
+        public static final int stat_grph_txt=0x7f050075;
+        public static final int stat_week_btn=0x7f050071;
+        public static final int stat_week_txt=0x7f050074;
         public static final int submit_area=0x7f050039;
         public static final int tabMode=0x7f050002;
         public static final int textView1=0x7f05005a;
         public static final int textView2=0x7f05004e;
         public static final int title=0x7f05002b;
         public static final int top_action_bar=0x7f050020;
-        public static final int trns_amnt_tv=0x7f050076;
-        public static final int trns_date_tv=0x7f050075;
-        public static final int trns_item_tv=0x7f050074;
-        public static final int trns_lv=0x7f050073;
-        public static final int trns_title_tv=0x7f050072;
-        public static final int trns_type_tv=0x7f050077;
+        public static final int trns_amnt_tv=0x7f05007b;
+        public static final int trns_date_tv=0x7f05007a;
+        public static final int trns_item_tv=0x7f050079;
+        public static final int trns_lv=0x7f050078;
+        public static final int trns_title_tv=0x7f050077;
+        public static final int trns_type_tv=0x7f05007c;
         public static final int ua_1st_rl=0x7f050042;
         public static final int ua_2nd_rl=0x7f050045;
         public static final int ua_3rd_rl=0x7f050048;
@@ -1209,7 +1215,6 @@ containing a value of this type.
         public static final int up=0x7f050021;
         public static final int useLogo=0x7f050003;
         public static final int webView1=0x7f05006f;
-        public static final int webView2=0x7f050070;
         public static final int withText=0x7f05000c;
     }
     public static final class integer {

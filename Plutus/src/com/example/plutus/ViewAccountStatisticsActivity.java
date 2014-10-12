@@ -5,13 +5,29 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.webkit.WebView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class ViewAccountStatisticsActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
-  private WebView wv1 = null;
-  private WebView wv2 = null;
+  private WebView grphWv = null;
+  private TextView acntTv = null;
+  private TextView weekTv = null;
+  private TextView grphTv = null;
+  private RelativeLayout acntRl = null;
+  private RelativeLayout weekRl = null;
+  private RelativeLayout grphRl = null;
+  private String[] acntStrs = {"Savings Account", "Checking Account"};
+  private String[] weekStrs = {"Weekly", "Bi-Weekly", "Monthly", "Yearly"};
+  private String[] grphStrs = {"Pie", "Line", "Bar"};
+  private int curAcnt = 0;
+  private int curWeek = 0;
+  private int curGrph = 0;
+  private boolean oldBuild = true;
+  
 
   // Initialize the bank database with the bank database manager.
   private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
@@ -21,32 +37,95 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_view_account_statistics);
-    wv1 = (WebView) findViewById(R.id.webView1);
-    wv2 = (WebView) findViewById(R.id.webView2);
-    //Check if the android browser has SVG or not
-    String url1 = "";
-    String url2 = "";
-    if(android.os.Build.VERSION.RELEASE.startsWith("1.") || android.os.Build.VERSION.RELEASE.startsWith("2."))
-    { //Use old google image chart API for android version 1.0 and 2.0
-    	url1 = "https://chart.googleapis.com/chart?chco=0000FF&cht=p3&chd=s:Uf9a&chs=280x130&chl=Food|Gas|Bills|Drugs&chf=bg,s,65432100";
-    	url2 = "https://chart.googleapis.com/chart?chco=0000FF&cht=p3&chd=s:Uf9a&chs=280x130&chl=Gas|Drugs|Food&chf=bg,s,65432100";
-    }
-    else
-    {	//Use latest google chart api
-        wv1.getSettings().setJavaScriptEnabled(true);
-        wv2.getSettings().setJavaScriptEnabled(true);
-    	url1 = "file:///android_asset/piechart.html";
-    	url2 = "file:///android_asset/piechart2.html";
-    }
+    //Find the web view for displaying the graphs
+    grphWv = (WebView) findViewById(R.id.webView1);
+    //Find the text views for each of the buttons
+    acntTv = (TextView) findViewById(R.id.stat_acnt_txt);
+    weekTv = (TextView) findViewById(R.id.stat_week_txt);
+    grphTv = (TextView) findViewById(R.id.stat_grph_txt);
+    //Make the buttons clickable
+    acntRl = (RelativeLayout) findViewById(R.id.stat_acnt_btn);
+    acntRl.setOnClickListener(new View.OnClickListener() 
+    {
+		@Override
+		public void onClick(View v) 
+		{
+			curAcnt = (curAcnt + 1) % acntStrs.length;
+			acntTv.setText(acntStrs[curAcnt]);
+		    grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+		    grphWv.setBackgroundColor(0x00000000);
+		}
+	});
+    weekRl = (RelativeLayout) findViewById(R.id.stat_week_btn);
+    weekRl.setOnClickListener(new View.OnClickListener() 
+    {	
+		@Override
+		public void onClick(View v) 
+		{
+			curWeek = (curWeek + 1) % weekStrs.length;
+			weekTv.setText(weekStrs[curWeek]);
+		    grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+		    grphWv.setBackgroundColor(0x00000000);
+		}
+	});
+    grphRl = (RelativeLayout) findViewById(R.id.stat_grph_btn);
+    grphRl.setOnClickListener(new View.OnClickListener() 
+    {	
+		@Override
+		public void onClick(View v) 
+		{
+			curGrph = (curGrph + 1) % grphStrs.length;
+			grphTv.setText(grphStrs[curGrph]);
+		    grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+		    grphWv.setBackgroundColor(0x00000000);
+		}
+	});
+    acntTv.setText(acntStrs[0]);
+    weekTv.setText(weekStrs[0]);
+    grphTv.setText(grphStrs[0]);
+	if(android.os.Build.VERSION.RELEASE.startsWith("1.") || android.os.Build.VERSION.RELEASE.startsWith("2."))
+	{ //Use old google image chart API for android version 1.0 and 2.0
+		oldBuild = true;
+	}
+	else
+	{
+		oldBuild = false;
+		grphWv.getSettings().setJavaScriptEnabled(true);
+	}
     //Load the chart
-    wv1.loadUrl(url1);
-    wv2.loadUrl(url2);
+    grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
     //Need to set transparency AFTER loading web page (if you set before it doesn't work)
-    wv1.setBackgroundColor(0x00000000);
-    wv2.setBackgroundColor(0x00000000);
-    
+    grphWv.setBackgroundColor(0x00000000);
   }
 
+	private String GenerateChartUrl(int acntNum, int weekNum, int grphNum)
+	{
+		String url = "";
+		String cat = "Food|Gas|Bills|Drugs";
+		if(oldBuild)
+		{ //Use old google image chart API for android version 1.0 and 2.0
+			//Charts for the savings account
+			url = "https://chart.googleapis.com/chart?chco=0000FF&cht=";
+			if(grphNum == 0)
+				url += "p3&";
+			else if(grphNum == 1)
+				url += "lc&";
+			else 
+				url += "bhs&";
+			url += "chd=s:Uf9a&chs=300x150&chl=" + cat + "&chf=bg,s,65432100";
+		}
+		else
+		{	//Use latest google chart api
+			if(grphNum == 0)
+				url = "file:///android_asset/piechart.html";
+			else if(grphNum == 1)
+				url = "file:///android_asset/linechart.html";
+			else 
+				url = "file:///android_asset/barchart.html";
+		}
+		return url;
+	}
+  
   // When resume/running/visible to the user, open the database for the read
   // and write.
   @Override
@@ -71,7 +150,7 @@ public class ViewAccountStatisticsActivity extends ActionBarActivity {
     getMenuInflater().inflate(R.menu.view_account_statistics, menu);
     return true;
   }
-
+  
   @Override
   public boolean onOptionsItemSelected(MenuItem item) 
   {
