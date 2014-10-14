@@ -61,12 +61,12 @@ public class ViewAccountBalanceActivity extends ActionBarActivity {
     acntAmntTv2 = (TextView) findViewById(R.id.acnt_amnt_tv2);
     acntPb2 = (ProgressBar) findViewById(R.id.acnt_thresh_pb2);
     // Set the text views and progress bars appropriately
-    acntSpendTv.setText(String.format("%,.2f", userSavSpend));
-    acntAmntTv.setText(String.format("%,.2f", userSavBal));
+    acntSpendTv.setText(String.format("$%,.2f", userSavSpend));
+    acntAmntTv.setText(String.format("$%,.2f", userSavBal));
     // TODO need formula for progress bar
     acntPb.setProgress(Math.min(100, (int) (userSavBal - userSavThresh)));
-    acntSpendTv2.setText(String.format("%,.2f", userCheckSpend));
-    acntAmntTv2.setText(String.format("%,.2f", userCheckBal));
+    acntSpendTv2.setText(String.format("$%,.2f", userCheckSpend));
+    acntAmntTv2.setText(String.format("$%,.2f", userCheckBal));
     acntPb2.setProgress(Math.min(100, (int) (userCheckBal - userCheckThresh)));
 
   }
