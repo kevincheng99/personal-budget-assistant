@@ -38,7 +38,8 @@ public class UserMainActivity extends ActionBarActivity {
   private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
 
   @Override
-  protected void onCreate(Bundle savedInstanceState) {
+  protected void onCreate(Bundle savedInstanceState) 
+  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_user_main);
 
@@ -121,7 +122,9 @@ public class UserMainActivity extends ActionBarActivity {
      * Check if any account is over-budget and send an alert notification in the
      * form of text, email or pop-up messages.
      */
-
+     
+    //If savedInstanceState == null blah blah blah?? 
+    
     // Text to speech to welcome the user
     txtToSpeek = "Welcome " + userName + ". You have " + numAlert + " alerts.";
     tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
