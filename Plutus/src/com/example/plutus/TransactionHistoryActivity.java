@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class TransactionHistoryActivity extends ActionBarActivity {
   // Initialize the user id.
   private int userid = -1;
-  private ArrayList<Transaction> listElems = null;
+  private ArrayList<Transaction> transListElem = null;
   private ListView lv = null;
   private TransItemAdapter lstAdpt = null;
   private Intent thaIntent = null;
@@ -41,9 +41,9 @@ public class TransactionHistoryActivity extends ActionBarActivity {
       titleTv.setText("Checking:");
     // TODO get the transaction list for the user
     // Populate transaction list
-    listElems = bank.GetTransactions(userid);
+    transListElem = bank.GetTransactions(userid);
     lv = (ListView) findViewById(R.id.trns_lv);
-    lstAdpt = new TransItemAdapter(getApplicationContext(), listElems);
+    lstAdpt = new TransItemAdapter(getApplicationContext(), transListElem);
     lv.setAdapter(lstAdpt);
   }
 

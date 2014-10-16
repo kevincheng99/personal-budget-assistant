@@ -5,7 +5,7 @@
     android:versionName="1.0" >
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+	<uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="19" />
@@ -33,41 +33,16 @@
                 android:value="com.example.plutus.LoginActivity" />
         </activity>
         <activity
-            android:name="com.example.plutus.ViewAccountBalanceActivity"
-            android:label="@string/title_activity_view_account_balance"
-            android:parentActivityName="com.example.plutus.UserMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.plutus.UserMainActivity" />
-        </activity>
-        <activity
-            android:name="com.example.plutus.ViewAccountStatisticsActivity"
-            android:label="@string/title_activity_view_account_statistics"
-            android:parentActivityName="com.example.plutus.UserMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.plutus.UserMainActivity" />
-        </activity>
-        <activity
-            android:name="com.example.plutus.UpdateAccountSettingActivity"
-            android:label="@string/title_activity_update_account_setting"
-            android:parentActivityName="com.example.plutus.UserMainActivity" >
-"
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.plutus.UserMainActivity" />
-        </activity>
-        <activity
-            android:name="com.example.plutus.TransactionHistoryActivity"
-            android:label="@string/trns_title"
-            android:parentActivityName="com.example.plutus.UserMainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.plutus.UserMainActivity" />
-        </activity>
-        <activity
             android:name="com.example.plutus.BankDatabaseSimulationActivity"
             android:label="@string/title_activity_bank_database_simulation"
+            android:parentActivityName="com.example.plutus.LoginActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.plutus.LoginActivity" />
+        </activity>
+        <activity
+            android:name="com.example.plutus.UserSpeechMain"
+            android:label="@string/title_activity_user_main"
             android:parentActivityName="com.example.plutus.LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

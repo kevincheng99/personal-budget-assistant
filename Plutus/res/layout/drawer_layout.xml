@@ -1,0 +1,68 @@
+<android.support.v4.widget.DrawerLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/drawer_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+    <RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    
+        <!-- This is the background image -->
+       <ImageView 
+		android:contentDescription="@string/bkgd_img"
+		android:layout_width="fill_parent"
+		android:layout_height="fill_parent"
+		android:src="@drawable/bkgd"
+		android:scaleType="centerCrop" />
+        
+       <!-- The main frame to be replaced at run-time -->
+	   <FrameLayout
+	    android:id="@+id/content_frame"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_above="@+id/main_spk_btn" >
+
+	   </FrameLayout>
+	   
+	   		<ImageButton
+		    android:id="@+id/main_spk_btn"
+		    android:contentDescription="@string/bkgd_img"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_alignParentBottom="true"
+		    android:layout_alignParentRight="true"
+		    android:src="@drawable/micico" />
+	   		
+	   	    <EditText
+	        android:id="@+id/main_cmd_et"
+	        android:hint="@string/cmd_txt"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentBottom="true"
+	        android:layout_alignParentLeft="true"
+	        android:layout_marginLeft="4dp"
+	        android:layout_marginBottom="4dp"
+	        android:background="@drawable/abc_textfield_searchview_holo_light"
+	        android:layout_toRightOf="@+id/main_spk_btn"
+	        android:ems="12" >
+
+	       </EditText>
+	   
+    </RelativeLayout>
+    
+    
+    <!-- The navigation drawer -->
+    <ListView android:id="@+id/left_drawer"
+        android:layout_width="220dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="start"
+        android:choiceMode="singleChoice"
+	    android:cacheColorHint="@android:color/transparent"
+	    android:divider="@color/drwr_sep"
+        android:dividerHeight="1dp"
+        android:listSelector="@android:color/transparent"
+        android:background="@drawable/bkgd" />
+    
+</android.support.v4.widget.DrawerLayout>
