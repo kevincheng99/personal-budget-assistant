@@ -80,6 +80,7 @@ public class UserMainActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.drawer_layout);
     umaIntent = getIntent();
+<<<<<<< HEAD
     //Create the side panel
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -113,6 +114,47 @@ public class UserMainActivity extends ActionBarActivity {
 		  intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5); 
 		  sr.startListening(intent);
 		}
+=======
+    // Extract the user id.
+    userid = umaIntent.getIntExtra("uid", -1);
+    if (-1 == userid) {
+      // TODO: Handle -1
+    }
+    // Retreive the user's total account balance (savings + checking)
+    double acntBalance = bank.GetUserBalance(userid);
+    double acntSpent = bank.GetUserSpending(userid);
+    int numAlert = bank.NumAccountBelowThresh(userid);
+    String userName = bank.GetUserName(userid);
+    // If the user has an alert set the alert text to red, otherwise it is green
+    if (numAlert == 0)
+      alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
+    else
+      alertTv.setTextColor(getResources().getColor(R.color.red_txt));
+    // Set the fragment's text to display the user's balance
+    totFunds.setText(String.format("$%,.2f", acntBalance));
+    totSpend.setText(String.format("$%,.2f", acntSpent));
+    alertTv.setText(numAlert + " Alerts");
+    /**
+     * Check if any account is over-budget and send an alert notification in the
+     * form of text, email or pop-up messages.
+     */
+     
+    //If savedInstanceState == null blah blah blah?? 
+    
+    // Text to speech to welcome the user
+    txtToSpeek = "Welcome " + userName + ". You have " + numAlert + " alerts.";
+    tts = new TextToSpeech(this, new TextToSpeech.OnInitListener() {
+      @Override
+      public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+          tts.setLanguage(Locale.US);
+          // TODO: Put user name here
+          Toast.makeText(getApplicationContext(), txtToSpeek,
+              Toast.LENGTH_SHORT).show();
+          tts.speak(txtToSpeek, TextToSpeech.QUEUE_FLUSH, null);
+        }
+      }
+>>>>>>> origin/master
     });
     //Create the speech recognizer object
     sr = SpeechRecognizer.createSpeechRecognizer(this);
