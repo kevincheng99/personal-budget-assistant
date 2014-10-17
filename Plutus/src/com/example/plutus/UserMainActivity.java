@@ -20,6 +20,7 @@ import android.widget.ArrayAdapter;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,10 +70,9 @@ public class UserMainActivity extends ActionBarActivity {
   private TransItemAdapter lstAdpt = null;
   //For Account Statistics
   private WebView grphWv = null;
-  private int curAcnt = 0;
-  private int curWeek = 0;
-  private int curGrph = 0;
   private boolean oldBuild = true;
+  //The user object
+  User curUser = null;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -80,6 +80,9 @@ public class UserMainActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.drawer_layout);
     umaIntent = getIntent();
+    umaIntent.getStringExtra("un");
+    //Retreive the user object for the database
+    curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"));
     //Create the side panel
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -236,6 +239,30 @@ public class UserMainActivity extends ActionBarActivity {
   
   private void MainMenuHandler()
   {
+	  //Text views for the main menu
+	  TextView savSumTv = (TextView) findViewById(R.id.menu_sav_sum_amnt_tv);
+	  TextView savSpndTv = (TextView) findViewById(R.id.menu_sav_sum_expns_tv);
+	  TextView chkSumTv = (TextView) findViewById(R.id.menu_chk_sum_amnt_tv);
+	  TextView chkSpndTv = (TextView) findViewById(R.id.menu_chk_sum_expns_tv);
+	  //Get the user data from the class and set the fields appropriately
+	  savSumTv.setText(String.format("$%.2f", curUser.GetSavingBal()));
+	  savSpndTv.setText(String.format("$%.2f", curUser.GetSavingSpend()));
+	  chkSumTv.setText(String.format("$%.2f", curUser.GetCheckBal()));
+	  chkSpndTv.setText(String.format("$%.2f", curUser.GetCheckSpend()));
+	  //Check if the user is below threshold
+	  TextView alertTv = (TextView) findViewById(R.id.menu_alert_tv);
+	  int numAlerts = 0;
+	  if((curUser.GetSavingBal() - curUser.GetSavingThresh()) < 0)
+			  numAlerts++;
+	  if((curUser.GetCheckBal() - curUser.GetCheckThresh()) < 0)
+		  numAlerts++;
+	  alertTv.setText(numAlerts + " alerts");
+	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
+		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
+	  //Progress bar for user
+	  ProgressBar userPb = (ProgressBar) findViewById(R.id.menu_prog_pb);
+	  //TODO need a formula for the progress bar value...
+	  userPb.setProgress((int) Math.PI * 10);
 	  //TODO fill the blank text views with account info
 	  //Make the account summary buttons clickable
 	  savSumRl = (RelativeLayout) findViewById(R.id.menu_sav_sum_rl);
@@ -300,17 +327,17 @@ public class UserMainActivity extends ActionBarActivity {
 	  if(android.os.Build.VERSION.RELEASE.startsWith("1.") || android.os.Build.VERSION.RELEASE.startsWith("2."))
 	  { //Use old google image chart API for android version 1.0 and 2.0
 		  oldBuild = true;
-		  grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+		  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
 	  }
 	  else
 	  {
 		  oldBuild = false;
 		  grphWv.getSettings().setJavaScriptEnabled(true);
 		  //TODO need to change to loadData
-		  grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+		  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
 	  }
 	  //Load the chart
-	  grphWv.loadUrl(GenerateChartUrl(curAcnt, curWeek, curGrph));
+	  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
 	  //Need to set transparency AFTER loading web page (if you set before it doesn't work)
 	  grphWv.setBackgroundColor(0x00000000);
   }

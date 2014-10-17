@@ -37,11 +37,10 @@ public class LoginActivity extends ActionBarActivity {
   /**
    * Upon login, the System direct the user to his or her main activity.
    */
-  public void loginUserMainActivity(View view) {
+  public void loginUserMainActivity(View view) 
+  {
     // Initialize the intent to user's main activity
     Intent userMainIntent = new Intent(this, UserMainActivity.class);
-
-    int userId = -1;
 
     // Get the user name.
     String uname = unameEt.getText().toString();
@@ -49,19 +48,15 @@ public class LoginActivity extends ActionBarActivity {
     // Get the password.
     String pwd = pwdEt.getText().toString();
 
-    // Retrieve the user id from the Bank database.
-    userId = bnk.GetUserIndex(uname, pwd);
-
-    // Example of how to retrieve the userid from the Bank database.
-    // userId = plutusDbManager.getUserid(uname, pwd);
-
-    if (userId < 0) { // The user credentials were invalid, do nothing
-      Toast.makeText(getApplicationContext(), "Invalid credentials.",
-          Toast.LENGTH_SHORT).show();
-    } else { // The credentials were valid, open main menu
-             // Build the intent with the user id.
-      userMainIntent.putExtra("uid", userId);
-
+    if(!User.UserExists(uname, pwd)) 
+    { // The user credentials were invalid, do nothing
+      Toast.makeText(getApplicationContext(), "Invalid credentials.", Toast.LENGTH_SHORT).show();
+    } 
+    else 
+    { // The credentials were valid, open main menu, build the intent with the user id.
+    	//TODO encrypt the data first?
+      userMainIntent.putExtra("un", uname);
+      userMainIntent.putExtra("pwd", pwd);
       // Start the user's main activity.
       startActivity(userMainIntent);
     }
