@@ -1,8 +1,12 @@
 package com.example.plutus;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
+import java.util.Set;
+import java.util.Stack;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -48,13 +52,12 @@ public class UserMainActivity extends ActionBarActivity {
   //Boolean used to differentiate between loading savings transactions and checking
   private boolean isSavings = false;
   //Drawer stuff
-  private String[] drawerTitles = {"Home", "Savings", "Checking", "Graphs", "Update Info", "Convo"};
+  private String[] drawerTitles = {"Home", "Savings", "Checking", "Stats", "Update Info", "Convo"};
   private DrawerLayout mDrawerLayout = null;
   private ListView mDrawerList;
   private FrameLayout contentFrame = null;
   //Intent from login activity
   private Intent umaIntent = null;
-  private Bank bank = new Bank();
   private String txtToSpeak = "";
   //Relative layouts for the main menu (need to make clickable)
   private RelativeLayout savSumRl = null;
@@ -71,8 +74,12 @@ public class UserMainActivity extends ActionBarActivity {
   //For Account Statistics
   private WebView grphWv = null;
   private boolean oldBuild = true;
+  private int grphType = 2;
   //The user object
   User curUser = null;
+  //Maintain a stack of all the visited windows to handle the back button
+  Stack<Integer> layoutStack = null;
+  
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -161,6 +168,7 @@ public class UserMainActivity extends ActionBarActivity {
     });
     //Set up the array list to store the conversation items
     compSpkAl = new ArrayList<String>();
+    layoutStack = new Stack<Integer>();
     SetLayout(R.layout.activity_user_main);
     //Only welcome the user the first time
     if(savedInstanceState == null)
@@ -168,6 +176,19 @@ public class UserMainActivity extends ActionBarActivity {
     
   }
 
+  @Override
+  public void onBackPressed() 
+  {	//If the stack will be empty return to login screen
+	  if(layoutStack.size() <= 1)
+		  super.onBackPressed();
+	  else
+	  {	  //Pop the TOS and the one previous (it will be added again in SetLayout)
+		  layoutStack.pop();
+		  curLayout = layoutStack.pop();
+		  SetLayout(curLayout);
+	  }
+  }
+  
   @Override
   public void onDestroy() 
   { // Perform necessary cleanup for the text to speech
@@ -296,7 +317,6 @@ public class UserMainActivity extends ActionBarActivity {
   
   private void SpeechMainHandler() 
   {
-	  //TODO when should this be called? (when should the conversation window load)
 	  itemLv = (ListView) findViewById(R.id.spch_conv_lv);
 	  compSpkAa = new ArrayAdapter<String>(getApplicationContext(), R.layout.speech_li, R.id.speech_li_tv, compSpkAl);
 	  itemLv.setAdapter(compSpkAa);
@@ -307,16 +327,19 @@ public class UserMainActivity extends ActionBarActivity {
 	titleTv = (TextView) findViewById(R.id.trns_title_tv);
 	// Set the title to savings or checking
 	if(isSavings)
+	{
 	  titleTv.setText("Savings Transactions:");
+	  transListElem = curUser.GetSavingTrans();
+	}
 	else
+	{
 	  titleTv.setText("Checking Transactions:");
-	// TODO get the transaction list for the user
+	  curUser.GetCheckTrans();
+	}
 	// Populate transaction list
-	transListElem = bank.GetTransactions(userid);
 	itemLv = (ListView) findViewById(R.id.trns_lv);
 	lstAdpt = new TransItemAdapter(getApplicationContext(), transListElem);
 	itemLv.setAdapter(lstAdpt);
-	  
   }
 
   private void ViewStatsHandler() 
@@ -327,46 +350,70 @@ public class UserMainActivity extends ActionBarActivity {
 	  if(android.os.Build.VERSION.RELEASE.startsWith("1.") || android.os.Build.VERSION.RELEASE.startsWith("2."))
 	  { //Use old google image chart API for android version 1.0 and 2.0
 		  oldBuild = true;
-		  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
+		  grphWv.loadUrl(GenerateChartUrl());
 	  }
 	  else
 	  {
 		  oldBuild = false;
 		  grphWv.getSettings().setJavaScriptEnabled(true);
 		  //TODO need to change to loadData
-		  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
+		  grphWv.loadDataWithBaseURL(null, GenerateChartUrl(), "text/html", "UTF-8", null);
 	  }
-	  //Load the chart
-	  grphWv.loadUrl(GenerateChartUrl(0, 0, 0));
 	  //Need to set transparency AFTER loading web page (if you set before it doesn't work)
 	  grphWv.setBackgroundColor(0x00000000);
   }
 	
-  private String GenerateChartUrl(int acntNum, int weekNum, int grphNum)
+  private String GenerateChartUrl()
 	{
 		String url = "";
 		String cat = "Food|Gas|Bills|Drugs";
+		HashMap<String, Double> catAmnts = new HashMap<String, Double>();
+		ArrayList<Transaction> trnList = null;
+		if(isSavings)
+			trnList = curUser.GetSavingTrans();
+		else
+			trnList = curUser.GetCheckTrans();
+		for(int i = 0; i < trnList.size(); ++i)
+		{
+			if(!catAmnts.containsValue(trnList.get(i).trnsType))
+				catAmnts.put(trnList.get(i).trnsType, Double.parseDouble(trnList.get(i).trnsTotal));
+			else
+			{
+				double temp = catAmnts.get(trnList.get(i).trnsType);
+				catAmnts.remove(trnList.get(i).trnsType);
+				catAmnts.put(trnList.get(i).trnsType, temp + Double.parseDouble(trnList.get(i).trnsTotal));
+			}
+		}
 		if(oldBuild)
 		{ //Use old google image chart API for android version 1.0 and 2.0
 			//Charts for the savings account
 			url = "https://chart.googleapis.com/chart?chco=0000FF&cht=";
-			if(grphNum == 0)
+			if(grphType == 0)
 				url += "p3&";
-			else if(grphNum == 1)
-				url += "lc&";
-			else 
+			else if(grphType == 1)
 				url += "bhs&";
+			else 
+				url += "lc&";
 			url += "chd=s:Uf9a&chs=300x150&chl=" + cat + "&chf=bg,s,65432100";
 		}
 		else
 		{	//Use latest google chart api
-			//TODO get the chart file and edit it dynamically
-			if(grphNum == 0)
-				url = "file:///android_asset/piechart.html";
-			else if(grphNum == 1)
-				url = "file:///android_asset/linechart.html";
-			else 
-				url = "file:///android_asset/barchart.html";
+			String[] catTitles = catAmnts.keySet().toArray(new String[catAmnts.size()]);
+			String title = "";
+			if(isSavings)
+				title = "Savings Expenses";
+			else
+				title = "Checking Expenses";
+			String catStr = "[['Category', 'Amount']";
+			for(int i = 0; i < catAmnts.size(); ++i)
+				catStr += ",['" + catTitles[i] + "', " + Double.toString(catAmnts.get(catTitles[i])) + "]";
+			catStr += "]";
+			if(grphType == 0)	//Pie chart
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':350, 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\" style=\"width: 350px; height: 500px;\"></div></body></html>";
+			else if(grphType == 1)	//Line chart
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':500, 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\" style=\"width:350px; height:500px\"></div></body></html>";
+			else 	//Table
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':300, 'height':300, 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
 		}
 		return url;
 	}  
@@ -374,6 +421,7 @@ public class UserMainActivity extends ActionBarActivity {
   private void SetLayout(int layout)
   {
 	curLayout = layout;
+	layoutStack.push(layout);
 	contentFrame = (FrameLayout) findViewById(R.id.content_frame);
 	View child = getLayoutInflater().inflate(curLayout, null);
 	//Remove the old view and set a new one
@@ -428,7 +476,7 @@ public class UserMainActivity extends ActionBarActivity {
 		  txt += "a bar chart for your savings account.";
 		  break;
 	  case 3:
-		  txt += "a line chart for your savings account.";
+		  txt += "a table for your savings account.";
 		  break;
 	  case 4:
 		  txt += "a pie chart for your checking account.";
@@ -437,7 +485,7 @@ public class UserMainActivity extends ActionBarActivity {
 		  txt += "a bar chart for your checking account.";
 		  break;
 	  case 6:
-		  txt += "a line chart for your checking account.";
+		  txt += "a table for your checking account.";
 		  break;
 	  case 7:
 		  txt += "the transactions for your savings account.";
@@ -464,36 +512,48 @@ public class UserMainActivity extends ActionBarActivity {
 	  case 0:	//User wants to view savings account balance
 		  newLayoutId = R.layout.activity_user_main;
 		  break;
-	  case 1:
+	  case 1:	//User wants to view pie chart for savings
+		  grphType = 0;
+		  isSavings = true;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 2:
+	  case 2:	//User wants to view a bar chart for savings
+		  grphType = 1;
+		  isSavings = true;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 3:
+	  case 3:	//User wants to view a table for savings
+		  grphType = 2;
+		  isSavings = true;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 4:
+	  case 4:	//User wants to view pie chart for checking
+		  grphType = 0;
+		  isSavings = false;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 5:
+	  case 5:	//User wants to view bar chart for checking
+		  grphType = 1;
+		  isSavings = false;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 6:
+	  case 6:	//User wants to view table for checking
+		  grphType = 2;
+		  isSavings = false;
 		  newLayoutId = R.layout.activity_view_account_statistics;
 		  break;
-	  case 7:
+	  case 7:	//User wants to view transactions for savings
 		  isSavings = true;
 		  newLayoutId = R.layout.transaction_act;
-		  break;
-	  case 8:
+		  break;	
+	  case 8:	//User wants to view transactions for checking
 		  isSavings = false;
 		  newLayoutId = R.layout.transaction_act;
 		  break;
-	  case 9:
+	  case 9:	//User wants to update account info
 		  newLayoutId = R.layout.activity_update_account_setting;
 		  break;
-	  default:
+	  default:	//User wants to view convo window
 		  newLayoutId = R.layout.speech_main;
 		  break;
 	  }
@@ -511,13 +571,13 @@ public class UserMainActivity extends ActionBarActivity {
 		  opCode = 1; //User probably wants to view a pie chart for his/her savings account
 	  else if(speech.contains("bar") && speech.contains("saving"))
 		  opCode = 2; //User probably wants to view a bar chart for his/her savings account
-	  else if(speech.contains("line") && speech.contains("saving"))
+	  else if(speech.contains("table") && speech.contains("saving"))
 		  opCode = 3; //User probably wants to view a bar chart for his/her savings account
 	  else if(speech.contains("pie") && speech.contains("checking"))
 		  opCode = 4; //User probably wants to view a pie chart for his/her savings account
 	  else if(speech.contains("bar") && speech.contains("checking"))
 		  opCode = 5; //User probably wants to view a bar chart for his/her savings account
-	  else if(speech.contains("line") && speech.contains("checking"))
+	  else if(speech.contains("table") && speech.contains("checking"))
 		  opCode = 6; //User probably wants to view a bar chart for his/her savings account
 	  else if(speech.contains("saving") && speech.contains("transaction"))
 		  opCode = 7; //User probably wants to view a bar chart for his/her savings transactions

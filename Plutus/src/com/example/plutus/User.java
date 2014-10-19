@@ -19,6 +19,11 @@ public class User
 		savAcntBal = savAcntThresh = chkAcntBal = chkAcntThresh = 0.0;
 		savAcntTrans = new ArrayList<Transaction>();
 		chkAcntTrans = new ArrayList<Transaction>();
+		for(int i = 0; i < 20; ++i)
+		{
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+		}
 		uid = 0;
 	}
 	
@@ -30,6 +35,11 @@ public class User
 		chkAcntThresh = savAcntThresh = 0.0;
 		savAcntTrans = new ArrayList<Transaction>();
 		chkAcntTrans = new ArrayList<Transaction>();
+		for(int i = 0; i < 20; ++i)
+		{
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+		}
 		uid = 0;
 	}
 	
@@ -45,7 +55,7 @@ public class User
 	
 	public double GetSavingThresh()
 	{
-		return savAcntBal;
+		return savAcntThresh;
 	}
 	
 	public double GetSavingSpend()
@@ -69,6 +79,16 @@ public class User
 	{
 		//TODO compute how much the user has spent
 		return 321.98;
+	}
+	
+	public ArrayList<Transaction> GetSavingTrans()
+	{
+		return savAcntTrans;
+	}
+	
+	public ArrayList<Transaction> GetCheckTrans()
+	{
+		return chkAcntTrans;
 	}
 	
 	//TODO Link user to the data base

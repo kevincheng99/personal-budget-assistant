@@ -14,9 +14,6 @@ public class LoginActivity extends ActionBarActivity {
    * Define the key for the intent's extra content using a public constant here
    * or in strings.xml, which can be used in the code as R.string.indent_key;
    */
-
-  private Bank bnk = new Bank();
-
   // This is the edit text for the user name field
   private EditText unameEt = null;
 

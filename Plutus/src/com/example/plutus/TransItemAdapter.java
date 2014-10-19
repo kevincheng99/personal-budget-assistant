@@ -36,7 +36,7 @@ public class TransItemAdapter extends ArrayAdapter<Transaction>
         Transaction temp = getItem(position);
         holder.titleTv.setText(temp.trnsTitle);
         holder.dateTv.setText(temp.trnsDate);
-        holder.amntTv.setText(temp.trnsTotal);
+        holder.amntTv.setText("$" + temp.trnsTotal);
         holder.typeTv.setText(temp.trnsType);
         return row;
     }
