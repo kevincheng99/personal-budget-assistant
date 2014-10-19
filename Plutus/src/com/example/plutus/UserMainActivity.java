@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
-import java.util.Set;
 import java.util.Stack;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
@@ -37,7 +35,7 @@ public class UserMainActivity extends ActionBarActivity {
   //Text to speech object for computer speech
   private TextToSpeech tts;
   //Prefix strings the compute can say
-  private String[] prefixes = {"Okay, let's view ", "Great, let's view ", "Here is "};
+  private String[] prefixes = {"Okay, let's view ", "Great, let's view ", "Here is ", "Alright, let me bring up ", "Alright, here is ", "Okay, here is "};
   //Random object for selecting random prefixes
   private Random ran = new Random();
   //An array list of what the computer has said
@@ -421,7 +419,8 @@ public class UserMainActivity extends ActionBarActivity {
   private void SetLayout(int layout)
   {
 	curLayout = layout;
-	layoutStack.push(layout);
+	if(layoutStack.size() == 0 || layout != layoutStack.peek())
+		layoutStack.push(layout);
 	contentFrame = (FrameLayout) findViewById(R.id.content_frame);
 	View child = getLayoutInflater().inflate(curLayout, null);
 	//Remove the old view and set a new one
@@ -462,8 +461,7 @@ public class UserMainActivity extends ActionBarActivity {
   }
   private String OcToText(int opCode)
   {
-	  String txt = "";
-	  txt += prefixes[ran.nextInt(prefixes.length)];
+	  String txt = prefixes[ran.nextInt(prefixes.length)];
 	  switch(opCode)
 	  {
 	  case 0:

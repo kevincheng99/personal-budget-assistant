@@ -19,10 +19,11 @@ public class User
 		savAcntBal = savAcntThresh = chkAcntBal = chkAcntThresh = 0.0;
 		savAcntTrans = new ArrayList<Transaction>();
 		chkAcntTrans = new ArrayList<Transaction>();
+		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
 		for(int i = 0; i < 20; ++i)
 		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
 		}
 		uid = 0;
 	}
@@ -35,10 +36,13 @@ public class User
 		chkAcntThresh = savAcntThresh = 0.0;
 		savAcntTrans = new ArrayList<Transaction>();
 		chkAcntTrans = new ArrayList<Transaction>();
+		//Fill the transactions with junk data
+		//TODO actually get the users transaction info
+		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
 		for(int i = 0; i < 20; ++i)
 		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), "Junk"));
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
 		}
 		uid = 0;
 	}
@@ -62,7 +66,6 @@ public class User
 	{
 		//TODO compute how much the user has spent
 		return 123.45;
-		
 	}
 	
 	public double GetCheckBal()
