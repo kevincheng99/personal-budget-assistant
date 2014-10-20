@@ -45,5 +45,6 @@
     <string name="button_test_update">Test Update</string>
     <string name="button_test_retrieval">Test Retrieval</string>
     <string name="cmd_txt">Enter a Command</string>
+    <string name="spch_dis">Disable Speech</string>
 
 </resources> <!-- We will change the title for each activity -->

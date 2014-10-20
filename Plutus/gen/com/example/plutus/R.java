@@ -1104,6 +1104,7 @@ containing a value of this type.
         public static final int action_menu_divider=0x7f050016;
         public static final int action_menu_presenter=0x7f050017;
         public static final int action_mode_close_button=0x7f050024;
+        public static final int action_spch=0x7f050073;
         public static final int activity_chooser_view_content=0x7f050025;
         public static final int always=0x7f05000b;
         public static final int beginning=0x7f050011;
@@ -1352,6 +1353,7 @@ containing a value of this type.
         public static final int pie_txt=0x7f0a0033;
         public static final int pwd_txt=0x7f0a0031;
         public static final int sav_acnts_txt=0x7f0a002a;
+        public static final int spch_dis=0x7f0a0039;
         public static final int thresh_txt=0x7f0a002d;
         public static final int title_activity_bank_database_simulation=0x7f0a0034;
         public static final int title_activity_update_account_setting=0x7f0a001d;

@@ -19,6 +19,7 @@ import android.view.View;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ListView;
@@ -60,10 +61,6 @@ public class UserMainActivity extends ActionBarActivity {
   //Relative layouts for the main menu (need to make clickable)
   private RelativeLayout savSumRl = null;
   private RelativeLayout chkSumRl = null;
-  //Keeps track of the current layout
-  private int curLayout = -1;
-  //A text view used for the title of a layout
-  private TextView titleTv = null;
   //For transactions
   private ArrayList<Transaction> transListElem = null;
   //List view used for both the transaction window and the conversation window
@@ -72,11 +69,17 @@ public class UserMainActivity extends ActionBarActivity {
   //For Account Statistics
   private WebView grphWv = null;
   private boolean oldBuild = true;
+  //Make first chart the table chart
   private int grphType = 2;
   //The user object
-  User curUser = null;
+  private User curUser = null;
   //Maintain a stack of all the visited windows to handle the back button
-  Stack<Integer> layoutStack = null;
+  //The top of stack is the current layout
+  private Stack<Integer> layoutStack = null;
+  //The command promp edit text
+  private EditText cmndEt = null;
+  //keep track of if speech recognition is enabled
+  private boolean spchEnabled = true;
   
 
   @Override
@@ -88,6 +91,8 @@ public class UserMainActivity extends ActionBarActivity {
     umaIntent.getStringExtra("un");
     //Retreive the user object for the database
     curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"));
+    //Find the command edit text
+    cmndEt = (EditText) findViewById(R.id.main_cmd_et);
     //Create the side panel
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.left_drawer);
@@ -103,7 +108,9 @@ public class UserMainActivity extends ActionBarActivity {
     			isSavings = true;
     		else
     			isSavings = false;
+    		//Set the appropriate layout from user's selection
     		SetLayout(layouts[position]);
+    		//Close the drawer 
     		mDrawerLayout.closeDrawers();
     	}
 	});
@@ -114,12 +121,24 @@ public class UserMainActivity extends ActionBarActivity {
 		@Override
 		public void onClick(View v) 
 		{
-		  //Performing listening
-		  Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);        
-		  intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-		  intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
-		  intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5); 
-		  sr.startListening(intent);
+		  //Check if the user has speech enabled
+		  if(spchEnabled)
+		  {	//Speech is enabled, listen for user's speech
+			  //Performing listening
+			  Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+			  intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL,RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+			  intent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE,"voice.recognition.test");
+			  intent.putExtra(RecognizerIntent.EXTRA_MAX_RESULTS, 5); 
+			  sr.startListening(intent);
+		  }
+		  else
+		  {	//Get the command from command prompt
+			  String resStr = cmndEt.getText().toString();
+			  int oc = GetUserIntent(resStr);
+			  CompSpeak(OcToText(oc));
+			  HandleOC(oc);
+		  }
+		  
 		}
     });
     //Create the speech recognizer object
@@ -133,10 +152,15 @@ public class UserMainActivity extends ActionBarActivity {
     		ArrayList<String> data = results.getStringArrayList(SpeechRecognizer.RESULTS_RECOGNITION);
     		int oc = -1;
     		String resStr = "";
+    		//concatenate all the different results together
     		for(int i = 0; i < data.size(); ++i)
     			resStr += data.get(i);
+    		//Parse the speech data
 			oc = GetUserIntent(resStr);
-			CompSpeak(OcToText(oc));
+			resStr = OcToText(oc);
+			//Display the parsed command in the command prompt
+			cmndEt.setText(resStr);	
+			CompSpeak(resStr);
     		HandleOC(oc);
     	}
     	
@@ -182,8 +206,7 @@ public class UserMainActivity extends ActionBarActivity {
 	  else
 	  {	  //Pop the TOS and the one previous (it will be added again in SetLayout)
 		  layoutStack.pop();
-		  curLayout = layoutStack.pop();
-		  SetLayout(curLayout);
+		  SetLayout(layoutStack.pop());
 	  }
   }
   
@@ -238,6 +261,15 @@ public class UserMainActivity extends ActionBarActivity {
 
       // When successfully handling a menu item, return true.
       return true;
+    case R.id.action_spch:
+    	//Change from enabled/disabled to disabled/enabled 
+    	spchEnabled = !spchEnabled;
+    	//Change the text on the menu item
+        if(spchEnabled)
+        	item.setTitle("Disable Speech");
+        else
+        	item.setTitle("Enable Speech");
+    	return true;
     case R.id.action_logout:
       // Initialize the intent to the login activity.
       Intent loginIntent = new Intent(this, LoginActivity.class);
@@ -322,6 +354,8 @@ public class UserMainActivity extends ActionBarActivity {
 
   private void ViewTransHandler() 
   {
+	//A text view used for the title of a layout
+	TextView titleTv = null;
 	titleTv = (TextView) findViewById(R.id.trns_title_tv);
 	// Set the title to savings or checking
 	if(isSavings)
@@ -418,23 +452,22 @@ public class UserMainActivity extends ActionBarActivity {
   
   private void SetLayout(int layout)
   {
-	curLayout = layout;
 	if(layoutStack.size() == 0 || layout != layoutStack.peek())
 		layoutStack.push(layout);
 	contentFrame = (FrameLayout) findViewById(R.id.content_frame);
-	View child = getLayoutInflater().inflate(curLayout, null);
+	View child = getLayoutInflater().inflate(layout, null);
 	//Remove the old view and set a new one
 	contentFrame.removeAllViews();
 	contentFrame.addView(child);
-	if(curLayout == R.layout.activity_user_main)
+	if(layout == R.layout.activity_user_main)
 		MainMenuHandler();
-	else if(curLayout == R.layout.activity_update_account_setting)
+	else if(layout == R.layout.activity_update_account_setting)
 		UpdateAccountHandler();
-	else if(curLayout == R.layout.transaction_act)
+	else if(layout == R.layout.transaction_act)
 		ViewTransHandler();
-	else if(curLayout == R.layout.activity_view_account_statistics)
+	else if(layout == R.layout.activity_view_account_statistics)
 		ViewStatsHandler();
-	else if(curLayout == R.layout.speech_main)
+	else if(layout == R.layout.speech_main)
 		SpeechMainHandler();
   }
   
