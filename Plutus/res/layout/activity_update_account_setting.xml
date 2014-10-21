@@ -60,14 +60,14 @@
 		        android:textSize="24sp" />
 		       
 		       <EditText
-		        android:id="@+id/ua_email_tv"
+		        android:id="@+id/ua_email_et"
 		        android:inputType="textEmailAddress"
 		        android:background="@android:color/transparent"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
-		        android:text="foo@foo.com"
+		        android:text=""
 		        android:textColor="@color/txt_col"
 		        android:textSize="20sp" />      
 		
@@ -102,14 +102,14 @@
 		        android:textSize="24sp" />
 		       
 		       <EditText
-		        android:id="@+id/ua_phone_tv"
+		        android:id="@+id/ua_phone_et"
 		        android:inputType="phone"
 		        android:background="@android:color/transparent"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
-		        android:text="555-555-5555"
+		        android:text=""
 		        android:textColor="@color/txt_col"
 		        android:textSize="20sp" />      
 		
@@ -144,14 +144,14 @@
 		        android:textSize="24sp" />
 		       
 		       <EditText
-		        android:id="@+id/ua_pwd_tv"
+		        android:id="@+id/ua_pwd_et"
 		        android:inputType="textPassword"
 		        android:background="@android:color/transparent"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
-		        android:text="********"
+		        android:text=""
 		        android:textColor="@color/txt_col"
 		        android:textSize="20sp" />      
 		
@@ -186,14 +186,14 @@
 		        android:textSize="24sp" />
 		       
 		       <EditText
-		        android:id="@+id/ua_thresh_tv"
+		        android:id="@+id/ua_thresh_et"
 		        android:inputType="text"
 		        android:background="@android:color/transparent"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"
 				android:layout_centerHorizontal="true"
 				android:layout_centerVertical="true"
-		        android:text="$20.00"
+		        android:text=""
 		        android:textColor="@color/txt_col"
 		        android:textSize="20sp" />      
 		

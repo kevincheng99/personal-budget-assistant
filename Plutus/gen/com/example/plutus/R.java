@@ -1193,13 +1193,13 @@ containing a value of this type.
         public static final int ua_2nd_rl=0x7f050045;
         public static final int ua_3rd_rl=0x7f050048;
         public static final int ua_4th_rl=0x7f05004b;
-        public static final int ua_email_tv=0x7f050044;
+        public static final int ua_email_et=0x7f050044;
         public static final int ua_emailtitle_tv=0x7f050043;
-        public static final int ua_phone_tv=0x7f050047;
+        public static final int ua_phone_et=0x7f050047;
         public static final int ua_phonetitle_tv=0x7f050046;
-        public static final int ua_pwd_tv=0x7f05004a;
+        public static final int ua_pwd_et=0x7f05004a;
         public static final int ua_pwdtitle_tv=0x7f050049;
-        public static final int ua_thresh_tv=0x7f05004d;
+        public static final int ua_thresh_et=0x7f05004d;
         public static final int ua_threshtitle_tv=0x7f05004c;
         public static final int ua_title_tv=0x7f050041;
         public static final int up=0x7f050021;

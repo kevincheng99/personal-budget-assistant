@@ -348,13 +348,13 @@ int id ua_1st_rl 0x7f050042
 int id ua_2nd_rl 0x7f050045
 int id ua_3rd_rl 0x7f050048
 int id ua_4th_rl 0x7f05004b
-int id ua_email_tv 0x7f050044
+int id ua_email_et 0x7f050044
 int id ua_emailtitle_tv 0x7f050043
-int id ua_phone_tv 0x7f050047
+int id ua_phone_et 0x7f050047
 int id ua_phonetitle_tv 0x7f050046
-int id ua_pwd_tv 0x7f05004a
+int id ua_pwd_et 0x7f05004a
 int id ua_pwdtitle_tv 0x7f050049
-int id ua_thresh_tv 0x7f05004d
+int id ua_thresh_et 0x7f05004d
 int id ua_threshtitle_tv 0x7f05004c
 int id ua_title_tv 0x7f050041
 int id up 0x7f050021

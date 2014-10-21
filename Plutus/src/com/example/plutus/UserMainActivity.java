@@ -88,7 +88,6 @@ public class UserMainActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.drawer_layout);
     umaIntent = getIntent();
-    umaIntent.getStringExtra("un");
     //Retreive the user object for the database
     curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"), getApplicationContext());
     //Find the command edit text
@@ -194,7 +193,7 @@ public class UserMainActivity extends ActionBarActivity {
     SetLayout(R.layout.activity_user_main);
     //Only welcome the user the first time
     if(savedInstanceState == null)
-    	CompSpeak("Welcome Nicholas! You have 0 alerts.");
+    	CompSpeak("Welcome " + curUser.GetUsername() + "! You have " + curUser.GetNumAlerts() + " alerts.");
     
   }
 
@@ -302,11 +301,7 @@ public class UserMainActivity extends ActionBarActivity {
 	  chkSpndTv.setText(String.format("$%.2f", curUser.GetCheckSpend()));
 	  //Check if the user is below threshold
 	  TextView alertTv = (TextView) findViewById(R.id.menu_alert_tv);
-	  int numAlerts = 0;
-	  if((curUser.GetSavingBal() - curUser.GetSavingThresh()) < 0)
-			  numAlerts++;
-	  if((curUser.GetCheckBal() - curUser.GetCheckThresh()) < 0)
-		  numAlerts++;
+	  int numAlerts = curUser.GetNumAlerts();
 	  alertTv.setText(numAlerts + " alerts");
 	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
 		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
@@ -340,7 +335,16 @@ public class UserMainActivity extends ActionBarActivity {
   
   private void UpdateAccountHandler() 
   {
-	  //TODO get the text views
+	  //Find the edit text views
+	  EditText emailEt = (EditText) findViewById(R.id.ua_email_et);
+	  EditText phoneEt = (EditText) findViewById(R.id.ua_phone_et);
+	  EditText pwdEt = (EditText) findViewById(R.id.ua_pwd_et);
+	  EditText threshEt = (EditText) findViewById(R.id.ua_thresh_et);
+	  //Fill the ETs with the user's info
+	  emailEt.setText(curUser.GetEmail());
+	  phoneEt.setText(curUser.GetPhone());
+	  pwdEt.setText("*********");
+	  threshEt.setText(String.format("$%.2f", curUser.GetCheckThresh()));
 	  //TODO ask the user to confirm when exiting
 
   }

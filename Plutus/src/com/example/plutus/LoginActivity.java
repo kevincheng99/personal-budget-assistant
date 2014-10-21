@@ -45,7 +45,7 @@ public class LoginActivity extends ActionBarActivity {
     // Get the password.
     String pwd = pwdEt.getText().toString();
 
-    if(!User.UserExists(uname, pwd)) 
+    if(!User.UserExists(uname, pwd, getApplicationContext())) 
     { // The user credentials were invalid, do nothing
       Toast.makeText(getApplicationContext(), "Invalid credentials.", Toast.LENGTH_SHORT).show();
     } 

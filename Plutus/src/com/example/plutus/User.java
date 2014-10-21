@@ -3,10 +3,13 @@ package com.example.plutus;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.database.Cursor;
 
 public class User 
 {
 	private String userName;
+	private String email;
+	private String phone;
 	private double savAcntBal = 0.0;
 	private double savAcntThresh = 0.0;
 	private double savAcntSpend = 0.0;
@@ -18,49 +21,22 @@ public class User
 	private int uid = 0;
 	private BankDatabaseManager bdm = null;
 	
-	public User()
-	{
-		userName = "Foo Bar";
-		savAcntBal = savAcntThresh = chkAcntBal = chkAcntThresh = 0.0;
-		savAcntTrans = new ArrayList<Transaction>();
-		chkAcntTrans = new ArrayList<Transaction>();
-		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
-		for(int i = 0; i < 20; ++i)
-		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
-		}
-		uid = 0;
-	}
-	
-	public User(String un, double savB, double chkB)
-	{
-		userName = un;
-		savAcntBal = savB;
-		chkAcntBal = chkB;
-		chkAcntThresh = savAcntThresh = 0.0;
-		savAcntTrans = new ArrayList<Transaction>();
-		chkAcntTrans = new ArrayList<Transaction>();
-		//Fill the transactions with junk data
-		//TODO actually get the users transaction info
-		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
-		for(int i = 0; i < 20; ++i)
-		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
-		}
-		uid = 0;
-	}
-	
 	public User(String un, String pwd, Context context)
 	{
 		bdm = new BankDatabaseManager(context);
 		uid = bdm.getUserid(un, pwd);
-		Cursor tableCrs = null;//TODO
-		Transaction temp = new Transaction();
+		if(uid == -1)
+			return;
+		
+		//Get the user's transaction history
+		Cursor tableCrs = bdm.getTransactionTableCursor(uid);
+		Transaction temp = null;
 		int columnIndex = 0;
+		savAcntTrans = new ArrayList<Transaction>();
+		chkAcntTrans = new ArrayList<Transaction>();
 		while(!tableCrs.isAfterLast())
 		{
+			temp = new Transaction();
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord._ID);
 			temp.trnsTitle = "Transaction " + Integer.toString(tableCrs.getInt(columnIndex));
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_TYPE);
@@ -68,7 +44,9 @@ public class User
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_AMOUNT);
 			temp.trnsTotal = tableCrs.getDouble(columnIndex);
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_DATE);
-			temp.trnsDate = tableCrs.getDouble(columnIndex);
+			temp.trnsDate = tableCrs.getString(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+			String bankAccountType = tableCrs.getString(columnIndex);
 			tableCrs.moveToNext();
 			
 			//TODO decide if transaction is from checking or savings
@@ -83,19 +61,19 @@ public class User
 			 * Added by Kevin
 			 */
 			 			 
-			if( ) //If true add to savings
-				savAcntTrans.add(temp);
-			else
+			if(bankAccountType.compareTo("checking") == 0) //If true add to savings
 				chkAcntTrans.add(temp);
+			else
+				savAcntTrans.add(temp);
 			
 		}
 		tableCrs.close();
 		for(int i = 0; i < savAcntTrans.size(); ++i)
-		{
 			savAcntSpend += savAcntTrans.get(i).trnsTotal;
+		for(int i = 0; i < chkAcntTrans.size(); ++i)
 			chkAcntSpend += chkAcntTrans.get(i).trnsTotal;
-		}
 		
+		//Get the user's balance information
 		tableCrs = bdm.getBankAccountTableCursor(uid);
 		//TODO decide if balance is for checking or savings
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
@@ -104,34 +82,59 @@ public class User
 		{
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
 			savAcntBal = tableCrs.getDouble(columnIndex);
-			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
-			savAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			savAcntThresh = tableCrs.getDouble(columnIndex);
 			tableCrs.moveToNext();
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
 			chkAcntBal = tableCrs.getDouble(columnIndex);
-			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
-			chkAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			chkAcntThresh = tableCrs.getDouble(columnIndex);
 		}
 		else
 		{
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
 			chkAcntBal = tableCrs.getDouble(columnIndex);
-			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
-			chkAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			chkAcntThresh = tableCrs.getDouble(columnIndex);
 			tableCrs.moveToNext();
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
 			savAcntBal = tableCrs.getDouble(columnIndex);
-			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
-			savAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			savAcntThresh = tableCrs.getDouble(columnIndex);
 		}
-		
+		tableCrs.close();
+		//Get the user's name, email, and phone
+		tableCrs = bdm.getUserInfo(uid);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_FULL_NAME);
+		userName = tableCrs.getString(columnIndex);
+		columnIndex = tableCrs.getColumnIndex(BankDatabaseSchema.User.COLUMN_NAME_PHONE);
+		phone = tableCrs.getString(columnIndex);
 		tableCrs.close();
 		
+	}
+	
+	//Used for just querying if a user exists
+	private User(String un, String pwd, Context context, int foo)
+	{
+		bdm = new BankDatabaseManager(context);
+		BankDatabaseSimulation bds = new BankDatabaseSimulation(bdm);
+		bds.simulate();
+		uid = bdm.getUserid(un, pwd);		
 	}
 	
 	public String GetUsername()
 	{
 		return userName;
+	}
+	
+	public String GetEmail()
+	{
+		return email;
+	}
+	
+	public String GetPhone()
+	{
+		return phone;
 	}
 	
 	public double GetSavingBal()
@@ -176,11 +179,23 @@ public class User
 		return chkAcntTrans;
 	}
 	
+	public int GetNumAlerts()
+	{
+		int numAlerts = 0;
+		if((savAcntBal - savAcntThresh) < 0)
+			numAlerts++;
+		if((chkAcntBal - chkAcntThresh) < 0)
+			numAlerts++;
+		return numAlerts;
+	}
+	
 	//TODO Link user to the data base
 
-	public static boolean UserExists(String un, String pwd)
+	public static boolean UserExists(String un, String pwd, Context context)
 	{	
-		//TODO query if a user exists
+		User temp = new User(un, pwd, context, 0);
+		if(temp.uid == -1)
+			return false;
 		return true;
 	}
     // Example of how to retrieve the userid from the Bank database.
