@@ -40,9 +40,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
                 plutusDbManager);
 
         // Test to get the user info.
-        testGetUserInfo(1);
-        testGetUserInfo(2);
-        testGetUserInfo(3);
+        
         
         // Test to get the userid.
         // testGetUserId1();
@@ -59,7 +57,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
 
         // Test to get the cursor of the transaction table associated with the
         // userid.
-//        testTransactionCursor(1);
+        testTransactionCursor(1);
         // testTransactionCursor(2);
         // testTransactionCursor(3);
         // testTransactionCursor(4);
@@ -102,21 +100,6 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
         plutusDbManager.dropAllTable();
     }
 
-    // Test to get the user info
-    public void testGetUserInfo(int userid) {
-        // Get the cursor of the user table.
-        Cursor userTableCursor = plutusDbManager
-                .getUserInfo(userid);
-
-        // print the user table associated with the userid.
-        // the cursor is closed in the print function.
-        this.printUserTable(userTableCursor);
-
-        // Close the cursor to release resources.
-        // bankAccountCursor.close();
-    }
-    
-    
     public void testTransactionCursor(int userid) {
         // Get the cursor of the bank account table associated with the userid.
         Cursor transactionTableCursor = plutusDbManager

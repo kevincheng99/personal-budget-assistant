@@ -41,8 +41,6 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
 
         // Test to get the user info.
         testGetUserInfo(1);
-        testGetUserInfo(2);
-        testGetUserInfo(3);
         
         // Test to get the userid.
         // testGetUserId1();

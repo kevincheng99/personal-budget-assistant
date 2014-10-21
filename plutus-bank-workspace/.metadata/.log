@@ -4759,3 +4759,25 @@ Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.android.ide
 
 !ENTRY org.eclipse.core.resources 2 10035 2014-10-21 00:42:31.758
 !MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.
+!SESSION 2014-10-21 14:54:08.858 -----------------------------------------------
+eclipse.buildId=v22.6.2-1085508
+java.version=1.7.0_71
+java.vendor=Oracle Corporation
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=en_US
+Framework arguments:  -product com.android.ide.eclipse.adt.package.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product com.android.ide.eclipse.adt.package.product
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-21 14:54:22.230
+!MESSAGE projectOpenedWithWorkspace: failed to find manifest package for project PlutusBank
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-21 14:54:22.235
+!MESSAGE projectOpenedWithWorkspace: failed to find manifest package for project appcompat_v7
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-21 14:54:25.753
+!MESSAGE fileChanged: failed to find manifest package for project PlutusBank
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-21 14:54:25.754
+!MESSAGE fileChanged: failed to find manifest package for project PlutusBank
+
+!ENTRY com.android.ide.eclipse.adt 4 0 2014-10-21 14:54:28.463
+!MESSAGE fileChanged: failed to find manifest package for project appcompat_v7
