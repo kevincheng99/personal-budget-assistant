@@ -2,6 +2,8 @@ package com.example.plutus;
 
 import java.util.ArrayList;
 
+import android.content.Context;
+
 public class User 
 {
 	private String userName;
@@ -25,8 +27,8 @@ public class User
 		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
 		for(int i = 0; i < 20; ++i)
 		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
 		}
 		uid = 0;
 	}
@@ -44,8 +46,8 @@ public class User
 		String[] cats = {"Gas", "Food", "Drugs", "Bills"};
 		for(int i = 0; i < 20; ++i)
 		{
-			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
-			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", String.format("%,.2f", Math.PI * (i + 5)), cats[i % cats.length]));
+			savAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
+			chkAcntTrans.add(new Transaction("Transaction " + (i + 1), "10/" + (i + 1) + "/14", Math.PI * (i + 5), cats[i % cats.length]));
 		}
 		uid = 0;
 	}
@@ -53,8 +55,8 @@ public class User
 	public User(String un, String pwd, Context context)
 	{
 		bdm = new BankDatabaseManager(context);
-		uid = bdm.getUserId(un, pwd);
-		Cursor tableCrs = //TODO
+		uid = bdm.getUserid(un, pwd);
+		Cursor tableCrs = null;//TODO
 		Transaction temp = new Transaction();
 		int columnIndex = 0;
 		while(!tableCrs.isAfterLast())
@@ -82,11 +84,11 @@ public class User
 			chkAcntSpend += chkAcntTrans.get(i).trnsTotal;
 		}
 		
-		tableCrs = getBankAccountTableCursor(uid);
+		tableCrs = bdm.getBankAccountTableCursor(uid);
 		//TODO decide if balance is for checking or savings
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
 		String acntType = tableCrs.getString(columnIndex);
-		if(acntType.compareTo("saving"))
+		if(acntType.compareTo("saving") == 0)
 		{
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
 			savAcntBal = tableCrs.getDouble(columnIndex);
@@ -175,14 +177,10 @@ public class User
 	
 	public static User GetUser(String un, String pwd, Context context)
 	{
-		//TODO Query the database and try to get a user object else return null
 		User temp = new User(un, pwd, context);
 		if(temp.uid == -1)
 			return null;
-		else
-			return temp;
+		return temp;
 	}
-	
-	//TODO query the database and fill the list of transaction objects
 	
 }

@@ -90,7 +90,7 @@ public class UserMainActivity extends ActionBarActivity {
     umaIntent = getIntent();
     umaIntent.getStringExtra("un");
     //Retreive the user object for the database
-    curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"));
+    curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"), getApplicationContext());
     //Find the command edit text
     cmndEt = (EditText) findViewById(R.id.main_cmd_et);
     //Create the side panel
@@ -408,12 +408,12 @@ public class UserMainActivity extends ActionBarActivity {
 		for(int i = 0; i < trnList.size(); ++i)
 		{
 			if(!catAmnts.containsValue(trnList.get(i).trnsType))
-				catAmnts.put(trnList.get(i).trnsType, Double.parseDouble(trnList.get(i).trnsTotal));
+				catAmnts.put(trnList.get(i).trnsType, trnList.get(i).trnsTotal);
 			else
 			{
 				double temp = catAmnts.get(trnList.get(i).trnsType);
 				catAmnts.remove(trnList.get(i).trnsType);
-				catAmnts.put(trnList.get(i).trnsType, temp + Double.parseDouble(trnList.get(i).trnsTotal));
+				catAmnts.put(trnList.get(i).trnsType, temp + trnList.get(i).trnsTotal);
 			}
 		}
 		if(oldBuild)
