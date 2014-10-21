@@ -1106,7 +1106,6 @@ public class BankDatabaseManager {
   } // end of BankDatabaseHelper
 
 } // end of BankDatabaseManager
-
 // // SELECT: Specify columns of interests.
 // String[] columnList = new String[] {
 // BankDatabaseSchema.TransactionRecord.TABLE_NAME

@@ -767,6 +767,24 @@ public class BankDatabaseManager {
     /**
      * Set up the query: method 2.
      */
+    // // SELECT: Specify columns of interests.
+    // String[] columnList = new String[] {
+    // BankDatabaseSchema.TransactionRecord.TABLE_NAME
+    // + ".*" };
+    //
+    // // FROM: Specify the table.
+    // String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + " on "
+    // + BankDatabaseSchema.User.TABLE_NAME + "."
+    // + BankDatabaseSchema.User._ID + " = "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+    // + BankDatabaseSchema.Purchase.COLUMN_NAME_USERID + " INNER JOIN "
+    // + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " on "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+    // + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
+    // + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
+    // + BankDatabaseSchema.TransactionRecord._ID;
+
     // SELECT: Specify columns of interests.
     String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
         + ".*"
@@ -1106,21 +1124,3 @@ public class BankDatabaseManager {
   } // end of BankDatabaseHelper
 
 } // end of BankDatabaseManager
-
-// // SELECT: Specify columns of interests.
-// String[] columnList = new String[] {
-// BankDatabaseSchema.TransactionRecord.TABLE_NAME
-// + ".*" };
-//
-// // FROM: Specify the table.
-// String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
-// + BankDatabaseSchema.Purchase.TABLE_NAME + " on "
-// + BankDatabaseSchema.User.TABLE_NAME + "."
-// + BankDatabaseSchema.User._ID + " = "
-// + BankDatabaseSchema.Purchase.TABLE_NAME + "."
-// + BankDatabaseSchema.Purchase.COLUMN_NAME_USERID + " INNER JOIN "
-// + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " on "
-// + BankDatabaseSchema.Purchase.TABLE_NAME + "."
-// + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
-// + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
-// + BankDatabaseSchema.TransactionRecord._ID;

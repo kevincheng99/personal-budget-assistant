@@ -72,17 +72,9 @@ public class User
 			tableCrs.moveToNext();
 			
 			//TODO decide if transaction is from checking or savings
+			 columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+			String bankAccountType = tableCrs.getString(columnIndex);
 			
-			/**
-			 * Below is an example of fetching the type of bank account from the transaction table for a particular user.
-			 * The type of bank account is either checking or saving.
-			 *  
-			 * columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
-			 * String bankAccountType = tableCrs.getString(columnIndex);
-			 * 
-			 * Added by Kevin
-			 */
-			 			 
 			if( ) //If true add to savings
 				savAcntTrans.add(temp);
 			else

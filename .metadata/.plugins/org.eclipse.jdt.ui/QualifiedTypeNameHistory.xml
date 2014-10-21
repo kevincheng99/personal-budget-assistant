@@ -5,4 +5,5 @@
 <fullyQualifiedTypeName name="android.util.Log"/>
 <fullyQualifiedTypeName name="java.sql.Date"/>
 <fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.example.plutus.BankDatabaseSchema.BankAccount"/>
 </qualifiedTypeNameHistroy>
