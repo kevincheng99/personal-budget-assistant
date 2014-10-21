@@ -648,38 +648,43 @@ public class BankDatabaseManager {
     return userid;
   }
 
- public Cursor getUserInfo(int userid) {
-        // Open the database in the read mode.
-        openReadMode();
+  /**
+   * The function retrieves the user info based on the userid.
+   * 
+   * @param userid
+   * @return
+   */
+  public Cursor getUserInfo(int userid) {
+    // Open the database in the read mode.
+    openReadMode();
 
-        // Define components of SQLite query.
-        // http://stackoverflow.com/questions/10600670/sqlitedatabase-query-method
-        String[] columnArray = null;
-        String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
-                + BankDatabaseSchema.User._ID + " = ?";
-        String[] whereClauseArgumentArray = new String[] { Integer
-                .toString(userid) };
-        String groupBy = null;
-        String having = null;
-        String orderBy = null;
+    // Define components of SQLite query.
+    // http://stackoverflow.com/questions/10600670/sqlitedatabase-query-method
+    String[] columnArray = null;
+    String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
+        + BankDatabaseSchema.User._ID + " = ?";
+    String[] whereClauseArgumentArray = new String[] { Integer.toString(userid) };
+    String groupBy = null;
+    String having = null;
+    String orderBy = null;
 
-        // Retrieve the user info.
-        Cursor userInfoCursor = bankDatabase.query(
-                BankDatabaseSchema.User.TABLE_NAME, columnArray, whereClause,
-                whereClauseArgumentArray, groupBy, having, orderBy);
+    // Retrieve the user info.
+    Cursor userInfoCursor = bankDatabase.query(
+        BankDatabaseSchema.User.TABLE_NAME, columnArray, whereClause,
+        whereClauseArgumentArray, groupBy, having, orderBy);
 
-        // Move the cursor to the first entry.
-        if (!userInfoCursor.moveToFirst()) {
-            Log.e(DEBUG_TAG,
-                    "ERROR: user table cursor is failed to move to the first entry.");
-        }
-
-        // Close the database connection.
-        close();
-
-        // Return the cursor of use info.
-        return userInfoCursor;
+    // Move the cursor to the first entry.
+    if (!userInfoCursor.moveToFirst()) {
+      Log.e(DEBUG_TAG,
+          "ERROR: user table cursor is failed to move to the first entry.");
     }
+
+    // Close the database connection.
+    close();
+
+    // Return the cursor of use info.
+    return userInfoCursor;
+  }
 
 
   /**
