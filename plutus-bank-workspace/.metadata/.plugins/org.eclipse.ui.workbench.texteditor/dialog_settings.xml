@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <section name="Workbench">
 	<section name="org.eclipse.ui.texteditor.FindReplaceDialog_dialogBounds">
-		<item value="293" key="DIALOG_WIDTH"/>
+		<item value="291" key="DIALOG_WIDTH"/>
 		<item value="233" key="DIALOG_Y_ORIGIN"/>
-		<item value="482" key="DIALOG_HEIGHT"/>
+		<item value="488" key="DIALOG_HEIGHT"/>
 		<item value="1279" key="DIALOG_X_ORIGIN"/>
 		<item value="1|Cantarell|11.0|0|GTK|1|" key="DIALOG_FONT_NAME"/>
 	</section>
@@ -13,16 +13,16 @@
 		<item value="false" key="casesensitive"/>
 		<item value="false" key="incremental"/>
 		<item value="false" key="wholeword"/>
-		<item value="Cursor" key="selection"/>
+		<item value="addBankAccount" key="selection"/>
 		<list key="findhistory">
-			<item value="Cursor"/>
-			<item value="ACCOUNT_BALANCE_FACTOR"/>
-			<item value="return"/>
-			<item value="populateTransactionTable"/>
-			<item value="printBankAccountTable"/>
-			<item value="!= null"/>
-			<item value="print"/>
-			<item value="testSelectBankAccountFromUserTable"/>
+			<item value="addBankAccount"/>
+			<item value="printTransactionTable"/>
+			<item value="COLUMN_NAME_TYPE"/>
+			<item value="type"/>
+			<item value="populatePurchaseTable"/>
+			<item value="getTransaction"/>
+			<item value="testSelectTransactionFromUserTable"/>
+			<item value="testTransactionCursor"/>
 		</list>
 		<list key="replacehistory">
 			<item value="purchaseData"/>

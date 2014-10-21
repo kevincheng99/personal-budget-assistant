@@ -46,7 +46,7 @@ public final class BankDatabaseSchema {
         public static final String TABLE_NAME = "bankAccount";
         // public static final String COLUMN_NAME_ACCOUNT_NUMBER =
         // "accountNumber"; // use _ID
-        public static final String COLUMN_NAME_TYPE = "type";
+        public static final String COLUMN_NAME_TYPE = "bankAccountType";
         public static final String COLUMN_NAME_BALANCE = "balance";
         public static final String COLUMN_NAME_THRESHOLD = "threshold";
     }

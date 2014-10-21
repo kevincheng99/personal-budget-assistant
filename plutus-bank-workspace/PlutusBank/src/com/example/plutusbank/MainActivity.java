@@ -124,7 +124,7 @@ public class MainActivity extends ActionBarActivity {
         /**
          * DANGER: Clear the database by dropping all the tables.
          */
-        plutusDbManager.dropAllTable();
+        // plutusDbManager.dropAllTable();
 
     }
 
