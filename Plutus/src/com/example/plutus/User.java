@@ -107,8 +107,10 @@ public class User
 		tableCrs = bdm.getUserInfo(uid);
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_FULL_NAME);
 		userName = tableCrs.getString(columnIndex);
-		columnIndex = tableCrs.getColumnIndex(BankDatabaseSchema.User.COLUMN_NAME_PHONE);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_PHONE);
 		phone = tableCrs.getString(columnIndex);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_EMAIL);
+		email = tableCrs.getString(columnIndex);
 		tableCrs.close();
 		
 	}
