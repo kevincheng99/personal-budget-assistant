@@ -767,9 +767,34 @@ public class BankDatabaseManager {
     /**
      * Set up the query: method 2.
      */
+    // // SELECT: Specify columns of interests.
+    // String[] columnList = new String[] {
+    // BankDatabaseSchema.TransactionRecord.TABLE_NAME
+    // + ".*" };
+    //
+    // // FROM: Specify the table.
+    // String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + " on "
+    // + BankDatabaseSchema.User.TABLE_NAME + "."
+    // + BankDatabaseSchema.User._ID + " = "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+    // + BankDatabaseSchema.Purchase.COLUMN_NAME_USERID + " INNER JOIN "
+    // + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " on "
+    // + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+    // + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
+    // + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
+    // + BankDatabaseSchema.TransactionRecord._ID;
+
     // SELECT: Specify columns of interests.
     String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
-        + ".*" };
+        + ".*"
+        + " , "
+        + BankDatabaseSchema.BankAccount.TABLE_NAME
+        + "."
+        + BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE };
+
+    // String[] columnList = new String[] { "transactionRecord.*",
+    // "sum(amount)"};
 
     // FROM: Specify the table.
     String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
@@ -782,7 +807,12 @@ public class BankDatabaseManager {
         + BankDatabaseSchema.Purchase.TABLE_NAME + "."
         + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
         + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
-        + BankDatabaseSchema.TransactionRecord._ID;
+        + BankDatabaseSchema.TransactionRecord._ID + " INNER JOIN "
+        + BankDatabaseSchema.BankAccount.TABLE_NAME + " ON "
+        + BankDatabaseSchema.BankAccount.TABLE_NAME + "."
+        + BankDatabaseSchema.BankAccount._ID + " = "
+        + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+        + BankDatabaseSchema.Purchase.COLUMN_NAME_ACCOUNT_NUMBER;
 
     // WHERE: Specify the where clause.
     String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
