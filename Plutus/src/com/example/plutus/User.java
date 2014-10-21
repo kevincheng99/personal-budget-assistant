@@ -7,11 +7,14 @@ public class User
 	private String userName;
 	private double savAcntBal = 0.0;
 	private double savAcntThresh = 0.0;
+	private double savActnSpend = 0.0;
 	private double chkAcntBal = 0.0;
 	private double chkAcntThresh = 0.0;
+	private double chkAcntSpend = 0.0;
 	private ArrayList<Transaction> savAcntTrans = null;
 	private ArrayList<Transaction> chkAcntTrans = null;
 	private int uid = 0;
+	private BankDatabaseManager bdm = null;
 	
 	public User()
 	{
@@ -47,6 +50,15 @@ public class User
 		uid = 0;
 	}
 	
+	public User(String un, String pwd, Context context)
+	{
+		bdm = new BankDatabaseManager(context);
+		uid = bdm.getUserId(un, pwd);
+		Cursor tableCrs = //TODO
+		
+		
+	}
+	
 	public String GetUsername()
 	{
 		return userName;
@@ -65,7 +77,7 @@ public class User
 	public double GetSavingSpend()
 	{
 		//TODO compute how much the user has spent
-		return 123.45;
+		return savAcntSpend;
 	}
 	
 	public double GetCheckBal()
@@ -81,7 +93,7 @@ public class User
 	public double GetCheckSpend()
 	{
 		//TODO compute how much the user has spent
-		return 321.98;
+		return chkAcntSpend;
 	}
 	
 	public ArrayList<Transaction> GetSavingTrans()
@@ -105,11 +117,14 @@ public class User
     // userId = plutusDbManager.getUserid(uname, pwd);
 
 	
-	public static User GetUser(String un, String pwd)
+	public static User GetUser(String un, String pwd, Context context)
 	{
 		//TODO Query the database and try to get a user object else return null
-		
-		return new User("Nicholas", 1234.56, 5321.12);
+		User temp = new User(un, pwd, context);
+		if(temp.uid == -1)
+			return null;
+		else
+			return temp;
 	}
 	
 	//TODO query the database and fill the list of transaction objects
