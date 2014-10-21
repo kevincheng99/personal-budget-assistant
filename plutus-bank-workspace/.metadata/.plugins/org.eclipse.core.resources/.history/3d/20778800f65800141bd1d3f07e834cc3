@@ -54,7 +54,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
 
         // Test to get the cursor of the transaction table associated with the
         // userid.
-        testTransactionCursor(1);
+        // testTransactionCursor(1);
         // testTransactionCursor(2);
         // testTransactionCursor(3);
         // testTransactionCursor(4);
@@ -66,7 +66,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
         // testSelectBankAccountFromUserTable(1);
 
         // Test: select transactions for a particular user.
-        // testSelectTransactionFromUserTable1(1);
+        testSelectTransactionFromUserTable(1);
 
         // // Print the user table.
         // databaseSimulator.printUserTable();
@@ -170,7 +170,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
     // The function test the inner join between the User, Transaction and
     // Purchase table. We will modify this function to retrieve the transactions
     // for a particular user in the BankDatabaseManager.
-    public void testSelectTransactionFromUserTable1(int userid) {
+    public void testSelectTransactionFromUserTable(int userid) {
         // Get the bank database object.
         SQLiteDatabase bankDatabase = plutusDbManager.openReadMode();
 

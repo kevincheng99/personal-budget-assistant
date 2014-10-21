@@ -60,13 +60,13 @@ public class TestTransactionRecordTable {
             transactionData = transactionData
                     + transactionTableCursor.getString(columnIndex) + "|";
 
-            // // Get the column index for the type of bank account
-            // columnIndex = transactionTableCursor
-            // .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
-            //
-            // // Get the type of bank account.
-            // transactionData = transactionData
-            // + transactionTableCursor.getString(columnIndex) + "|";
+            // Get the column index for the type of bank account
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+
+            // Get the type of bank account.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
 
             // Display the user data.
             Log.d(DEBUG_TAG, "Transaction: " + transactionData);

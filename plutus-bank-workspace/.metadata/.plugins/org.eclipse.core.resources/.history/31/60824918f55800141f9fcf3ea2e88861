@@ -797,10 +797,7 @@ public class BankDatabaseManager {
          */
         // SELECT: Specify columns of interests.
         String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
-                + ".*"
-                + " , "
-                + BankDatabaseSchema.BankAccount.TABLE_NAME
-                + "." + BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE };
+                + ".*" };
 
         // String[] columnList = new String[] { "transactionRecord.*",
         // "sum(amount)"};
@@ -817,12 +814,7 @@ public class BankDatabaseManager {
                 + BankDatabaseSchema.Purchase.TABLE_NAME + "."
                 + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
                 + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
-                + BankDatabaseSchema.TransactionRecord._ID + " INNER JOIN "
-                + BankDatabaseSchema.BankAccount.TABLE_NAME + " ON "
-                + BankDatabaseSchema.BankAccount.TABLE_NAME + "."
-                + BankDatabaseSchema.BankAccount._ID + " = "
-                + BankDatabaseSchema.Purchase.TABLE_NAME + "."
-                + BankDatabaseSchema.Purchase.COLUMN_NAME_ACCOUNT_NUMBER;
+                + BankDatabaseSchema.TransactionRecord._ID;
 
         // WHERE: Specify the where clause.
         String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."

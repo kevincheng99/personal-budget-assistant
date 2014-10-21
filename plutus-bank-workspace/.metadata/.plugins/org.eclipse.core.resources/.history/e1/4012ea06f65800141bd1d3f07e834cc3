@@ -54,7 +54,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
 
         // Test to get the cursor of the transaction table associated with the
         // userid.
-        testTransactionCursor(1);
+        // testTransactionCursor(1);
         // testTransactionCursor(2);
         // testTransactionCursor(3);
         // testTransactionCursor(4);
