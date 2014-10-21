@@ -7,7 +7,7 @@ public class User
 	private String userName;
 	private double savAcntBal = 0.0;
 	private double savAcntThresh = 0.0;
-	private double savActnSpend = 0.0;
+	private double savAcntSpend = 0.0;
 	private double chkAcntBal = 0.0;
 	private double chkAcntThresh = 0.0;
 	private double chkAcntSpend = 0.0;
@@ -55,7 +55,63 @@ public class User
 		bdm = new BankDatabaseManager(context);
 		uid = bdm.getUserId(un, pwd);
 		Cursor tableCrs = //TODO
+		Transaction temp = new Transaction();
+		int columnIndex = 0;
+		while(!tableCrs.isAfterLast())
+		{
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord._ID);
+			temp.trnsTitle = "Transaction " + Integer.toString(tableCrs.getInt(columnIndex));
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_TYPE);
+			temp.trnsType = tableCrs.getString(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_AMOUNT);
+			temp.trnsTotal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_DATE);
+			temp.trnsDate = tableCrs.getDouble(columnIndex);
+			tableCrs.moveToNext();
+			//TODO decide if transaction is from checking or savings
+			if( ) //If true add to savings
+				savAcntTrans.add(temp);
+			else
+				chkAcntTrans.add(temp);
+			
+		}
+		tableCrs.close();
+		for(int i = 0; i < savAcntTrans.size(); ++i)
+		{
+			savAcntSpend += savAcntTrans.get(i).trnsTotal;
+			chkAcntSpend += chkAcntTrans.get(i).trnsTotal;
+		}
 		
+		tableCrs = getBankAccountTableCursor(uid);
+		//TODO decide if balance is for checking or savings
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+		String acntType = tableCrs.getString(columnIndex);
+		if(acntType.compareTo("saving"))
+		{
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+			savAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			savAcntBal = tableCrs.getDouble(columnIndex);
+			tableCrs.moveToNext();
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+			chkAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			chkAcntBal = tableCrs.getDouble(columnIndex);
+		}
+		else
+		{
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+			chkAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			chkAcntBal = tableCrs.getDouble(columnIndex);
+			tableCrs.moveToNext();
+			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+			savAcntBal = tableCrs.getDouble(columnIndex);
+			columnIndex = tableCrs.getColumnIndexOrThrown(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+			savAcntBal = tableCrs.getDouble(columnIndex);
+		}
+		
+		tableCrs.close();
 		
 	}
 	
