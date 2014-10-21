@@ -799,6 +799,9 @@ public class BankDatabaseManager {
         String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
                 + ".*" };
 
+        // String[] columnList = new String[] { "transactionRecord.*",
+        // "sum(amount)"};
+
         // FROM: Specify the table.
         String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
                 + BankDatabaseSchema.Purchase.TABLE_NAME + " on "

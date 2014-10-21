@@ -66,7 +66,7 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
         // testSelectBankAccountFromUserTable(1);
 
         // Test: select transactions for a particular user.
-        // testSelectTransactionFromUserTable(1);
+        testSelectTransactionFromUserTable(1);
 
         // // Print the user table.
         // databaseSimulator.printUserTable();
@@ -196,21 +196,30 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
 
         // SELECT: Specify columns of interests.
         String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
-                + ".*" };
+                + ".*"
+                + ","
+                + BankDatabaseSchema.BankAccount.TABLE_NAME
+                + "."
+                + BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE };
 
         // FROM: Specify the table.
         String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
-                + BankDatabaseSchema.Purchase.TABLE_NAME + " on "
+                + BankDatabaseSchema.Purchase.TABLE_NAME + " ON "
                 + BankDatabaseSchema.User.TABLE_NAME + "."
                 + BankDatabaseSchema.User._ID + " = "
                 + BankDatabaseSchema.Purchase.TABLE_NAME + "."
                 + BankDatabaseSchema.Purchase.COLUMN_NAME_USERID
                 + " INNER JOIN "
-                + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " on "
+                + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " ON "
                 + BankDatabaseSchema.Purchase.TABLE_NAME + "."
                 + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
                 + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
-                + BankDatabaseSchema.TransactionRecord._ID;
+                + BankDatabaseSchema.TransactionRecord._ID + " INNER JOIN "
+                + BankDatabaseSchema.BankAccount.TABLE_NAME + " ON "
+                + BankDatabaseSchema.BankAccount.TABLE_NAME + "."
+                + BankDatabaseSchema.BankAccount._ID + " = "
+                + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+                + BankDatabaseSchema.Purchase.COLUMN_NAME_ACCOUNT_NUMBER;
 
         // WHERE: Specify the where clause.
         String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
@@ -240,6 +249,14 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
         if (!transactionTableCursor.moveToFirst()) {
             Log.e(DEBUG_TAG,
                     "ERROR: transaction table cursor cannot move to the first entry.");
+        }
+
+        // Get all the column names.
+        String[] columnNameArray = transactionTableCursor.getColumnNames();
+
+        // Display all the column names.
+        for (String columnName : columnNameArray) {
+            Log.d(DEBUG_TAG, "column name: " + columnName);
         }
 
         // Print the retrieved records.
@@ -443,6 +460,23 @@ public class TestDatabaseAccessActivity extends ActionBarActivity {
             // Get the transaction date.
             transactionData = transactionData
                     + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index of bank account type.
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+
+            // Get the type of bank account.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // // Get the column index for the total amount.
+            // columnIndex = transactionTableCursor
+            // .getColumnIndexOrThrow("sum(amount)");
+            //
+            // // Get the total amount
+            // transactionData = transactionData
+            // + transactionTableCursor.getDouble(columnIndex) + "|";
+            //
 
             // Display the user data.
             Log.d(DEBUG_TAG, "Transaction: " + transactionData);

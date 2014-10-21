@@ -1,0 +1,585 @@
+package com.example.plutusbank;
+
+import java.util.Date;
+import java.util.Random;
+
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
+import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+
+public class TestDatabaseAccessActivity extends ActionBarActivity {
+    // Define the debugging tag.
+    private static final String DEBUG_TAG = "DebugDatabaseAccessActivity";
+
+    // Start to initialize the bank database with the bank database manager.
+    private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_test_database_access);
+
+        if (savedInstanceState == null) {
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.container, new PlaceholderFragment()).commit();
+        }
+
+        // Start the timer.
+        Date startTime = new Date();
+
+        // Instantiate a database simulator.
+        BankDatabaseSimulation databaseSimulator = new BankDatabaseSimulation(
+                plutusDbManager);
+
+        // Test to get the userid.
+        // testGetUserId1();
+        // testGetUserId2();
+        // testGetUserId3();
+        // testGetUserId4();
+
+        // Test to get the cursor of the bank account table associated with the
+        // userid.
+        // testBankAccountCursor(1);
+        // testBankAccountCursor(2);
+        // testBankAccountCursor(3);
+        // testBankAccountCursor(4);
+
+        // Test to get the cursor of the transaction table associated with the
+        // userid.
+        // testTransactionCursor(1);
+        // testTransactionCursor(2);
+        // testTransactionCursor(3);
+        // testTransactionCursor(4);
+
+        // Test: select userid from the given username and password.
+        // testSelectUseridFromUserTable("bear", "comeon");
+
+        // Test: select bank accounts for a particular user.
+        // testSelectBankAccountFromUserTable(1);
+
+        // Test: select transactions for a particular user.
+        testSelectTransactionFromUserTable(1);
+
+        // // Print the user table.
+        // databaseSimulator.printUserTable();
+        //
+        // // Print the bank account table.
+        // databaseSimulator.printBankAccountTable();
+        //
+        // // Print the transaction table.
+        // databaseSimulator.printTransactionTable();
+        //
+        // // Print the user-bankaccount table.
+        // databaseSimulator.printUserBankAccountTable();
+        //
+        // // Print the purchase table.
+        // databaseSimulator.printPurchaseTable();
+
+        // Stop the timer.
+        Date endTime = new Date();
+
+        // Display the running time.
+        Log.d(DEBUG_TAG,
+                "Print Time: " + (endTime.getTime() - startTime.getTime())
+                        / 1000.0d);
+
+        /**
+         * DANGER: Clear the database by dropping all the tables.
+         */
+        plutusDbManager.dropAllTable();
+    }
+
+    public void testTransactionCursor(int userid) {
+        // Get the cursor of the bank account table associated with the userid.
+        Cursor transactionTableCursor = plutusDbManager
+                .getTransactionTableCursor(userid);
+
+        // print the bank account table associated with the userid.
+        // the cursor is closed in the print function.
+        this.printTransactionTable(transactionTableCursor);
+
+        // Close the cursor to release resources.
+        // bankAccountCursor.close();
+    }
+
+    public void testBankAccountCursor(int userid) {
+        // Get the cursor of the bank account table associated with the userid.
+        Cursor bankAccountCursor = plutusDbManager
+                .getBankAccountTableCursor(userid);
+
+        // print the bank account table associated with the userid.
+        // the cursor is closed in the print function.
+        printBankAccountTable(bankAccountCursor);
+
+        // Close the cursor to release resources.
+        // bankAccountCursor.close();
+    }
+
+    public void testGetUserId1() {
+        int userid = plutusDbManager.getUserid("chuck", "wrestle");
+
+        // Test the userid.
+        if (userid != 1) {
+            Log.e(DEBUG_TAG, "ERROR: WRONG USERID: " + userid);
+        } else {
+            Log.d(DEBUG_TAG, "Right userid: " + userid);
+        }
+    }
+
+    public void testGetUserId2() {
+        int userid = plutusDbManager.getUserid("bear", "wrestle");
+
+        // Test the userid.
+        if (userid != 3) {
+            Log.e(DEBUG_TAG, "ERROR: WRONG USERID: " + userid);
+        } else {
+            Log.d(DEBUG_TAG, "Right userid: " + userid);
+        }
+    }
+
+    public void testGetUserId3() {
+        int userid = plutusDbManager.getUserid("abc", "def");
+
+        // Test the userid.
+        if (userid != 1) {
+            Log.e(DEBUG_TAG, "ERROR: WRONG USERID: " + userid);
+        } else {
+            Log.d(DEBUG_TAG, "Right userid: " + userid);
+        }
+    }
+
+    public void testGetUserId4() {
+        int userid = plutusDbManager.getUserid("bear", "comeon");
+
+        // Test the userid.
+        if (userid != 3) {
+            Log.e(DEBUG_TAG, "ERROR: WRONG USERID: " + userid);
+        } else {
+            Log.d(DEBUG_TAG, "Right userid: " + userid);
+        }
+    }
+
+    // The function test the inner join between the User, Transaction and
+    // Purchase table. We will modify this function to retrieve the transactions
+    // for a particular user in the BankDatabaseManager.
+    public void testSelectTransactionFromUserTable(int userid) {
+        // Get the bank database object.
+        SQLiteDatabase bankDatabase = plutusDbManager.openReadMode();
+
+        /**
+         * Define the query.
+         */
+        /**
+         * Specify the query string: method 1.
+         */
+        // String queryString = "SELECT transactionRecord.* "
+        // + "FROM user INNER JOIN purchase on user._id = purchase.userid "
+        // +
+        // "INNER JOIN transactionRecord on purchase.transactionID = transactionRecord._id "
+        // + "WHERE user._id = ?";
+        //
+        // // Specify the where clause arguments.
+        // String[] whereClauseArgument = new String[] {
+        // Integer.toString(userid) };
+
+        /**
+         * Specify the query string: method 2.
+         */
+
+        // SELECT: Specify columns of interests.
+        String[] columnList = new String[] { BankDatabaseSchema.TransactionRecord.TABLE_NAME
+                + ".*" + "," + BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE };
+
+        // FROM: Specify the table.
+        String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
+                + BankDatabaseSchema.Purchase.TABLE_NAME + " on "
+                + BankDatabaseSchema.User.TABLE_NAME + "."
+                + BankDatabaseSchema.User._ID + " = "
+                + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+                + BankDatabaseSchema.Purchase.COLUMN_NAME_USERID
+                + " INNER JOIN "
+                + BankDatabaseSchema.TransactionRecord.TABLE_NAME + " on "
+                + BankDatabaseSchema.Purchase.TABLE_NAME + "."
+                + BankDatabaseSchema.Purchase.COLUMN_NAME_TRASACTION_ID + " = "
+                + BankDatabaseSchema.TransactionRecord.TABLE_NAME + "."
+                + BankDatabaseSchema.TransactionRecord._ID;
+
+        // WHERE: Specify the where clause.
+        String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
+                + BankDatabaseSchema.User._ID + " = ?";
+
+        // Specify the arguments (?) in the where clause: username and
+        // password.
+        String[] whereClauseArgumentList = new String[] { Integer
+                .toString(userid) };
+
+        // Specify the rest of clause.
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+
+        /**
+         * Query the database.
+         */
+        // Retrieve the records.
+        // Cursor transactionTableCursor = bankDatabase.rawQuery(queryString,
+        // whereClauseArgument);
+
+        Cursor transactionTableCursor = bankDatabase.query(table, columnList,
+                whereClause, whereClauseArgumentList, groupBy, having, orderBy);
+
+        // Move the cursor to the first entry.
+        if (!transactionTableCursor.moveToFirst()) {
+            Log.e(DEBUG_TAG,
+                    "ERROR: transaction table cursor cannot move to the first entry.");
+        }
+
+        // Print the retrieved records.
+        printTransactionTable(transactionTableCursor);
+
+        // Close the cursor to release sources.
+        // transactionTableCursor.close();
+    }
+
+    // The function test the inner join between the User, BankAcount and
+    // UserBankAccount table. We will modify this function to retrieve the bank
+    // account for a particular user in the BankDatabaseManager.
+    public void testSelectBankAccountFromUserTable(int userid) {
+        // Get the bank database object.
+        SQLiteDatabase bankDatabase = plutusDbManager.openReadMode();
+
+        /**
+         * Define the query.
+         */
+        /**
+         * Specify the query string: method 1.
+         */
+        // String queryString = "SELECT bankAccount.* "
+        // +
+        // "FROM user INNER JOIN userBankAccount on user._id = userBankAccount.userid "
+        // +
+        // "INNER JOIN bankAccount on userBankAccount.accountNumber = bankAccount._id "
+        // + "WHERE user._id = ?";
+        //
+        // // Specify the where clause arguments.
+        // String[] whereClauseArgument = new String[] { "2" };
+
+        // Specify the query string: method 2.
+
+        /**
+         * SELECT: Specify columns of interests.
+         */
+        String[] columnList = new String[] { BankDatabaseSchema.BankAccount.TABLE_NAME
+                + ".*" };
+
+        // FROM: Specify the table.
+        String table = BankDatabaseSchema.User.TABLE_NAME + " INNER JOIN "
+                + BankDatabaseSchema.UserBankAccount.TABLE_NAME + " on "
+                + BankDatabaseSchema.User.TABLE_NAME + "."
+                + BankDatabaseSchema.User._ID + " = "
+                + BankDatabaseSchema.UserBankAccount.TABLE_NAME + "."
+                + BankDatabaseSchema.UserBankAccount.COLUMN_NAME_USERID
+                + " INNER JOIN " + BankDatabaseSchema.BankAccount.TABLE_NAME
+                + " on " + BankDatabaseSchema.UserBankAccount.TABLE_NAME + "."
+                + BankDatabaseSchema.UserBankAccount.COLUMN_NAME_ACCOUNT_NUMBER
+                + " = " + BankDatabaseSchema.BankAccount.TABLE_NAME + "."
+                + BankDatabaseSchema.BankAccount._ID;
+
+        // WHERE: Specify the where clause.
+        String whereClause = BankDatabaseSchema.User.TABLE_NAME + "."
+                + BankDatabaseSchema.User._ID + " = ?";
+
+        // WHERE: Specify the userid.
+        // int userid = 1;
+
+        // Specify the arguments (?) in the where clause: username and password.
+        String[] whereClauseArgumentList = new String[] { Integer
+                .toString(userid) };
+
+        // Specify the rest of clause.
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+
+        /**
+         * Query the database.
+         */
+        // Retrieve the records.
+        // Cursor bankAccountCursor = bankDatabase.rawQuery(queryString,
+        // whereClauseArgument);
+
+        Cursor bankAccountCursor = bankDatabase.query(table, columnList,
+                whereClause, whereClauseArgumentList, groupBy, having, orderBy);
+
+        // Move the cursor to the first entry.
+        if (!bankAccountCursor.moveToFirst()) {
+            Log.e(DEBUG_TAG,
+                    "ERROR: bank account cursor cannot move to the first entry.");
+        }
+
+        // Print the retrieved records.
+        printBankAccountTable(bankAccountCursor);
+
+        // Close the cursor to relesae resources.
+        // bankAccountCursor.close();
+
+    }
+
+    // The function tests to select an userid from the username and password.
+    // We will modify this function to a member function in BankDatabaseManager
+    // when retrieving an userid based on the username and password.
+    public void testSelectUseridFromUserTable(String username, String password) {
+        // Get the bank database object.
+        SQLiteDatabase bankDatabase = plutusDbManager.openReadMode();
+
+        /**
+         * Set up the query.
+         */
+        // Specify columns of interests.
+        String[] columnList = new String[] { BankDatabaseSchema.User._ID };
+
+        // Specify the where clause.
+        String whereClause = BankDatabaseSchema.User.COLUMN_NAME_USERNAME
+                + " = ? " + " AND "
+                + BankDatabaseSchema.User.COLUMN_NAME_PASSWORD + " = ?";
+
+        // Define the username.
+        // String username = "chuck";
+
+        // Define the password.
+        // String password = "wrestle";
+
+        // Specify the arguments (?) in the where clause: username and password.
+        String[] whereClauseArgumentList = new String[] { username, password };
+
+        // Specify the rest of clause.
+        String groupBy = null;
+        String having = null;
+        String orderBy = null;
+
+        /**
+         * Query the database.
+         */
+        // Get the table cursor.
+        Cursor useridCursor = bankDatabase.query(
+                BankDatabaseSchema.User.TABLE_NAME, columnList, whereClause,
+                whereClauseArgumentList, groupBy, having, orderBy);
+
+        // Move the cursor to the first entry.
+        if (!useridCursor.moveToFirst()) {
+            Log.e(DEBUG_TAG,
+                    "ERROR: userid cursor cannot move to the first entry.");
+        }
+
+        // Get the column index userid.
+        int useridIndex = useridCursor
+                .getColumnIndexOrThrow(BankDatabaseSchema.User._ID);
+
+        // Retrieve the userid.
+        while (!useridCursor.isAfterLast()) {
+            int userid = useridCursor.getInt(useridIndex);
+
+            // Display the userid.
+            Log.d(DEBUG_TAG, "(username, password, userid) = " + "(" + username
+                    + ", " + password + ", " + userid + ")");
+
+            // Move the cursor to the next row.
+            useridCursor.moveToNext();
+        }
+
+        useridCursor.close();
+    }
+
+    /**
+     * Print functions
+     */
+    // The function prints the BankAccount table.
+    public void printTransactionTable(Cursor transactionTableCursor) {
+        // Retrieve the transaction table.
+        // Cursor transactionTableCursor = myDatabaseManager
+        // .getAllTransactionRecord();
+
+        // Print the transaction table.
+        while (!transactionTableCursor.isAfterLast()) {
+            // Initialize a row string for the display purpose.
+            String transactionData = "";
+
+            // Get the column index for the transaction id.
+            int columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord._ID);
+
+            // Get the transaction id.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the transaction type..
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_TYPE);
+
+            // Get the transaction type.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the amount of transaction
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_AMOUNT);
+
+            // Get the amount of transaction.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the transaction date.
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_DATE);
+
+            // Get the transaction date.
+            transactionData = transactionData
+                    + transactionTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index of bank account type.
+            columnIndex = transactionTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+
+            // Get the type of bank account.
+
+            
+            
+            
+            
+            
+            
+            // // Get the column index for the total amount.
+            // columnIndex = transactionTableCursor
+            // .getColumnIndexOrThrow("sum(amount)");
+            //
+            // // Get the total amount
+            // transactionData = transactionData
+            // + transactionTableCursor.getDouble(columnIndex) + "|";
+            //
+
+            // Display the user data.
+            Log.d(DEBUG_TAG, "Transaction: " + transactionData);
+
+            // Move to the next entry.
+            transactionTableCursor.moveToNext();
+        }
+
+        // Close the cursor to release related resources.
+        transactionTableCursor.close();
+    }
+
+    // The function prints the BankAccount table.
+    public void printBankAccountTable(Cursor bankAccountTableCursor) {
+        // Retrieve the bank account table.
+        // Cursor bankAccountTableCursor =
+        // myDatabaseManager.getAllBankAccount();
+
+        // Print the bank account table.
+        while (!bankAccountTableCursor.isAfterLast()) {
+            // Initialize a row string for the display purpose.
+            String bankAccountData = "";
+
+            // Get the column index for the account number.
+            int columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount._ID);
+
+            // Get the account number.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account type..
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+
+            // Get the account type.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account balance.
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_BALANCE);
+
+            // Get the account balance.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Get the column index for the account threshold.
+            columnIndex = bankAccountTableCursor
+                    .getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_THRESHOLD);
+
+            // Get the account threshold.
+            bankAccountData = bankAccountData
+                    + bankAccountTableCursor.getString(columnIndex) + "|";
+
+            // Display the user data.
+            Log.d(DEBUG_TAG, "Bank Account: " + bankAccountData);
+
+            // Move to the next entry.
+            bankAccountTableCursor.moveToNext();
+        }
+
+        // Close the cursor to release related resources.
+        bankAccountTableCursor.close();
+    }
+
+    // When resume/running/visible to the user, open the database for the read
+    // and write.
+    @Override
+    protected void onResume() {
+        plutusDbManager.openReadMode();
+        super.onResume();
+    }
+
+    // When pause, close any open database.
+    @Override
+    protected void onPause() {
+        plutusDbManager.close();
+        super.onPause();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.test_database_access, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * A placeholder fragment containing a simple view.
+     */
+    public static class PlaceholderFragment extends Fragment {
+
+        public PlaceholderFragment() {
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                Bundle savedInstanceState) {
+            View rootView = inflater.inflate(
+                    R.layout.fragment_test_database_access, container, false);
+            return rootView;
+        }
+    }
+
+}
