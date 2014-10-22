@@ -28,9 +28,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-public class UserMainActivity extends ActionBarActivity {
-  // Initialize the user id.
-  private int userid = -1;
+public class UserMainActivity extends ActionBarActivity 
+{
   // Initialize the bank database with the bank database manager.
   private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
   //Text to speech object for computer speech
@@ -80,6 +79,7 @@ public class UserMainActivity extends ActionBarActivity {
   private EditText cmndEt = null;
   //keep track of if speech recognition is enabled
   private boolean spchEnabled = true;
+  AlertSystem as = new AlertSystem();
   
 
   @Override
@@ -351,6 +351,7 @@ public class UserMainActivity extends ActionBarActivity {
 			SetLayout(R.layout.transaction_act);
 		}
 	  });
+
   }
   
   private void UpdateAccountHandler() 
@@ -465,11 +466,11 @@ public class UserMainActivity extends ActionBarActivity {
 				catStr += ",['" + catTitles[i] + "', " + Double.toString(catAmnts.get(catTitles[i])) + "]";
 			catStr += "]";
 			if(grphType == 0)	//Pie chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':350, 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\" style=\"width: 350px; height: 500px;\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':475, 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
 			else if(grphType == 1)	//Line chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':500, 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\" style=\"width:350px; height:500px\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':475, 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else 	//Table
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':300, 'height':300, 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':300, 'height':600, 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
 		}
 		return url;
 	}  
@@ -550,6 +551,9 @@ public class UserMainActivity extends ActionBarActivity {
 		  break;
 	  case 9:
 		  txt += "your account info.";
+		  break;
+	  case 10:
+		  txt = "That would without a doubt be Nicholas Smith. Seriously, he is pretty cool.";
 		  break;
 	  default:
 		  txt = "Sorry I didn't get that.";
@@ -640,6 +644,8 @@ public class UserMainActivity extends ActionBarActivity {
 		  opCode = 8; //User probably wants to view a bar chart for his/her checking transactions
 	  else if(speech.contains("update"))
 		  opCode = 9; //User probably wants to update his/her account
+	  else if(speech.contains("cool") && speech.contains("person"))
+		  opCode = 10; //User is probably wonder who is the coolest person in the world
 	  //TODO more speech parsing
 	  
 	  return opCode;
