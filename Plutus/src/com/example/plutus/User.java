@@ -38,7 +38,7 @@ public class User
 		{
 			temp = new Transaction();
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord._ID);
-			temp.trnsTitle = "Transaction " + Integer.toString(tableCrs.getInt(columnIndex));
+			temp.trnsId = tableCrs.getInt(columnIndex);
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_TYPE);
 			temp.trnsType = tableCrs.getString(columnIndex);
 			columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.TransactionRecord.COLUMN_NAME_AMOUNT);
@@ -119,9 +119,18 @@ public class User
 	private User(String un, String pwd, Context context, int foo)
 	{
 		bdm = new BankDatabaseManager(context);
-		BankDatabaseSimulation bds = new BankDatabaseSimulation(bdm);
-		bds.simulate();
-		uid = bdm.getUserid(un, pwd);		
+		uid = bdm.getUserid(un, pwd);
+		bdm.close();
+	}
+	
+	public void Resume()
+	{
+		bdm.openReadMode();
+	}
+	
+	public void Pause()
+	{
+		bdm.close();
 	}
 	
 	public String GetUsername()

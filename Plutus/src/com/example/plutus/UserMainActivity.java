@@ -30,8 +30,6 @@ import android.widget.Toast;
 
 public class UserMainActivity extends ActionBarActivity 
 {
-  // Initialize the bank database with the bank database manager.
-  private BankDatabaseManager plutusDbManager = new BankDatabaseManager(this);
   //Text to speech object for computer speech
   private TextToSpeech tts;
   //Prefix strings the compute can say
@@ -244,7 +242,7 @@ public class UserMainActivity extends ActionBarActivity
   @Override
   protected void onResume() 
   {
-    plutusDbManager.openReadMode();
+	curUser.Resume();
     super.onResume();
   }
 
@@ -252,7 +250,7 @@ public class UserMainActivity extends ActionBarActivity
   @Override
   protected void onPause() 
   {
-    plutusDbManager.close();
+    curUser.Pause();
     super.onPause();
   }
 
