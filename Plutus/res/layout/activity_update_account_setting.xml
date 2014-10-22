@@ -1,204 +1,195 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.example.plutus.UpdateAccountSettingActivity"
-    tools:ignore="MergeRootFrame" >
-    
-	<ImageView 
-		android:contentDescription="@string/bkgd_img"
-		android:layout_width="fill_parent"
-		android:layout_height="fill_parent"
-		android:src="@drawable/bkgd"
-		android:scaleType="centerCrop" />
+    android:layout_width="fill_parent"
+	android:layout_height="fill_parent">
 	
-		<RelativeLayout
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:paddingBottom="@dimen/activity_vertical_margin"
-		    android:paddingLeft="@dimen/activity_horizontal_margin"
-		    android:paddingRight="@dimen/activity_horizontal_margin"
-		    android:paddingTop="@dimen/activity_vertical_margin" >
+	<RelativeLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:paddingBottom="@dimen/activity_vertical_margin"
+	    android:paddingLeft="@dimen/activity_horizontal_margin"
+	    android:paddingRight="@dimen/activity_horizontal_margin"
+	    android:paddingTop="@dimen/activity_vertical_margin" >
 
-			<TextView
-			    android:id="@+id/ua_title_tv"
-			    android:layout_width="wrap_content"
-			    android:layout_height="wrap_content"
-			    android:layout_alignParentLeft="true"
-			    android:layout_alignParentTop="true"
-			    android:text="@string/acnt_inf_txt"
-			  	android:textColor="@color/txt_col"
-			  	android:textSize="24sp"  />
-			
-		    <RelativeLayout 
-			 android:id="@+id/ua_1st_rl"
-			 android:layout_width="fill_parent"
-			 android:layout_height="wrap_content"
-			 android:background="@android:color/transparent"
-			 android:layout_below="@+id/ua_title_tv" >
+		<TextView
+	    android:id="@+id/ua_title_tv"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentLeft="true"
+	    android:layout_alignParentTop="true"
+	    android:text="@string/acnt_inf_txt"
+	  	android:textColor="@color/txt_col"
+	  	android:textSize="24sp"  />
 		
-				<ImageView 
-				android:contentDescription="@string/bkgd_img"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:src="@drawable/lstitem"
-				android:scaleType="fitXY" />
-			    
-			  
-		       <TextView
-		        android:id="@+id/ua_emailtitle_tv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignParentTop="true"
-		        android:layout_marginLeft="30dp"
-		        android:layout_marginRight="30dp"
-		        android:text="@string/email_txt"
-		        android:textColor="@color/txt_col"
-		        android:textSize="24sp" />
-		       
-		       <EditText
-		        android:id="@+id/ua_email_et"
-		        android:inputType="textEmailAddress"
-		        android:background="@android:color/transparent"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-		        android:text=""
-		        android:textColor="@color/txt_col"
-		        android:textSize="20sp" />      
-		
-		</RelativeLayout>
+	    <RelativeLayout 
+		 android:id="@+id/ua_1st_rl"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:background="@android:color/transparent"
+		 android:layout_below="@+id/ua_title_tv" >
 	
-		<RelativeLayout 
-			 android:id="@+id/ua_2nd_rl"
-			 android:layout_width="fill_parent"
-			 android:layout_height="wrap_content"
-			 android:background="@android:color/transparent"
-			 android:layout_below="@+id/ua_1st_rl" >
-		
-				<ImageView 
-				android:contentDescription="@string/bkgd_img"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:src="@drawable/lstitem"
-				android:scaleType="fitXY" />
-			    
-			  
-		       <TextView
-		        android:id="@+id/ua_phonetitle_tv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignParentTop="true"
-		        android:layout_marginLeft="30dp"
-		        android:layout_marginRight="30dp"
-		        android:text="@string/phone_txt"
-		        android:textColor="@color/txt_col"
-		        android:textSize="24sp" />
-		       
-		       <EditText
-		        android:id="@+id/ua_phone_et"
-		        android:inputType="phone"
-		        android:background="@android:color/transparent"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-		        android:text=""
-		        android:textColor="@color/txt_col"
-		        android:textSize="20sp" />      
-		
-		</RelativeLayout>
-		
-		<RelativeLayout 
-			 android:id="@+id/ua_3rd_rl"
-			 android:layout_width="fill_parent"
-			 android:layout_height="wrap_content"
-			 android:background="@android:color/transparent"
-			 android:layout_below="@+id/ua_2nd_rl" >
-		
-				<ImageView 
-				android:contentDescription="@string/bkgd_img"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:src="@drawable/lstitem"
-				android:scaleType="fitXY" />
-			    
-			  
-		       <TextView
-		        android:id="@+id/ua_pwdtitle_tv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignParentTop="true"
-		        android:layout_marginLeft="30dp"
-		        android:layout_marginRight="30dp"
-		        android:text="@string/pwd_txt"
-		        android:textColor="@color/txt_col"
-		        android:textSize="24sp" />
-		       
-		       <EditText
-		        android:id="@+id/ua_pwd_et"
-		        android:inputType="textPassword"
-		        android:background="@android:color/transparent"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-		        android:text=""
-		        android:textColor="@color/txt_col"
-		        android:textSize="20sp" />      
-		
-		</RelativeLayout>			
+			<ImageView 
+			android:contentDescription="@string/bkgd_img"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@drawable/lstitem"
+			android:scaleType="fitXY" />
 		    
-		<RelativeLayout 
-			 android:id="@+id/ua_4th_rl"
-			 android:layout_width="fill_parent"
-			 android:layout_height="wrap_content"
-			 android:background="@android:color/transparent"
-			 android:layout_below="@+id/ua_3rd_rl" >
-		
-				<ImageView 
-				android:contentDescription="@string/bkgd_img"
-				android:layout_width="fill_parent"
-				android:layout_height="wrap_content"
-				android:src="@drawable/lstitem"
-				android:scaleType="fitXY" />
-			    
-			  
-		       <TextView
-		        android:id="@+id/ua_threshtitle_tv"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-		        android:layout_alignParentLeft="true"
-		        android:layout_alignParentRight="true"
-		        android:layout_alignParentTop="true"
-		        android:layout_marginLeft="30dp"
-		        android:layout_marginRight="30dp"
-		        android:text="@string/thresh_txt"
-		        android:textColor="@color/txt_col"
-		        android:textSize="24sp" />
-		       
-		       <EditText
-		        android:id="@+id/ua_thresh_et"
-		        android:inputType="text"
-		        android:background="@android:color/transparent"
-		        android:layout_width="wrap_content"
-		        android:layout_height="wrap_content"
-				android:layout_centerHorizontal="true"
-				android:layout_centerVertical="true"
-		        android:text=""
-		        android:textColor="@color/txt_col"
-		        android:textSize="20sp" />      
-		
-		</RelativeLayout>	
-		
+		  
+	       <TextView
+	        android:id="@+id/ua_emailtitle_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="@string/email_txt"
+	        android:textColor="@color/txt_col"
+	        android:textSize="24sp" />
+	       
+	       <EditText
+	        android:id="@+id/ua_email_et"
+	        android:inputType="textEmailAddress"
+	        android:background="@android:color/transparent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+	        android:text=""
+	        android:textColor="@color/txt_col"
+	        android:textSize="20sp" />      
+	
 	</RelativeLayout>
-    
-</FrameLayout>
+
+	<RelativeLayout 
+		 android:id="@+id/ua_2nd_rl"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:background="@android:color/transparent"
+		 android:layout_below="@+id/ua_1st_rl" >
+	
+			<ImageView 
+			android:contentDescription="@string/bkgd_img"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@drawable/lstitem"
+			android:scaleType="fitXY" />
+		    
+		  
+	       <TextView
+	        android:id="@+id/ua_phonetitle_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="@string/phone_txt"
+	        android:textColor="@color/txt_col"
+	        android:textSize="24sp" />
+	       
+	       <EditText
+	        android:id="@+id/ua_phone_et"
+	        android:inputType="phone"
+	        android:background="@android:color/transparent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+	        android:text=""
+	        android:textColor="@color/txt_col"
+	        android:textSize="20sp" />      
+	
+	</RelativeLayout>
+	
+	<RelativeLayout 
+		 android:id="@+id/ua_3rd_rl"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:background="@android:color/transparent"
+		 android:layout_below="@+id/ua_2nd_rl" >
+	
+			<ImageView 
+			android:contentDescription="@string/bkgd_img"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@drawable/lstitem"
+			android:scaleType="fitXY" />
+		    
+		  
+	       <TextView
+	        android:id="@+id/ua_pwdtitle_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="@string/pwd_txt"
+	        android:textColor="@color/txt_col"
+	        android:textSize="24sp" />
+	       
+	       <EditText
+	        android:id="@+id/ua_pwd_et"
+	        android:inputType="textPassword"
+	        android:background="@android:color/transparent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+	        android:text=""
+	        android:textColor="@color/txt_col"
+	        android:textSize="20sp" />      
+	
+	</RelativeLayout>			
+	    
+	<RelativeLayout 
+		 android:id="@+id/ua_4th_rl"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:background="@android:color/transparent"
+		 android:layout_below="@+id/ua_3rd_rl" >
+	
+			<ImageView 
+			android:contentDescription="@string/bkgd_img"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@drawable/lstitem"
+			android:scaleType="fitXY" />
+		    
+		  
+	       <TextView
+	        android:id="@+id/ua_threshtitle_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="@string/thresh_txt"
+	        android:textColor="@color/txt_col"
+	        android:textSize="24sp" />
+	       
+	       <EditText
+	        android:id="@+id/ua_thresh_et"
+	        android:inputType="text"
+	        android:background="@android:color/transparent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+	        android:text=""
+	        android:textColor="@color/txt_col"
+	        android:textSize="20sp" />      
+	
+		</RelativeLayout>	
+	
+	</RelativeLayout>
+</ScrollView>
+

@@ -212,10 +212,30 @@ public class UserMainActivity extends ActionBarActivity {
   @Override
   public void onDestroy() 
   { // Perform necessary cleanup for the text to speech
-    tts.shutdown();
+    if(tts != null)
+    	tts.shutdown();
     //Perform cleanup for the speech recognizer
-    sr.destroy();
+    if(sr != null)
+    	sr.destroy();
     super.onDestroy();
+  }
+  
+  @Override
+  public void onSaveInstanceState(Bundle outState)
+  {
+	  super.onSaveInstanceState(outState);
+	  if(layoutStack.size() > 0)
+		  outState.putInt("curLayout", layoutStack.peek());
+	  else
+		  outState.putInt("curLayout", R.layout.activity_user_main);
+	  return;
+  }
+  
+  @Override
+  public void onRestoreInstanceState(Bundle saveState)
+  {
+	  super.onSaveInstanceState(saveState);
+	  SetLayout(saveState.getInt("curLayout"));
   }
 
   // When resume/running/visible to the user, open the database for the read
@@ -370,7 +390,7 @@ public class UserMainActivity extends ActionBarActivity {
 	else
 	{
 	  titleTv.setText("Checking Transactions:");
-	  curUser.GetCheckTrans();
+	  transListElem = curUser.GetCheckTrans();
 	}
 	// Populate transaction list
 	itemLv = (ListView) findViewById(R.id.trns_lv);

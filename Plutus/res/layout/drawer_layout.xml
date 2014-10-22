@@ -18,37 +18,37 @@
 		android:scaleType="centerCrop" />
         
        <!-- The main frame to be replaced at run-time -->
+
+		 
 	   <FrameLayout
 	    android:id="@+id/content_frame"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
-	    android:layout_above="@+id/main_spk_btn" >
-
-	   </FrameLayout>
+	    android:layout_above="@+id/main_spk_btn" />
 	   
-	   		<ImageButton
-		    android:id="@+id/main_spk_btn"
-		    android:contentDescription="@string/bkgd_img"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentBottom="true"
-		    android:layout_alignParentRight="true"
-		    android:src="@drawable/micico" />
-	   		
-	   	    <EditText
-	        android:id="@+id/main_cmd_et"
-	        android:hint="@string/cmd_txt"
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content"
-	        android:layout_alignParentBottom="true"
-	        android:layout_alignParentLeft="true"
-	        android:layout_marginLeft="4dp"
-	        android:layout_marginBottom="4dp"
-	        android:background="@drawable/abc_textfield_searchview_holo_light"
-	        android:layout_toRightOf="@+id/main_spk_btn"
-	        android:ems="12" >
+   		<ImageButton
+	    android:id="@+id/main_spk_btn"
+	    android:contentDescription="@string/bkgd_img"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:src="@drawable/micico" />
+   		
+   	    <EditText
+        android:id="@+id/main_cmd_et"
+        android:hint="@string/cmd_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"
+        android:background="@drawable/abc_textfield_searchview_holo_light"
+        android:layout_toRightOf="@+id/main_spk_btn"
+        android:ems="12" >
 
-	       </EditText>
+       </EditText>
 	   
     </RelativeLayout>
     
