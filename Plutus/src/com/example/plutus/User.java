@@ -191,8 +191,16 @@ public class User
 		return numAlerts;
 	}
 	
-	//TODO Link user to the data base
-
+	public boolean SavingAlert()
+	{
+		return ((savAcntBal - savAcntThresh) < 0);
+	}
+	
+	public boolean CheckingAlert()
+	{
+		return ((chkAcntBal - chkAcntThresh) < 0);
+	}
+	
 	public static boolean UserExists(String un, String pwd, Context context)
 	{	
 		User temp = new User(un, pwd, context, 0);

@@ -79,7 +79,8 @@ public class UserMainActivity extends ActionBarActivity
   private EditText cmndEt = null;
   //keep track of if speech recognition is enabled
   private boolean spchEnabled = true;
-  AlertSystem as = new AlertSystem();
+  private AlertSystem as = null;
+  private boolean emailAlertOn = false;
   
 
   @Override
@@ -555,6 +556,13 @@ public class UserMainActivity extends ActionBarActivity
 	  case 10:
 		  txt = "That would without a doubt be Nicholas Smith. Seriously, he is pretty cool.";
 		  break;
+	  case 11:
+		  //The boolean will change in a call after this point (so needs to be reversed)
+		  if(!emailAlertOn)
+			  txt = "Email alerts now active.";
+		  else
+			  txt = "Email alerts have been deactivated";
+		  break;
 	  default:
 		  txt = "Sorry I didn't get that.";
 		  break;
@@ -612,6 +620,13 @@ public class UserMainActivity extends ActionBarActivity
 	  case 9:	//User wants to update account info
 		  newLayoutId = R.layout.activity_update_account_setting;
 		  break;
+	  //Case 10 can go to default ;-)
+	  case 11:
+		  newLayoutId = R.layout.speech_main;
+		  emailAlertOn = !emailAlertOn;
+		  if(emailAlertOn)
+			  StartAlertSystem();
+		  break;
 	  default:	//User wants to view convo window
 		  newLayoutId = R.layout.speech_main;
 		  break;
@@ -619,6 +634,35 @@ public class UserMainActivity extends ActionBarActivity
 	  //Set the layout
 	  SetLayout(newLayoutId);
 	  
+  }
+  
+  private void StartAlertSystem()
+  {
+	  as = new AlertSystem();
+	  if(curUser.SavingAlert())
+	  {
+		try 
+		{	//Using my old email for the time being
+			as.SendEmailAlert(curUser.GetUsername(), "renown.soldier@gmail.com", "savings");
+		} catch (Exception e1) 
+		{
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		CompSpeak(curUser.GetUsername() + ", an email alert has been sent to your account.");
+	  }
+	  if(curUser.CheckingAlert())
+	  {
+		try 
+		{   //Using my old email for the time being
+			as.SendEmailAlert(curUser.GetUsername(), "renown.soldier@gmail.com", "checking");
+		} catch (Exception e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		CompSpeak(curUser.GetUsername() + ", an email alert has been sent to your account.");
+	  }
   }
   
   private int GetUserIntent(String speech)
@@ -645,9 +689,12 @@ public class UserMainActivity extends ActionBarActivity
 	  else if(speech.contains("update"))
 		  opCode = 9; //User probably wants to update his/her account
 	  else if(speech.contains("cool") && speech.contains("person"))
-		  opCode = 10; //User is probably wonder who is the coolest person in the world
+		  opCode = 10; //User is probably wondering who is the coolest person in the world
+	  else if(speech.contains("email") && speech.contains("alert"))
+		  opCode = 11; //User wants to turn on/off email alerts
 	  //TODO more speech parsing
 	  
 	  return opCode;
   }
+  
 }
