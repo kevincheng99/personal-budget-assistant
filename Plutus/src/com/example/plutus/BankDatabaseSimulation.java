@@ -97,7 +97,7 @@ public class BankDatabaseSimulation {
     String password = "wrestle";
     String fullName = "chuck norris";
     String phoneNumber = "411";
-    String email = "cnorris@wrestle.polarbear.com";
+    String email = "cnorris.polar.bear@gmail.com";
 
     // Insert the first user data.
     myDatabaseManager.addUser(username, password, fullName, phoneNumber, email);
