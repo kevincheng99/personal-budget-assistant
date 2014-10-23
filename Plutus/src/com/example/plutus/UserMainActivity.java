@@ -325,10 +325,11 @@ public class UserMainActivity extends ActionBarActivity
 	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
 		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
 	  //Progress bar for user
-	  ProgressBar userPb = (ProgressBar) findViewById(R.id.menu_prog_pb);
+	  ProgressBar savPb = (ProgressBar) findViewById(R.id.menu_sav_prog_pb);
+	  ProgressBar chkPb = (ProgressBar) findViewById(R.id.menu_chk_prog_pb);
 	  //TODO need a formula for the progress bar value...
-	  userPb.setProgress((int) Math.PI * 10);
-	  //TODO fill the blank text views with account info
+	  savPb.setProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
+	  chkPb.setProgress((int) ((curUser.GetCheckBal() / 10) - curUser.GetCheckThresh()));
 	  //Make the account summary buttons clickable
 	  savSumRl = (RelativeLayout) findViewById(R.id.menu_sav_sum_rl);
 	  savSumRl.setOnClickListener(new View.OnClickListener() 
@@ -359,12 +360,14 @@ public class UserMainActivity extends ActionBarActivity
 	  EditText emailEt = (EditText) findViewById(R.id.ua_email_et);
 	  EditText phoneEt = (EditText) findViewById(R.id.ua_phone_et);
 	  EditText pwdEt = (EditText) findViewById(R.id.ua_pwd_et);
-	  EditText threshEt = (EditText) findViewById(R.id.ua_thresh_et);
+	  EditText savThreshEt = (EditText) findViewById(R.id.ua_savthresh_et);
+	  EditText chkThreshEt = (EditText) findViewById(R.id.ua_chkthresh_et);
 	  //Fill the ETs with the user's info
 	  emailEt.setText(curUser.GetEmail());
 	  phoneEt.setText(curUser.GetPhone());
 	  pwdEt.setText("*********");
-	  threshEt.setText(String.format("$%.2f", curUser.GetCheckThresh()));
+	  savThreshEt.setText(String.format("$%.2f", curUser.GetSavingThresh()));
+	  chkThreshEt.setText(String.format("$%.2f", curUser.GetSavingThresh()));
 	  //TODO ask the user to confirm when exiting
 
   }

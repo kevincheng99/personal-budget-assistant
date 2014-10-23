@@ -164,7 +164,7 @@
 		    
 		  
 	       <TextView
-	        android:id="@+id/ua_threshtitle_tv"
+	        android:id="@+id/ua_savthrshti_tv"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_alignParentLeft="true"
@@ -172,12 +172,54 @@
 	        android:layout_alignParentTop="true"
 	        android:layout_marginLeft="30dp"
 	        android:layout_marginRight="30dp"
-	        android:text="@string/thresh_txt"
+	        android:text="@string/sav_thrsh"
 	        android:textColor="@color/txt_col"
 	        android:textSize="24sp" />
 	       
 	       <EditText
-	        android:id="@+id/ua_thresh_et"
+	        android:id="@+id/ua_savthresh_et"
+	        android:inputType="text"
+	        android:background="@android:color/transparent"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_centerVertical="true"
+	        android:text=""
+	        android:textColor="@color/txt_col"
+	        android:textSize="20sp" />      
+	
+		</RelativeLayout>	
+		
+		<RelativeLayout 
+		 android:id="@+id/ua_5th_rl"
+		 android:layout_width="fill_parent"
+		 android:layout_height="wrap_content"
+		 android:background="@android:color/transparent"
+		 android:layout_below="@+id/ua_4th_rl" >
+	
+			<ImageView 
+			android:contentDescription="@string/bkgd_img"
+			android:layout_width="fill_parent"
+			android:layout_height="wrap_content"
+			android:src="@drawable/lstitem"
+			android:scaleType="fitXY" />
+		    
+		  
+	       <TextView
+	        android:id="@+id/ua_chkthrshti_tv"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_alignParentLeft="true"
+	        android:layout_alignParentRight="true"
+	        android:layout_alignParentTop="true"
+	        android:layout_marginLeft="30dp"
+	        android:layout_marginRight="30dp"
+	        android:text="@string/chk_thrsh"
+	        android:textColor="@color/txt_col"
+	        android:textSize="24sp" />
+	       
+	       <EditText
+	        android:id="@+id/ua_chkthresh_et"
 	        android:inputType="text"
 	        android:background="@android:color/transparent"
 	        android:layout_width="wrap_content"
