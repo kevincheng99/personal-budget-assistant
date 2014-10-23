@@ -1340,6 +1340,7 @@ containing a value of this type.
         public static final int button_simulate=0x7f0a0028;
         public static final int button_test_retrieval=0x7f0a002a;
         public static final int button_test_update=0x7f0a0029;
+        public static final int cancel=0x7f0a0031;
         public static final int check_acnt_txt=0x7f0a0022;
         public static final int chk_thrsh=0x7f0a002e;
         public static final int cmd_txt=0x7f0a002b;
@@ -1350,6 +1351,7 @@ containing a value of this type.
         public static final int email_txt=0x7f0a0026;
         public static final int hello_world=0x7f0a000e;
         public static final int intent_key=0x7f0a0016;
+        public static final int ok=0x7f0a0030;
         public static final int phone_txt=0x7f0a0024;
         public static final int pwd_txt=0x7f0a0025;
         public static final int sav_acnts_txt=0x7f0a001f;
@@ -1360,6 +1362,7 @@ containing a value of this type.
         public static final int tot_bal_elips=0x7f0a0020;
         public static final int tot_spent_elips=0x7f0a0021;
         public static final int trns_title=0x7f0a001c;
+        public static final int wrt_chngs=0x7f0a002f;
     }
     public static final class style {
         /** 

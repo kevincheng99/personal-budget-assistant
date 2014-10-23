@@ -5,7 +5,14 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
+
+import android.annotation.TargetApi;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -203,6 +210,8 @@ public class UserMainActivity extends ActionBarActivity
 		  super.onBackPressed();
 	  else
 	  {	  //Pop the TOS and the one previous (it will be added again in SetLayout)
+		  if(layoutStack.peek() == R.layout.activity_update_account_setting)
+			  ShowDialog();
 		  layoutStack.pop();
 		  SetLayout(layoutStack.pop());
 	  }
@@ -644,7 +653,7 @@ public class UserMainActivity extends ActionBarActivity
 	  {
 		try 
 		{	//Using my old email for the time being
-			as.SendEmailAlert(curUser.GetUsername(), "renown.soldier@gmail.com", "savings");
+			as.SendEmailAlert(curUser.GetUsername(), curUser.GetEmail(), "savings");
 		} catch (Exception e1) 
 		{
 			// TODO Auto-generated catch block
@@ -656,7 +665,7 @@ public class UserMainActivity extends ActionBarActivity
 	  {
 		try 
 		{   //Using my old email for the time being
-			as.SendEmailAlert(curUser.GetUsername(), "renown.soldier@gmail.com", "checking");
+			as.SendEmailAlert(curUser.GetUsername(), curUser.GetEmail(), "checking");
 		} catch (Exception e) 
 		{
 			// TODO Auto-generated catch block
@@ -698,4 +707,24 @@ public class UserMainActivity extends ActionBarActivity
 	  return opCode;
   }
   
+  private void ShowDialog()
+  {
+	  new AlertDialog.Builder(this)
+	    .setTitle("Write Changes?")
+	    .setMessage("Are you sure you want to save changes?")
+	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) 
+	        { 
+	            //Write changes
+	        }
+	     })
+	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+	        public void onClick(DialogInterface dialog, int which) { 
+	            // do nothing
+	        }
+	     })
+	    .setIcon(android.R.drawable.ic_dialog_alert)
+	     .show();
+  }
 }
+  

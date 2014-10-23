@@ -35,5 +35,8 @@
     <string name="spch_dis">Disable Speech</string>
     <string name="sav_thrsh">Saving Threshold:</string>
     <string name="chk_thrsh">Checking Threshold:</string>
+    <string name="wrt_chngs">Write Changes?</string>
+    <string name="ok">Okay!</string>
+    <string name="cancel">Fuck That!</string>
 
 </resources> <!-- We will change the title for each activity -->
