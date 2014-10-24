@@ -372,7 +372,7 @@ public class UserMainActivity extends ActionBarActivity
 	  String[] userInf = new String[5];
 	  userInf[0] = curUser.GetEmail();
 	  userInf[1] = curUser.GetPhone();
-	  userInf[2] = "*********";
+	  userInf[2] = curUser.GetPassword();
 	  userInf[3] = String.format("$%.2f", curUser.GetSavingThresh());
 	  userInf[4] = String.format("$%.2f", curUser.GetSavingThresh());
 	  SetUserInfoOnUI(userInf);

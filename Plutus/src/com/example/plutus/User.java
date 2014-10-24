@@ -169,6 +169,11 @@ public class User
 		passwd = pwd;
 	}
 	
+	public String GetPassword()
+	{
+		return passwd;
+	}
+	
 	public void SetEmail(String eml)
 	{
 		email = eml;
