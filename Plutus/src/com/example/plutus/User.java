@@ -10,6 +10,7 @@ public class User
 	private String userName;
 	private String email;
 	private String phone;
+	private String passwd;
 	private double savAcntBal = 0.0;
 	private double savAcntThresh = 0.0;
 	private double savAcntSpend = 0.0;
@@ -20,6 +21,7 @@ public class User
 	private ArrayList<Transaction> chkAcntTrans = null;
 	private int uid = 0;
 	private BankDatabaseManager bdm = null;
+	private String[] tempUserInfo = null;
 	
 	public User(String un, String pwd, Context context)
 	{
@@ -107,6 +109,7 @@ public class User
 		tableCrs = bdm.getUserInfo(uid);
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_FULL_NAME);
 		userName = tableCrs.getString(columnIndex);
+		passwd = pwd;
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_PHONE);
 		phone = tableCrs.getString(columnIndex);
 		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.User.COLUMN_NAME_EMAIL);
@@ -133,14 +136,53 @@ public class User
 		bdm.close();
 	}
 	
+	public boolean AccountInfoChanged()
+	{
+		if(tempUserInfo == null)
+			return false;
+		double sThrsh = 0.0;
+		double cThrsh = 0.0;
+		try
+		{	//Need to skip the dollar sign (assume it's first symbol)
+			sThrsh = Double.parseDouble(tempUserInfo[3].substring(1));
+			cThrsh = Double.parseDouble(tempUserInfo[4].substring(1));
+		}
+		catch(NumberFormatException e)
+		{
+			//User input a bad double
+		}
+		return (tempUserInfo[0].compareTo(email) != 0 || tempUserInfo[1].compareTo(phone) != 0 || tempUserInfo[2].compareTo(passwd) != 0 || (sThrsh - savAcntThresh) >= 0.01 || (cThrsh - chkAcntThresh) >= 0.01); 
+	}
+	
+	public void UpdateAccountInfo(String[] uInf)
+	{
+		tempUserInfo = uInf;
+	}
+	
 	public String GetUsername()
 	{
 		return userName;
 	}
 	
+	public void SetPassword(String pwd)
+	{
+		passwd = pwd;
+	}
+	
+	public void SetEmail(String eml)
+	{
+		email = eml;
+	}
+	
+	
 	public String GetEmail()
 	{
 		return email;
+	}
+	
+	public void SetPhone(String phn)
+	{
+		phone = phn;
 	}
 	
 	public String GetPhone()
@@ -151,6 +193,11 @@ public class User
 	public double GetSavingBal()
 	{
 		return savAcntBal;
+	}
+	
+	public void SetSavingThresh(double thrsh)
+	{
+		savAcntThresh = thrsh;
 	}
 	
 	public double GetSavingThresh()
@@ -167,6 +214,11 @@ public class User
 	public double GetCheckBal()
 	{
 		return chkAcntBal;
+	}
+	
+	public void SetCheckThresh(double thrsh)
+	{
+		chkAcntThresh = thrsh;
 	}
 	
 	public double GetCheckThresh()
@@ -208,6 +260,28 @@ public class User
 	public boolean CheckingAlert()
 	{
 		return ((chkAcntBal - chkAcntThresh) < 0);
+	}
+	
+	public void WriteChanges()
+	{
+		if(!AccountInfoChanged())
+			return;
+		email = tempUserInfo[0];
+		phone = tempUserInfo[1];
+		passwd = tempUserInfo[2];
+		bdm.updateUser(uid, passwd, userName, phone, email);
+		double sThrsh = 0.0;
+		double cThrsh = 0.0;
+		try
+		{	//Assume $ is the first character
+			sThrsh = Double.parseDouble(tempUserInfo[3].substring(1));
+			cThrsh = Double.parseDouble(tempUserInfo[4].substring(1));
+		}
+		catch(NumberFormatException e)
+		{
+			//User input a bad double
+		}
+		//TODO update the threshold 
 	}
 	
 	public static boolean UserExists(String un, String pwd, Context context)

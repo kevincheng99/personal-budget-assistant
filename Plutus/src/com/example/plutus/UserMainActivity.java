@@ -86,7 +86,6 @@ public class UserMainActivity extends ActionBarActivity
   private boolean spchEnabled = true;
   private AlertSystem as = null;
   private boolean emailAlertOn = false;
-  
 
   @Override
   protected void onCreate(Bundle savedInstanceState) 
@@ -211,9 +210,14 @@ public class UserMainActivity extends ActionBarActivity
 	  else
 	  {	  //Pop the TOS and the one previous (it will be added again in SetLayout)
 		  if(layoutStack.peek() == R.layout.activity_update_account_setting)
-			  ShowDialog();
-		  layoutStack.pop();
-		  SetLayout(layoutStack.pop());
+			  curUser.UpdateAccountInfo(GetUserInfoFromUI());
+		  if(curUser.AccountInfoChanged())
+			  ShowDialog(); //Let dialog handle the rest
+		  else
+		  {	//Don't need to show dialog window for this layout
+			  layoutStack.pop();
+			  SetLayout(layoutStack.pop());
+		  }
 	  }
   }
   
@@ -365,20 +369,13 @@ public class UserMainActivity extends ActionBarActivity
   
   private void UpdateAccountHandler() 
   {
-	  //Find the edit text views
-	  EditText emailEt = (EditText) findViewById(R.id.ua_email_et);
-	  EditText phoneEt = (EditText) findViewById(R.id.ua_phone_et);
-	  EditText pwdEt = (EditText) findViewById(R.id.ua_pwd_et);
-	  EditText savThreshEt = (EditText) findViewById(R.id.ua_savthresh_et);
-	  EditText chkThreshEt = (EditText) findViewById(R.id.ua_chkthresh_et);
-	  //Fill the ETs with the user's info
-	  emailEt.setText(curUser.GetEmail());
-	  phoneEt.setText(curUser.GetPhone());
-	  pwdEt.setText("*********");
-	  savThreshEt.setText(String.format("$%.2f", curUser.GetSavingThresh()));
-	  chkThreshEt.setText(String.format("$%.2f", curUser.GetSavingThresh()));
-	  //TODO ask the user to confirm when exiting
-
+	  String[] userInf = new String[5];
+	  userInf[0] = curUser.GetEmail();
+	  userInf[1] = curUser.GetPhone();
+	  userInf[2] = "*********";
+	  userInf[3] = String.format("$%.2f", curUser.GetSavingThresh());
+	  userInf[4] = String.format("$%.2f", curUser.GetSavingThresh());
+	  SetUserInfoOnUI(userInf);
   }
   
   private void SpeechMainHandler() 
@@ -431,6 +428,7 @@ public class UserMainActivity extends ActionBarActivity
 	  grphWv.setBackgroundColor(0x00000000);
   }
 	
+  //Generates a chart URL for google chart API based on the curUser and system variables
   private String GenerateChartUrl()
 	{
 		String url = "";
@@ -486,6 +484,7 @@ public class UserMainActivity extends ActionBarActivity
 		return url;
 	}  
   
+  //Handles changing the main content frame, pass it one of the layouts in the layout array
   private void SetLayout(int layout)
   {
 	if(layoutStack.size() == 0 || layout != layoutStack.peek())
@@ -507,6 +506,7 @@ public class UserMainActivity extends ActionBarActivity
 		SpeechMainHandler();
   }
   
+  //Handles the TTS, just pass a string and the phone will speak
   private void CompSpeak(String speech)
   {
 	  //Append the string to the list of spoken sentances
@@ -528,6 +528,8 @@ public class UserMainActivity extends ActionBarActivity
 	  });
 	  return;
   }
+  
+  //Gets a string the computer should speak from an operation code
   private String OcToText(int opCode)
   {
 	  String txt = prefixes[ran.nextInt(prefixes.length)];
@@ -581,6 +583,7 @@ public class UserMainActivity extends ActionBarActivity
 	  return txt;
   }
   
+  //Handle a system operation code
   private void HandleOC(int opCode)
   {
 	  int newLayoutId = -1;
@@ -646,6 +649,7 @@ public class UserMainActivity extends ActionBarActivity
 	  
   }
   
+  //Turn on email alerts, check the accounts if they are underthreshold and send an email if they are
   private void StartAlertSystem()
   {
 	  as = new AlertSystem();
@@ -675,6 +679,7 @@ public class UserMainActivity extends ActionBarActivity
 	  }
   }
   
+  //Get an operation code from the user's speech that indicates which action the system should take
   private int GetUserIntent(String speech)
   {	//TODO parse the user's speech better and add more opcodes for different commands
 	  int opCode = -1;
@@ -707,6 +712,29 @@ public class UserMainActivity extends ActionBarActivity
 	  return opCode;
   }
   
+  //Use this function to get the user's info from the Update Account Info Screen
+  private String[] GetUserInfoFromUI()
+  {
+	  String[] userInf = new String[5];
+	  userInf[0] = ((EditText) findViewById(R.id.ua_email_et)).getText().toString();
+	  userInf[1] = ((EditText) findViewById(R.id.ua_phone_et)).getText().toString();
+	  userInf[2] = ((EditText) findViewById(R.id.ua_pwd_et)).getText().toString();
+	  userInf[3] = ((EditText) findViewById(R.id.ua_savthresh_et)).getText().toString();
+	  userInf[4] = ((EditText) findViewById(R.id.ua_chkthresh_et)).getText().toString();
+	  return userInf;
+  }
+  
+  //User this function to set the user's info on the Update Account Info screen
+  private void SetUserInfoOnUI(String[] userInf)
+  {
+	  ((EditText) findViewById(R.id.ua_email_et)).setText(userInf[0]);
+	  ((EditText) findViewById(R.id.ua_phone_et)).setText(userInf[1]);
+	  ((EditText) findViewById(R.id.ua_pwd_et)).setText(userInf[2]);
+	  ((EditText) findViewById(R.id.ua_savthresh_et)).setText(userInf[3]);
+	  ((EditText) findViewById(R.id.ua_chkthresh_et)).setText(userInf[4]);
+  }
+  
+  //Prompt the user to write changes or not
   private void ShowDialog()
   {
 	  new AlertDialog.Builder(this)
@@ -715,12 +743,16 @@ public class UserMainActivity extends ActionBarActivity
 	    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
 	        public void onClick(DialogInterface dialog, int which) 
 	        { 
-	            //Write changes
+	        	curUser.WriteChanges();
+	        	layoutStack.pop();
+	        	SetLayout(layoutStack.pop());
 	        }
 	     })
 	    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-	        public void onClick(DialogInterface dialog, int which) { 
-	            // do nothing
+	        public void onClick(DialogInterface dialog, int which) 
+	        {
+	        	layoutStack.pop();
+	        	SetLayout(layoutStack.pop());
 	        }
 	     })
 	    .setIcon(android.R.drawable.ic_dialog_alert)
