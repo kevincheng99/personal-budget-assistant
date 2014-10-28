@@ -364,6 +364,7 @@ public class UserMainActivity extends ActionBarActivity
 			SetLayout(R.layout.transaction_act);
 		}
 	  });
+	  setTitle("Home");
 
   }
   
@@ -376,6 +377,7 @@ public class UserMainActivity extends ActionBarActivity
 	  userInf[3] = String.format("$%.2f", curUser.GetSavingThresh());
 	  userInf[4] = String.format("$%.2f", curUser.GetSavingThresh());
 	  SetUserInfoOnUI(userInf);
+	  setTitle("Update Account");
   }
   
   private void SpeechMainHandler() 
@@ -383,6 +385,7 @@ public class UserMainActivity extends ActionBarActivity
 	  itemLv = (ListView) findViewById(R.id.spch_conv_lv);
 	  compSpkAa = new ArrayAdapter<String>(getApplicationContext(), R.layout.speech_li, R.id.speech_li_tv, compSpkAl);
 	  itemLv.setAdapter(compSpkAa);
+	  setTitle("Coversation");
   }
 
   private void ViewTransHandler() 
@@ -405,6 +408,7 @@ public class UserMainActivity extends ActionBarActivity
 	itemLv = (ListView) findViewById(R.id.trns_lv);
 	lstAdpt = new TransItemAdapter(getApplicationContext(), transListElem);
 	itemLv.setAdapter(lstAdpt);
+	setTitle("Account Detail");
   }
 
   private void ViewStatsHandler() 
@@ -426,6 +430,7 @@ public class UserMainActivity extends ActionBarActivity
 	  }
 	  //Need to set transparency AFTER loading web page (if you set before it doesn't work)
 	  grphWv.setBackgroundColor(0x00000000);
+	  setTitle("Account Stats");
   }
 	
   //Generates a chart URL for google chart API based on the curUser and system variables
