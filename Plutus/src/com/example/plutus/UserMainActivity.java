@@ -5,14 +5,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
-
-import android.annotation.TargetApi;
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -55,7 +50,7 @@ public class UserMainActivity extends ActionBarActivity
   //Boolean used to differentiate between loading savings transactions and checking
   private boolean isSavings = false;
   //Drawer stuff
-  private String[] drawerTitles = {"Home", "Savings", "Checking", "Stats", "Update Info", "Convo"};
+  private String[] drawerTitles = {"Home", "Savings", "Checking", "Charts", "Update Info", "Convo"};
   private DrawerLayout mDrawerLayout = null;
   private ListView mDrawerList;
   private FrameLayout contentFrame = null;
@@ -430,7 +425,7 @@ public class UserMainActivity extends ActionBarActivity
 	  }
 	  //Need to set transparency AFTER loading web page (if you set before it doesn't work)
 	  grphWv.setBackgroundColor(0x00000000);
-	  setTitle("Account Stats");
+	  setTitle("Account Charts");
   }
 	
   //Generates a chart URL for google chart API based on the curUser and system variables
