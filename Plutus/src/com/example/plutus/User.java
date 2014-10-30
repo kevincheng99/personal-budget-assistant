@@ -286,7 +286,30 @@ public class User
 		{
 			//User input a bad double
 		}
-		//TODO update the threshold 
+		//Get the user's balance information
+		Cursor tableCrs = bdm.getBankAccountTableCursor(uid);
+		//TODO no worky
+		int savAcntNum = 0;
+		int chkAcntNum = 0;
+		int columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
+		String acntType = tableCrs.getString(columnIndex);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.UserBankAccount.COLUMN_NAME_ACCOUNT_NUMBER);
+		//Find out which account this row is for
+		if(acntType.compareTo("saving") == 0)
+			savAcntNum = tableCrs.getInt(columnIndex);
+		else
+			chkAcntNum = tableCrs.getInt(columnIndex);
+		tableCrs.moveToNext();
+		//Move to the next and do the same
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.UserBankAccount.COLUMN_NAME_ACCOUNT_NUMBER);
+		acntType = tableCrs.getString(columnIndex);
+		if(acntType.compareTo("saving") == 0)
+			savAcntNum = tableCrs.getInt(columnIndex);
+		else
+			chkAcntNum = tableCrs.getInt(columnIndex);
+		bdm.updateAccountThreshold(savAcntNum, sThrsh);
+		bdm.updateAccountThreshold(chkAcntNum, cThrsh);
+
 	}
 	
 	public static boolean UserExists(String un, String pwd, Context context)
