@@ -375,7 +375,7 @@ public class UserMainActivity extends ActionBarActivity
 	  userInf[1] = curUser.GetPhone();
 	  userInf[2] = curUser.GetPassword();
 	  userInf[3] = String.format("$%.2f", curUser.GetSavingThresh());
-	  userInf[4] = String.format("$%.2f", curUser.GetSavingThresh());
+	  userInf[4] = String.format("$%.2f", curUser.GetCheckThresh());
 	  SetUserInfoOnUI(userInf);
 	  setTitle("Update Account");
   }

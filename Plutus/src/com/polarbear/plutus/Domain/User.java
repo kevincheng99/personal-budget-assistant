@@ -152,7 +152,7 @@ public class User
 		{
 			//User input a bad double
 		}
-		return (tempUserInfo[0].compareTo(email) != 0 || tempUserInfo[1].compareTo(phone) != 0 || tempUserInfo[2].compareTo(passwd) != 0 || (sThrsh - savAcntThresh) >= 0.01 || (cThrsh - chkAcntThresh) >= 0.01); 
+		return (tempUserInfo[0].compareTo(email) != 0 || tempUserInfo[1].compareTo(phone) != 0 || tempUserInfo[2].compareTo(passwd) != 0 || Math.abs(sThrsh - savAcntThresh) >= 0.01 || Math.abs(cThrsh - chkAcntThresh) >= 0.01); 
 	}
 	
 	public void UpdateAccountInfo(String[] uInf)
@@ -276,12 +276,10 @@ public class User
 		phone = tempUserInfo[1];
 		passwd = tempUserInfo[2];
 		bdm.updateUser(uid, passwd, userName, phone, email);
-		double sThrsh = 0.0;
-		double cThrsh = 0.0;
 		try
 		{	//Assume $ is the first character
-			sThrsh = Double.parseDouble(tempUserInfo[3].substring(1));
-			cThrsh = Double.parseDouble(tempUserInfo[4].substring(1));
+			savAcntThresh = Double.parseDouble(tempUserInfo[3].substring(1));
+			chkAcntThresh = Double.parseDouble(tempUserInfo[4].substring(1));
 		}
 		catch(NumberFormatException e)
 		{
@@ -289,12 +287,11 @@ public class User
 		}
 		//Get the user's balance information
 		Cursor tableCrs = bdm.getBankAccountTableCursor(uid);
-		//TODO no worky
 		int savAcntNum = 0;
 		int chkAcntNum = 0;
 		int columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
 		String acntType = tableCrs.getString(columnIndex);
-		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.UserBankAccount.COLUMN_NAME_ACCOUNT_NUMBER);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount._ID);
 		//Find out which account this row is for
 		if(acntType.compareTo("saving") == 0)
 			savAcntNum = tableCrs.getInt(columnIndex);
@@ -302,14 +299,15 @@ public class User
 			chkAcntNum = tableCrs.getInt(columnIndex);
 		tableCrs.moveToNext();
 		//Move to the next and do the same
-		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.UserBankAccount.COLUMN_NAME_ACCOUNT_NUMBER);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount.COLUMN_NAME_TYPE);
 		acntType = tableCrs.getString(columnIndex);
+		columnIndex = tableCrs.getColumnIndexOrThrow(BankDatabaseSchema.BankAccount._ID);
 		if(acntType.compareTo("saving") == 0)
 			savAcntNum = tableCrs.getInt(columnIndex);
 		else
 			chkAcntNum = tableCrs.getInt(columnIndex);
-		bdm.updateAccountThreshold(savAcntNum, sThrsh);
-		bdm.updateAccountThreshold(chkAcntNum, cThrsh);
+		bdm.updateAccountThreshold(savAcntNum, savAcntThresh);
+		bdm.updateAccountThreshold(chkAcntNum, chkAcntThresh);
 
 	}
 	
