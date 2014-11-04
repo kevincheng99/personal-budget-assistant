@@ -17,8 +17,9 @@ import java.io.OutputStream;
 import java.security.Security;   
 import java.util.Properties;   
 
-public class GMailSender extends javax.mail.Authenticator {   
-    private String mailhost = "smtp.gmail.com";   
+public class GMailSender extends javax.mail.Authenticator 
+{   
+    private String mailHost = "smtp.gmail.com";   
     private String user;   
     private String password;   
     private Session session;   
@@ -32,19 +33,16 @@ public class GMailSender extends javax.mail.Authenticator {
     {   
         this.user = user;   
         this.password = password;   
-
-        Properties props = new Properties();   
-        props.setProperty("mail.transport.protocol", "smtp");   
-        props.setProperty("mail.host", mailhost);   
-        props.put("mail.smtp.auth", "true");   
-        props.put("mail.smtp.port", "465");   
-        props.put("mail.smtp.socketFactory.port", "465");   
-        props.put("mail.smtp.socketFactory.class",   
-                "javax.net.ssl.SSLSocketFactory");   
-        props.put("mail.smtp.socketFactory.fallback", "false");   
-        props.setProperty("mail.smtp.quitwait", "false");   
-
-        session = Session.getDefaultInstance(props, this);   
+        Properties mailProps = new Properties();   
+        mailProps.setProperty("mail.transport.protocol", "smtp");   
+        mailProps.setProperty("mail.host", mailHost);   
+        mailProps.put("mail.smtp.auth", "true");   
+        mailProps.put("mail.smtp.port", "465");   
+        mailProps.put("mail.smtp.socketFactory.port", "465");   
+        mailProps.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");   
+        mailProps.put("mail.smtp.socketFactory.fallback", "false");   
+        mailProps.setProperty("mail.smtp.quitwait", "false");   
+        session = Session.getDefaultInstance(mailProps, this);   
     }   
 
     protected PasswordAuthentication getPasswordAuthentication() {   
@@ -55,16 +53,16 @@ public class GMailSender extends javax.mail.Authenticator {
     {   
         try
         {
-        MimeMessage message = new MimeMessage(session);   
-        DataHandler handler = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
-        message.setSender(new InternetAddress(sender));   
-        message.setSubject(subject);   
-        message.setDataHandler(handler);   
+        MimeMessage msg = new MimeMessage(session);   
+        DataHandler hndlr = new DataHandler(new ByteArrayDataSource(body.getBytes(), "text/plain"));   
+        msg.setSender(new InternetAddress(sender));   
+        msg.setSubject(subject);   
+        msg.setDataHandler(hndlr);   
         if (recipients.indexOf(',') > 0)   
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
+            msg.setRecipients(Message.RecipientType.TO, InternetAddress.parse(recipients));   
         else  
-            message.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
-        Transport.send(message);   
+            msg.setRecipient(Message.RecipientType.TO, new InternetAddress(recipients));   
+        Transport.send(msg);   
         }catch(Exception e){
 
         }
@@ -73,7 +71,6 @@ public class GMailSender extends javax.mail.Authenticator {
     public class ByteArrayDataSource implements DataSource {   
         private byte[] data;   
         private String type;   
-
         public ByteArrayDataSource(byte[] data, String type) {   
             super();   
             this.data = data;   
