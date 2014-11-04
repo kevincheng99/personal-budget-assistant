@@ -385,7 +385,7 @@ public class UserMainActivity extends ActionBarActivity
 	  itemLv = (ListView) findViewById(R.id.spch_conv_lv);
 	  compSpkAa = new ArrayAdapter<String>(getApplicationContext(), R.layout.speech_li, R.id.speech_li_tv, compSpkAl);
 	  itemLv.setAdapter(compSpkAa);
-	  setTitle("Coversation");
+	  setTitle("Conversation");
   }
 
   private void ViewTransHandler() 
