@@ -14,6 +14,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
@@ -32,9 +33,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
-import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.VideoView;
 
 public class UserMainActivity extends ActionBarActivity 
 {
@@ -52,11 +53,11 @@ public class UserMainActivity extends ActionBarActivity
   private SpeechRecognizer sr = null;
   //A lookup table for the layouts (these match up with drawerTitles)
   private ImageButton micBtn = null;
-  private int[] layouts = {R.layout.activity_user_main, R.layout.transaction_act, R.layout.transaction_act, R.layout.activity_view_account_statistics, R.layout.activity_update_account_setting, R.layout.speech_main};
+  private int[] layouts = {R.layout.activity_user_main, R.layout.transaction_act, R.layout.transaction_act, R.layout.activity_view_account_statistics, R.layout.activity_update_account_setting, R.layout.speech_main, R.layout.help};
   //Boolean used to differentiate between loading savings transactions and checking
   private boolean isSavings = false;
   //Drawer stuff
-  private String[] drawerTitles = {"Home", "Savings", "Checking", "Charts", "Update Info", "Convo"};
+  private String[] drawerTitles = {"Home", "Savings", "Checking", "Charts", "Update Info", "Convo", "Help"};
   private DrawerLayout mDrawerLayout = null;
   private ListView mDrawerList;
   private FrameLayout contentFrame = null;
@@ -339,11 +340,10 @@ public class UserMainActivity extends ActionBarActivity
 	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
 		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
 	  //Progress bar for user
-	  //SeekBar savSb = (SeekBar) findViewById(R.id.menu_sav_sb_tv);
+	  ProgressBar savPb = (ProgressBar) findViewById(R.id.menu_sav_prog_pb);
 	  ProgressBar chkPb = (ProgressBar) findViewById(R.id.menu_chk_prog_pb);
 	  //TODO need a formula for the progress bar value...
-	  //savSb.setSecondaryProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
-	  //savSb.setProgress((int) curUser.GetSavingThresh());
+	  savPb.setProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
 	  chkPb.setProgress((int) ((curUser.GetCheckBal() / 10) - curUser.GetCheckThresh()));
 	  //Make the account summary buttons clickable
 	  savSumRl = (RelativeLayout) findViewById(R.id.menu_sav_sum_rl);
@@ -492,6 +492,14 @@ private void ViewStatsHandler()
 		return url;
 	}  
   
+  private void HelpHandler()
+  {
+	  setTitle("Help");
+	  VideoView vv = (VideoView) findViewById(R.id.help_vv);
+	  vv.setVideoPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath() + "/Foo.mp4");
+	  vv.start();
+  }
+  
   //Handles changing the main content frame, pass it one of the layouts in the layout array
   private void SetLayout(int layout)
   {
@@ -512,6 +520,8 @@ private void ViewStatsHandler()
 		ViewStatsHandler();
 	else if(layout == R.layout.speech_main)
 		SpeechMainHandler();
+	else if(layout == R.layout.help)
+		HelpHandler();
   }
   
   //Handles the TTS, just pass a string and the phone will speak
