@@ -33,7 +33,7 @@
 			android:contentDescription="@string/bkgd_img"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:src="@drawable/lstitem"
+			android:src="@drawable/lstitem2"
 			android:scaleType="fitXY" />
 		    
 		  
@@ -117,7 +117,7 @@
 			android:contentDescription="@string/bkgd_img"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:src="@drawable/lstitem"
+			android:src="@drawable/lstitem2"
 			android:scaleType="fitXY" />
 		    
 		  
@@ -201,7 +201,7 @@
 			android:contentDescription="@string/bkgd_img"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:src="@drawable/lstitem"
+			android:src="@drawable/lstitem2"
 			android:scaleType="fitXY" />
 		    
 		  

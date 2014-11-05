@@ -32,6 +32,7 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -338,10 +339,11 @@ public class UserMainActivity extends ActionBarActivity
 	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
 		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
 	  //Progress bar for user
-	  ProgressBar savPb = (ProgressBar) findViewById(R.id.menu_sav_prog_pb);
+	  //SeekBar savSb = (SeekBar) findViewById(R.id.menu_sav_sb_tv);
 	  ProgressBar chkPb = (ProgressBar) findViewById(R.id.menu_chk_prog_pb);
 	  //TODO need a formula for the progress bar value...
-	  savPb.setProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
+	  //savSb.setSecondaryProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
+	  //savSb.setProgress((int) curUser.GetSavingThresh());
 	  chkPb.setProgress((int) ((curUser.GetCheckBal() / 10) - curUser.GetCheckThresh()));
 	  //Make the account summary buttons clickable
 	  savSumRl = (RelativeLayout) findViewById(R.id.menu_sav_sum_rl);
