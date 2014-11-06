@@ -46,7 +46,7 @@ public class BankDatabaseSimulation {
   private static final double ITEM_PRICE_FACTOR = 500;
 
   // Define the number of transaction per user.
-  private static final int NUMBER_TRANSACTION_PER_USER = 10;
+  private static final int NUMBER_TRANSACTION_PER_USER = 20;
 
   // Initialize a BankDatabaseManager to null.
   private BankDatabaseManager myDatabaseManager = null;

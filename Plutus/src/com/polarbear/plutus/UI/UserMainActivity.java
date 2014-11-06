@@ -67,6 +67,8 @@ public class UserMainActivity extends ActionBarActivity
   //Relative layouts for the main menu (need to make clickable)
   private RelativeLayout savSumRl = null;
   private RelativeLayout chkSumRl = null;
+  private RelativeLayout savPbRl = null;
+  private RelativeLayout chkPbRl = null;
   //For transactions
   private ArrayList<Transaction> transListElem = null;
   //List view used for both the transaction window and the conversation window
@@ -326,13 +328,17 @@ public class UserMainActivity extends ActionBarActivity
 	  //Text views for the main menu
 	  TextView savSumTv = (TextView) findViewById(R.id.menu_sav_sum_amnt_tv);
 	  TextView savSpndTv = (TextView) findViewById(R.id.menu_sav_sum_expns_tv);
+	  TextView savThrshTv = (TextView) findViewById(R.id.menu_sav_thresh_amnt_tv);
 	  TextView chkSumTv = (TextView) findViewById(R.id.menu_chk_sum_amnt_tv);
 	  TextView chkSpndTv = (TextView) findViewById(R.id.menu_chk_sum_expns_tv);
+	  TextView chkThrshTv = (TextView) findViewById(R.id.menu_chk_thresh_amnt_tv);
 	  //Get the user data from the class and set the fields appropriately
-	  savSumTv.setText(String.format("$%.2f", curUser.GetSavingBal()));
-	  savSpndTv.setText(String.format("$%.2f", curUser.GetSavingSpend()));
-	  chkSumTv.setText(String.format("$%.2f", curUser.GetCheckBal()));
-	  chkSpndTv.setText(String.format("$%.2f", curUser.GetCheckSpend()));
+	  savSumTv.setText(String.format("$%-8.2f", curUser.GetSavingBal()));
+	  savSpndTv.setText(String.format("$%-8.2f", curUser.GetSavingSpend()));
+	  savThrshTv.setText(String.format("$%-8.2f", curUser.GetSavingThresh()));
+	  chkSumTv.setText(String.format("$%-8.2f", curUser.GetCheckBal()));
+	  chkSpndTv.setText(String.format("$%-8.2f", curUser.GetCheckSpend()));
+	  chkThrshTv.setText(String.format("$%-8.2f", curUser.GetCheckThresh()));
 	  //Check if the user is below threshold
 	  TextView alertTv = (TextView) findViewById(R.id.menu_alert_tv);
 	  int numAlerts = curUser.GetNumAlerts();
@@ -342,9 +348,9 @@ public class UserMainActivity extends ActionBarActivity
 	  //Progress bar for user
 	  ProgressBar savPb = (ProgressBar) findViewById(R.id.menu_sav_prog_pb);
 	  ProgressBar chkPb = (ProgressBar) findViewById(R.id.menu_chk_prog_pb);
-	  //TODO need a formula for the progress bar value...
-	  savPb.setProgress((int) ((curUser.GetSavingBal() / 10) - curUser.GetSavingThresh()));
-	  chkPb.setProgress((int) ((curUser.GetCheckBal() / 10) - curUser.GetCheckThresh()));
+	  //Set 100% as 4 * threshold and mark the current balance accordingly
+	  savPb.setProgress((int) Math.min(100.0, curUser.GetSavingBal() * 100 / (4 * curUser.GetSavingThresh())));
+	  chkPb.setProgress((int) Math.min(100.0, curUser.GetCheckBal() * 100 / (4 * curUser.GetCheckThresh())));
 	  //Make the account summary buttons clickable
 	  savSumRl = (RelativeLayout) findViewById(R.id.menu_sav_sum_rl);
 	  savSumRl.setOnClickListener(new View.OnClickListener() 
@@ -364,6 +370,27 @@ public class UserMainActivity extends ActionBarActivity
 		{	//Load up checking transactions
 			isSavings = false;
 			SetLayout(R.layout.transaction_act);
+		}
+	  });
+	  //Make the progress bar buttons clickable
+	  savPbRl = (RelativeLayout) findViewById(R.id.menu_sav_prog_rl);
+	  savPbRl.setOnClickListener(new View.OnClickListener() 
+	  {
+		@Override
+		public void onClick(View v) 
+		{	//Load up savings transactions
+			grphType = 3;
+			SetLayout(R.layout.activity_view_account_statistics);
+		}
+	  });
+	  chkPbRl = (RelativeLayout) findViewById(R.id.menu_chk_prog_rl);
+	  chkPbRl.setOnClickListener(new View.OnClickListener() 
+	  {
+		@Override
+		public void onClick(View v) 
+		{	//Load up checking transactions
+			grphType = 4;
+			SetLayout(R.layout.activity_view_account_statistics);
 		}
 	  });
 	  setTitle("Home");
@@ -482,12 +509,18 @@ private void ViewStatsHandler()
 			for(int i = 0; i < catAmnts.size(); ++i)
 				catStr += ",['" + catTitles[i] + "', " + Double.toString(catAmnts.get(catTitles[i])) + "]";
 			catStr += "]";
+			String height = "475";
+			String width = "350";
 			if(grphType == 0)	//Pie chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':475, 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
-			else if(grphType == 1)	//Line chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':350, 'height':475, 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
-			else 	//Table
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':300, 'height':600, 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
+			else if(grphType == 1)	//Bar chart
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+			else if(grphType == 2)	//Table
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
+			else if(grphType == 3) //Saving threshold summary
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetSavingBal()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetSavingSpend()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) +"]]);var options = {'title':'Saving Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+			else if(grphType == 4) //Checking threshold summary
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetCheckBal()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetCheckSpend()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) +"]]);var options = {'title':'Checking Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 		}
 		return url;
 	}  
