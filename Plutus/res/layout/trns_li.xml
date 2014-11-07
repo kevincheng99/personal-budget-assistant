@@ -30,6 +30,7 @@
 	    android:layout_alignParentRight="true"
 	    android:layout_alignParentTop="true"
 	    android:layout_marginRight="30dp"
+	    android:layout_marginTop="4dp"
 	    android:textColor="@color/txt_col"
 	    android:textSize="16sp"
 	    android:text="" />
@@ -41,7 +42,7 @@
 	    android:layout_alignLeft="@+id/trns_item_tv"
 	    android:layout_centerVertical="true"
 	    android:textColor="@color/red_txt"
-	    android:textSize="16sp"
+	    android:textSize="20sp"
 	    android:text="" />
 
 	<TextView
@@ -51,7 +52,7 @@
 	    android:layout_centerVertical="true"
 	    android:layout_centerHorizontal="true"
 	    android:text=""
-	    android:textColor="@color/grn_txt"
-	    android:textSize="16sp" />
+	    android:textColor="@color/fade_col"
+	    android:textSize="20sp" />
     
 </RelativeLayout>

@@ -20,9 +20,9 @@
     <string name="dash_txt">Dashboard:</string>
     <string name="alert_txt">Alerts:</string>
     <string name="sav_acnts_txt">Savings Account</string>
-    <string name="tot_bal_elips">........................ Balance</string>
-    <string name="tot_spent_elips">........................ Spending</string>
-    <string name="thrsh_elips">......................... Threshold</string>
+    <string name="tot_bal_elips"  >.......................Balance</string>
+    <string name="tot_spent_elips">.......................Spending</string>
+    <string name="thrsh_elips"    >.......................Threshold</string>
     <string name="check_acnt_txt">Checking Account</string>
     <string name="acnt_inf_txt">Account Info:</string>
     <string name="phone_txt">Phone:</string>

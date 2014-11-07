@@ -56,7 +56,6 @@
 	        android:layout_alignBottom="@+id/menu_sav_sum_amnt_tv"
 	        android:layout_alignRight="@+id/menu_sav_sum_title_tv"
 	        android:layout_toRightOf="@+id/menu_sav_sum_amnt_tv"
-	        android:layout_marginLeft="4dp"
 	        android:textColor="@color/fade_col"
 	        android:textSize="18sp"
 	        android:text="@string/tot_bal_elips" />
@@ -194,7 +193,6 @@
 	        android:layout_alignRight="@+id/menu_chk_sum_title_tv"
 	        android:layout_toRightOf="@+id/menu_chk_sum_amnt_tv"
 	        android:textColor="@color/fade_col"
-	        android:layout_marginLeft="4dp"
 	        android:textSize="18sp"
 	        android:text="@string/tot_bal_elips" />
 	
@@ -267,7 +265,6 @@
 	        android:layout_toRightOf="@+id/menu_chk_thresh_amnt_tv"
 	        android:layout_below="@+id/menu_chk_prog_tv"
 	        android:textColor="@color/fade_col"
-	        android:layout_marginLeft="4dp"
 	        android:textSize="18sp"
 	        android:text="@string/thrsh_elips" />
 	

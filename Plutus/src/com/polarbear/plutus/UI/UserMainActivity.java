@@ -13,6 +13,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.speech.RecognitionListener;
@@ -24,6 +25,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,7 +59,7 @@ public class UserMainActivity extends ActionBarActivity
   //Boolean used to differentiate between loading savings transactions and checking
   private boolean isSavings = false;
   //Drawer stuff
-  private String[] drawerTitles = {"Home", "Savings", "Checking", "Charts", "Update Info", "Convo", "Help"};
+  private String[] drawerTitles = {" Home", " Savings", " Checking", " Charts", " Update Info", " Convo", " Help"};
   private DrawerLayout mDrawerLayout = null;
   private ListView mDrawerList;
   private FrameLayout contentFrame = null;
@@ -90,7 +92,7 @@ public class UserMainActivity extends ActionBarActivity
   private boolean spchEnabled = true;
   private AlertSystem as = null;
   private boolean emailAlertOn = false;
-
+  
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
@@ -105,7 +107,42 @@ public class UserMainActivity extends ActionBarActivity
     mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
     mDrawerList = (ListView) findViewById(R.id.left_drawer);
     // Set the adapter for the list view
-    mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, R.id.drwr_tv, drawerTitles));
+    mDrawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_list_item, R.id.drwr_tv, drawerTitles)
+    {
+    	@Override  
+    	public View getView(int position, View view, ViewGroup viewGroup)
+    	{
+    		View v = super.getView(position, view, viewGroup);
+    		int icoId = -1;
+    		switch(position)
+    		{ //Set the appropriate icon based on the position of the drawer icon
+    		case 0:
+    			icoId = R.drawable.house;
+    			break;
+    		case 1:
+    			icoId = R.drawable.saving;
+    			break;
+    		case 2:
+    			icoId = R.drawable.check;
+    			break;
+    		case 3:
+    			icoId = R.drawable.chart;
+    			break;
+    		case 4:
+    			icoId = R.drawable.edit;
+    			break;
+    		case 5:
+    			icoId = R.drawable.convo;
+    			break;
+    		case 6:
+    			icoId = R.drawable.help;
+    			break;
+    		}
+    		//Get the TextView for the drawer item and modifiy it's DrawableLeft to add the icon
+    		((TextView) v.findViewById(R.id.drwr_tv)).setCompoundDrawablesWithIntrinsicBounds(icoId, 0, 0, 0);
+    		return v;
+    	}
+    });
     //Make the drawer clickable
     mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() 
     {
@@ -122,6 +159,7 @@ public class UserMainActivity extends ActionBarActivity
     		mDrawerLayout.closeDrawers();
     	}
 	});
+
     //Make the button for speech recognition work
     micBtn = (ImageButton) findViewById(R.id.main_spk_btn);
     micBtn.setOnClickListener(new View.OnClickListener() 
@@ -166,8 +204,6 @@ public class UserMainActivity extends ActionBarActivity
     		//Parse the speech data
 			oc = GetUserIntent(resStr);
 			resStr = OcToText(oc);
-			//Display the parsed command in the command prompt
-			cmndEt.setText(resStr);	
 			CompSpeak(resStr);
     		HandleOC(oc);
     	}
@@ -333,12 +369,12 @@ public class UserMainActivity extends ActionBarActivity
 	  TextView chkSpndTv = (TextView) findViewById(R.id.menu_chk_sum_expns_tv);
 	  TextView chkThrshTv = (TextView) findViewById(R.id.menu_chk_thresh_amnt_tv);
 	  //Get the user data from the class and set the fields appropriately
-	  savSumTv.setText(String.format("$%-8.2f", curUser.GetSavingBal()));
-	  savSpndTv.setText(String.format("$%-8.2f", curUser.GetSavingSpend()));
-	  savThrshTv.setText(String.format("$%-8.2f", curUser.GetSavingThresh()));
-	  chkSumTv.setText(String.format("$%-8.2f", curUser.GetCheckBal()));
-	  chkSpndTv.setText(String.format("$%-8.2f", curUser.GetCheckSpend()));
-	  chkThrshTv.setText(String.format("$%-8.2f", curUser.GetCheckThresh()));
+	  savSumTv.setText(String.format("$%-9.2f", curUser.GetSavingBal()));
+	  savSpndTv.setText(String.format("$%-9.2f", curUser.GetSavingSpend()));
+	  savThrshTv.setText(String.format("$%-9.2f", curUser.GetSavingThresh()));
+	  chkSumTv.setText(String.format("$%-9.2f", curUser.GetCheckBal()));
+	  chkSpndTv.setText(String.format("$%-9.2f", curUser.GetCheckSpend()));
+	  chkThrshTv.setText(String.format("$%-9.2f", curUser.GetCheckThresh()));
 	  //Check if the user is below threshold
 	  TextView alertTv = (TextView) findViewById(R.id.menu_alert_tv);
 	  int numAlerts = curUser.GetNumAlerts();
@@ -509,14 +545,14 @@ private void ViewStatsHandler()
 			for(int i = 0; i < catAmnts.size(); ++i)
 				catStr += ",['" + catTitles[i] + "', " + Double.toString(catAmnts.get(catTitles[i])) + "]";
 			catStr += "]";
-			String height = "475";
-			String width = "350";
+			int height = 475;
+			int width = 350;
 			if(grphType == 0)	//Pie chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', is3D: true};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
 			else if(grphType == 1)	//Bar chart
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else if(grphType == 2)	//Table
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':" + (width - 25) + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
 			else if(grphType == 3) //Saving threshold summary
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetSavingBal()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetSavingSpend()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) +"]]);var options = {'title':'Saving Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else if(grphType == 4) //Checking threshold summary
