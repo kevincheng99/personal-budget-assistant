@@ -126,7 +126,6 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_toRightOf="@+id/menu_sav_thresh_amnt_tv"
-	        android:layout_marginLeft="4dp"
 	        android:layout_below="@+id/menu_sav_prog_tv"
 	        android:textColor="@color/fade_col"
 	        android:textSize="18sp"
