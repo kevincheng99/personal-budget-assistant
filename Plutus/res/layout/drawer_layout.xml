@@ -26,6 +26,7 @@
 	    android:layout_height="match_parent"
 	    android:layout_above="@+id/main_spk_btn" />
 	   
+	   <!-- 
    		<ImageButton
 	    android:id="@+id/main_spk_btn"
 	    android:contentDescription="@string/bkgd_img"
@@ -34,7 +35,19 @@
 	    android:layout_alignParentBottom="true"
 	    android:layout_alignParentRight="true"
 	    android:src="@drawable/micico" />
-   		
+   		-->
+   		<ImageView 
+   		android:id="@+id/main_spk_btn"
+		android:contentDescription="@string/bkgd_img"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginRight="2dp"
+	    android:layout_marginBottom="2dp"
+		android:src="@drawable/micbtn"
+		android:scaleType="fitXY" />
+
    	    <EditText
         android:id="@+id/main_cmd_et"
         android:hint="@string/cmd_txt"
@@ -46,9 +59,7 @@
         android:layout_marginBottom="4dp"
         android:background="@drawable/abc_textfield_searchview_holo_light"
         android:layout_toRightOf="@+id/main_spk_btn"
-        android:ems="12" >
-
-       </EditText>
+        android:ems="12" />
 	   
     </RelativeLayout>
     

@@ -1086,16 +1086,18 @@ containing a value of this type.
         public static final int bkgd=0x7f020057;
         public static final int chart=0x7f020058;
         public static final int check=0x7f020059;
-        public static final int convo=0x7f02005a;
-        public static final int edit=0x7f02005b;
-        public static final int help=0x7f02005c;
-        public static final int house=0x7f02005d;
-        public static final int ic_launcher=0x7f02005e;
-        public static final int lstitem=0x7f02005f;
-        public static final int lstitem2=0x7f020060;
-        public static final int micico=0x7f020061;
-        public static final int plutuslogo600=0x7f020062;
-        public static final int saving=0x7f020063;
+        public static final int cmdicn=0x7f02005a;
+        public static final int convo=0x7f02005b;
+        public static final int edit=0x7f02005c;
+        public static final int help=0x7f02005d;
+        public static final int house=0x7f02005e;
+        public static final int ic_launcher=0x7f02005f;
+        public static final int lstitem=0x7f020060;
+        public static final int lstitem2=0x7f020061;
+        public static final int micbtn=0x7f020062;
+        public static final int micico=0x7f020063;
+        public static final int plutuslogo600=0x7f020064;
+        public static final int saving=0x7f020065;
     }
     public static final class id {
         public static final int action_bar=0x7f05001c;

@@ -30,7 +30,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
@@ -53,7 +53,7 @@ public class UserMainActivity extends ActionBarActivity
   //Speech recognizer for voice commands
   private SpeechRecognizer sr = null;
   //A lookup table for the layouts (these match up with drawerTitles)
-  private ImageButton micBtn = null;
+  private ImageView micBtn = null;
   private int[] layouts = {R.layout.activity_user_main, R.layout.transaction_act, R.layout.transaction_act, R.layout.activity_view_account_statistics, R.layout.activity_update_account_setting, R.layout.speech_main, R.layout.help};
   //Boolean used to differentiate between loading savings transactions and checking
   private boolean isSavings = false;
@@ -160,7 +160,7 @@ public class UserMainActivity extends ActionBarActivity
 	});
 
     //Make the button for speech recognition work
-    micBtn = (ImageButton) findViewById(R.id.main_spk_btn);
+    micBtn = (ImageView) findViewById(R.id.main_spk_btn);
     micBtn.setOnClickListener(new View.OnClickListener() 
     {
 		@Override
