@@ -1,4 +1,4 @@
-package com.polarbear.plutus.Technical;
+package com.polarbear.plutus.technical;
 
 //http://stackoverflow.com/questions/2020088/sending-email-in-android-using-javamail-api-without-using-the-default-built-in-a
 

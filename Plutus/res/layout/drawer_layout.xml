@@ -14,7 +14,7 @@
 		android:contentDescription="@string/bkgd_img"
 		android:layout_width="fill_parent"
 		android:layout_height="fill_parent"
-		android:src="@drawable/bkgd"
+		android:src="@drawable/bkgdstrp"
 		android:scaleType="centerCrop" />
         
        <!-- The main frame to be replaced at run-time -->
@@ -26,16 +26,6 @@
 	    android:layout_height="match_parent"
 	    android:layout_above="@+id/main_spk_btn" />
 	   
-	   <!-- 
-   		<ImageButton
-	    android:id="@+id/main_spk_btn"
-	    android:contentDescription="@string/bkgd_img"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    android:layout_alignParentBottom="true"
-	    android:layout_alignParentRight="true"
-	    android:src="@drawable/micico" />
-   		-->
    		<ImageView 
    		android:id="@+id/main_spk_btn"
 		android:contentDescription="@string/bkgd_img"
@@ -55,8 +45,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="4dp"
-        android:layout_marginBottom="4dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginBottom="6dp"
         android:background="@drawable/abc_textfield_searchview_holo_light"
         android:layout_toRightOf="@+id/main_spk_btn"
         android:ems="12" />

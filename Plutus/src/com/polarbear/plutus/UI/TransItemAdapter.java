@@ -1,9 +1,10 @@
-package com.polarbear.plutus.UI;
+package com.polarbear.plutus.ui;
 
 import java.util.ArrayList;
 
 import com.example.plutus.R;
-import com.polarbear.plutus.Domain.Transaction;
+import com.polarbear.plutus.domain.Transaction;
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;

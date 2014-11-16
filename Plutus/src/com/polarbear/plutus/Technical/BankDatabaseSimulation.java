@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.polarbear.plutus.Technical;
+package com.polarbear.plutus.technical;
 
 import java.util.ArrayList;
 import java.util.Collections;

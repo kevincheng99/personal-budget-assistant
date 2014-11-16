@@ -1,4 +1,4 @@
-package com.polarbear.plutus.Domain;
+package com.polarbear.plutus.domain;
 
 public class Transaction 
 {

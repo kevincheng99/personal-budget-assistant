@@ -1,9 +1,10 @@
-package com.polarbear.plutus.UI;
+package com.polarbear.plutus.ui;
 
 import com.example.plutus.R;
-import com.polarbear.plutus.Domain.User;
-import com.polarbear.plutus.Technical.BankDatabaseManager;
-import com.polarbear.plutus.Technical.BankDatabaseSimulationActivity;
+import com.polarbear.plutus.domain.User;
+import com.polarbear.plutus.technical.BankDatabaseManager;
+import com.polarbear.plutus.technical.BankDatabaseSimulationActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;

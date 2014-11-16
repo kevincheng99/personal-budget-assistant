@@ -1,8 +1,10 @@
-package com.polarbear.plutus.Domain;
+package com.polarbear.plutus.domain;
 
 import java.util.ArrayList;
-import com.polarbear.plutus.Technical.BankDatabaseManager;
-import com.polarbear.plutus.Technical.BankDatabaseSchema;
+
+import com.polarbear.plutus.technical.BankDatabaseManager;
+import com.polarbear.plutus.technical.BankDatabaseSchema;
+
 import android.content.Context;
 import android.database.Cursor;
 

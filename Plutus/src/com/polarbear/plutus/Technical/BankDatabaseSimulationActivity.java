@@ -1,9 +1,10 @@
-package com.polarbear.plutus.Technical;
+package com.polarbear.plutus.technical;
 
 import java.util.Date;
 
 import com.example.plutus.R;
-import com.polarbear.plutus.UI.LoginActivity;
+import com.polarbear.plutus.ui.LoginActivity;
+
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.polarbear.plutus.UI;
+package com.polarbear.plutus.ui;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,9 +6,10 @@ import java.util.Locale;
 import java.util.Random;
 import java.util.Stack;
 import com.example.plutus.R;
-import com.polarbear.plutus.Domain.Transaction;
-import com.polarbear.plutus.Domain.User;
-import com.polarbear.plutus.Technical.AlertSystem;
+import com.polarbear.plutus.domain.Transaction;
+import com.polarbear.plutus.domain.User;
+import com.polarbear.plutus.technical.AlertSystem;
+
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -545,17 +546,17 @@ private void ViewStatsHandler()
 				catStr += ",['" + catTitles[i] + "', " + Double.toString(catAmnts.get(catTitles[i])) + "]";
 			catStr += "]";
 			int height = 475;
-			int width = 350;
+			int width = 360;
 			if(grphType == 0)	//Pie chart
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', is3D: true};var chart = new google.visualization.PieChart(document.getElementById('piechart'));chart.draw(data, options);}</script></head><body><div id=\"piechart\"></div></body></html>";
 			else if(grphType == 1)	//Bar chart
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'title':'" + title + "', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', legend: {position: 'none'}}; var chart = new google.visualization.BarChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else if(grphType == 2)	//Table
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"table\"]});google.setOnLoadCallback(drawTable);function drawTable() {var data = google.visualization.arrayToDataTable(" + catStr + ");var options = {'width':" + (width - 25) + ", 'height':" + height + ", 'backgroundColor': 'transparent'};var table = new google.visualization.Table(document.getElementById('table_div'));table.draw(data, options);}</script></head><body><div id=\"table_div\"></div></body></html>";
 			else if(grphType == 3) //Saving threshold summary
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetSavingBal()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetSavingSpend()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) +"]]);var options = {'title':'Saving Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetSavingBal()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetSavingSpend()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) +"]]);var options = {'title':'Saving Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', legend: {position: 'none'}}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else if(grphType == 4) //Checking threshold summary
-				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetCheckBal()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetCheckSpend()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) +"]]);var options = {'title':'Checking Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent'}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetCheckBal()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetCheckSpend()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) +"]]);var options = {'title':'Checking Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', legend: {position: 'none'}}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 		}
 		return url;
 	}  

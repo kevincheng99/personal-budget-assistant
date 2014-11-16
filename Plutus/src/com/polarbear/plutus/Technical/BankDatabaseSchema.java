@@ -1,4 +1,4 @@
-package com.polarbear.plutus.Technical;
+package com.polarbear.plutus.technical;
 
 import android.provider.BaseColumns;
 
