@@ -71,6 +71,7 @@ public class UserMainActivity extends ActionBarActivity
   private RelativeLayout chkSumRl = null;
   private RelativeLayout savPbRl = null;
   private RelativeLayout chkPbRl = null;
+  private RelativeLayout alrtRl = null;
   //For transactions
   private ArrayList<Transaction> transListElem = null;
   //List view used for both the transaction window and the conversation window
@@ -381,6 +382,8 @@ public class UserMainActivity extends ActionBarActivity
 	  alertTv.setText(numAlerts + " alerts");
 	  if(numAlerts == 0) //User has no alerts, make the text green (red is default from xml)
 		  alertTv.setTextColor(getResources().getColor(R.color.grn_txt));
+	  if(!emailAlertOn)
+	  	  alertTv.setTextColor(getResources().getColor(R.color.fade_col));
 	  //Progress bar for user
 	  ProgressBar savPb = (ProgressBar) findViewById(R.id.menu_sav_prog_pb);
 	  ProgressBar chkPb = (ProgressBar) findViewById(R.id.menu_chk_prog_pb);
@@ -429,6 +432,17 @@ public class UserMainActivity extends ActionBarActivity
 			SetLayout(R.layout.activity_view_account_statistics);
 		}
 	  });
+	  alrtRl = (RelativeLayout) findViewById(R.id.menu_alrt_rl);
+	  alrtRl.setOnClickListener(new View.OnClickListener()
+	  {
+	  	@Override
+		public void onClick(View v) 
+		{	//Enable/disable email alerts
+			HandleOC(11);
+			if(!emailAlertOn) //User has no alerts, make the text green (red is default from xml)
+				alertTv.setTextColor(getResources().getColor(R.color.fade_col));
+		}
+	  }
 	  setTitle("Home");
 
   }
