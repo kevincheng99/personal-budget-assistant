@@ -9,7 +9,6 @@ import com.example.plutus.R;
 import com.polarbear.plutus.domain.Transaction;
 import com.polarbear.plutus.domain.User;
 import com.polarbear.plutus.technical.AlertSystem;
-
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -39,7 +38,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
-public class UserMainActivity extends ActionBarActivity 
+public class UserMainActivity extends ActionBarActivity implements TextToSpeech.OnInitListener
 {
   //Text to speech object for computer speech
   private TextToSpeech tts;
@@ -65,7 +64,6 @@ public class UserMainActivity extends ActionBarActivity
   private FrameLayout contentFrame = null;
   //Intent from login activity
   private Intent umaIntent = null;
-  private String txtToSpeak = "";
   //Relative layouts for the main menu (need to make clickable)
   private RelativeLayout savSumRl = null;
   private RelativeLayout chkSumRl = null;
@@ -93,12 +91,17 @@ public class UserMainActivity extends ActionBarActivity
   private boolean spchEnabled = true;
   private AlertSystem as = null;
   private boolean emailAlertOn = false;
+  private int ttsReqCod = 1234;
   
   @Override
   protected void onCreate(Bundle savedInstanceState) 
   {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.drawer_layout);
+    //Force the system to setup the TTS engine
+    Intent checkIntent = new Intent();
+    checkIntent.setAction(TextToSpeech.Engine.ACTION_CHECK_TTS_DATA);
+    startActivityForResult(checkIntent, ttsReqCod);
     umaIntent = getIntent();
     //Retreive the user object for the database
     curUser = User.GetUser(umaIntent.getStringExtra("un"), umaIntent.getStringExtra("pwd"), getApplicationContext());
@@ -237,12 +240,43 @@ public class UserMainActivity extends ActionBarActivity
     compSpkAl = new ArrayList<String>();
     layoutStack = new Stack<Integer>();
     SetLayout(R.layout.activity_user_main);
-    //Only welcome the user the first time
-    if(savedInstanceState == null)
-    	CompSpeak("Welcome " + curUser.GetUsername() + "! You have " + curUser.GetNumAlerts() + " alerts.");
-    
   }
 
+  
+
+  /**
+   * Called when the TTS is initialized
+   * @param i
+   */
+  public void onInit(int i)
+  {	//Welcome the user
+	  CompSpeak("Welcome " + curUser.GetUsername() + "! You have " + curUser.GetNumAlerts() + " " + (curUser.GetNumAlerts() == 1 ? "alert." : "alerts."));
+  }
+
+  
+//This will be called once the intent to initialize the TTS was successful
+  public void onActivityResult(int requestCode, int resultCode, Intent data)
+  {
+	  //Check if the code is for TTS
+      if(requestCode == ttsReqCod)
+      {
+          if (resultCode == TextToSpeech.Engine.CHECK_VOICE_DATA_PASS)
+          {
+              // success, create the TTS instance
+              tts = new TextToSpeech(this, this);
+              tts.setLanguage(Locale.US);
+          }
+          else
+          {
+              // missing data, install it
+              Intent installIntent = new Intent();
+              installIntent.setAction(TextToSpeech.Engine.ACTION_INSTALL_TTS_DATA);
+              startActivity(installIntent);
+          }
+      }
+  }
+
+  
   @Override
   public void onBackPressed() 
   {	//If the stack will be empty return to login screen
@@ -438,11 +472,10 @@ public class UserMainActivity extends ActionBarActivity
 	  	@Override
 		public void onClick(View v) 
 		{	//Enable/disable email alerts
+	  		CompSpeak(OcToText(11));
 			HandleOC(11);
-			if(!emailAlertOn) //User has no alerts, make the text green (red is default from xml)
-				alertTv.setTextColor(getResources().getColor(R.color.fade_col));
 		}
-	  }
+	  });
 	  setTitle("Home");
 
   }
@@ -464,6 +497,7 @@ public class UserMainActivity extends ActionBarActivity
 	  itemLv = (ListView) findViewById(R.id.spch_conv_lv);
 	  compSpkAa = new ArrayAdapter<String>(getApplicationContext(), R.layout.speech_li, R.id.speech_li_tv, compSpkAl);
 	  itemLv.setAdapter(compSpkAa);
+	  itemLv.setSelection(compSpkAa.getCount() - 1);
 	  setTitle("Conversation");
   }
 
@@ -505,7 +539,6 @@ private void ViewStatsHandler()
 	  {
 		  oldBuild = false;
 		  grphWv.getSettings().setJavaScriptEnabled(true);
-		  //TODO need to change to loadData
 		  grphWv.loadDataWithBaseURL(null, GenerateChartUrl(), "text/html", "UTF-8", null);
 	  }
 	  //Need to set transparency AFTER loading web page (if you set before it doesn't work)
@@ -612,21 +645,9 @@ private void ViewStatsHandler()
   {
 	  //Append the string to the list of spoken sentances
 	  compSpkAl.add(speech);
+	  Toast.makeText(getApplicationContext(), speech, Toast.LENGTH_SHORT).show();
 	  //Perform the tts
-	  txtToSpeak = speech;
-	  tts = new TextToSpeech(getApplicationContext(), new TextToSpeech.OnInitListener() 
-	  {
-	      @Override
-	      public void onInit(int status) 
-	      {
-	        if (status == TextToSpeech.SUCCESS) 
-	        {
-	          Toast.makeText(getApplicationContext(), txtToSpeak, Toast.LENGTH_SHORT).show();
-	      	  tts.setLanguage(Locale.US);
-	      	  tts.speak(txtToSpeak, TextToSpeech.QUEUE_FLUSH, null);
-		    }
-	      }
-	  });
+	  tts.speak(speech, TextToSpeech.QUEUE_ADD, null);
 	  return;
   }
   
@@ -757,11 +778,10 @@ private void ViewStatsHandler()
 	  if(curUser.SavingAlert())
 	  {
 		try 
-		{	//Using my old email for the time being
+		{
 			as.SendEmailAlert(curUser.GetUsername(), curUser.GetEmail(), "savings");
 		} catch (Exception e1) 
 		{
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 		CompSpeak(curUser.GetUsername() + ", an email alert has been sent to your account.");
@@ -769,11 +789,10 @@ private void ViewStatsHandler()
 	  if(curUser.CheckingAlert())
 	  {
 		try 
-		{   //Using my old email for the time being
+		{
 			as.SendEmailAlert(curUser.GetUsername(), curUser.GetEmail(), "checking");
 		} catch (Exception e) 
 		{
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		CompSpeak(curUser.GetUsername() + ", an email alert has been sent to your account.");
@@ -782,7 +801,7 @@ private void ViewStatsHandler()
   
   //Get an operation code from the user's speech that indicates which action the system should take
   private int GetUserIntent(String speech)
-  {	//TODO parse the user's speech better and add more opcodes for different commands
+  {	//parse the user's speech
 	  int opCode = -1;
 	  if(speech.contains("account") && speech.contains("balance"))
 		  opCode = 0; //User probably wants to view his/her balance
@@ -808,8 +827,6 @@ private void ViewStatsHandler()
 		  opCode = 10; //User is probably wondering who is the coolest person in the world
 	  else if(speech.contains("email") && speech.contains("alert"))
 		  opCode = 11; //User wants to turn on/off email alerts
-	  //TODO more speech parsing
-	  
 	  return opCode;
   }
   
