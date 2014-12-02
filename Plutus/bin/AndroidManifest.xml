@@ -38,6 +38,15 @@
                 android:value="com.example.plutus.LoginActivity" />
         </activity>
         <activity
+            android:name="com.polarbear.plutus.ui.HelpActivity"
+            android:parentActivityName="com.polarbear.plutus.ui.UserMainActivity" 
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
+   			android:configChanges="orientation|keyboardHidden">>
+
+        </activity>
+        
+        <activity
             android:name="com.polarbear.plutus.technical.BankDatabaseSimulationActivity"
             android:label="@string/title_activity_bank_database_simulation"
             android:parentActivityName="com.polarbear.plutus.ui.LoginActivity" >

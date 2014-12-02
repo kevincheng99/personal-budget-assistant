@@ -79,7 +79,7 @@ public class UserMainActivity extends ActionBarActivity implements TextToSpeech.
   private WebView grphWv = null;
   private boolean oldBuild = true;
   //Make first chart the table chart
-  private int grphType = 2;
+  private int grphType = 5;
   //The user object
   private User curUser = null;
   //Maintain a stack of all the visited windows to handle the back button
@@ -604,28 +604,39 @@ private void ViewStatsHandler()
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetSavingBal()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetSavingSpend()) + ", " + String.format("%.2f", curUser.GetSavingThresh()) +"]]);var options = {'title':'Saving Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', legend: {position: 'none'}}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
 			else if(grphType == 4) //Checking threshold summary
 				url = "<html><head><script type=\"text/javascript\" src=\"https://www.google.com/jsapi\"></script><script type=\"text/javascript\">google.load(\"visualization\", \"1\", {packages:[\"corechart\"]});google.setOnLoadCallback(drawChart);function drawChart() {var data = google.visualization.arrayToDataTable([['Category', 'Amount', 'Threshold'],['Balance', " + String.format("%.2f", curUser.GetCheckBal()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) + "], ['Spending', " + String.format("%.2f", curUser.GetCheckSpend()) + ", " + String.format("%.2f", curUser.GetCheckThresh()) +"]]);var options = {'title':'Checking Summary', 'width':" + width + ", 'height':" + height + ", 'backgroundColor': 'transparent', legend: {position: 'none'}}; var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));chart.draw(data, options);}</script></head><body><div id=\"chart_div\"></div></body></html>";
+			else if(grphType == 5)
+				url = "<html><body><object height=\"400\" width=\"300\" classid=\"clsid:D27CDB6E-AE6D-11cf-96B8-444553540000\"codebase=\"http://download.macromedia.com/pub/shockwave/cabs/flash/swflash.cab#version=9,0,28,0\" id=\"widget_name\"><param name=\"movie\" value=\"http://vhss-d.oddcast.com/vhss_editors/voki_player.swf?doc=http://vhss-d.oddcast.com/php/vhss_editors/getvoki/chsm=d0d78a2e6c69694b04aae5ca9d516880%26sc=10712548\" /><param name=\"quality\" value=\"high\" /><param name=\"allowScriptAccess\" value=\"always\" /><param name=\"width\" value=\"300\" /><param name=\"height\" value=\"400\" /><param name=\"allowNetworking\" value=\"all\"/><param name=\"wmode\" value=\"transparent\" /><param name=\"allowFullScreen\" value=\"true\" /><embed height=\"400\" width=\"300\" src=\"http://vhss-d.oddcast.com/vhss_editors/voki_player.swf?doc=http%3A%2F%2Fvhss-d.oddcast.com%2Fphp%2Fvhss_editors%2Fgetvoki%2Fchsm=d0d78a2e6c69694b04aae5ca9d516880%26sc=10712548\" quality=\"high\" allowScriptAccess=\"always\" allowNetworking=\"all\" wmode=\"transparent\" allowFullScreen=\"true\" pluginspage=\"http://www.adobe.com/shockwave/download/download.cgi?P1_Prod_Version=ShockwaveFlash\" type=\"application/x-shockwave-flash\" name=\"widget_name\"></object></body></html>";
 		}
 		return url;
 	}  
   
   private void HelpHandler()
   {
+	  /**
 	  setTitle("Help");
 	  VideoView vv = (VideoView) findViewById(R.id.help_vv);
 	  vv.setVideoPath(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath() + "/Foo.mp4");
 	  vv.start();
+	  */
+	  // Initialize the intent to user's main activity
+	  Intent helpIntent = new Intent(this, HelpActivity.class);
+	  startActivity(helpIntent);
+
   }
   
   //Handles changing the main content frame, pass it one of the layouts in the layout array
   private void SetLayout(int layout)
   {
-	if(layoutStack.size() == 0 || layout != layoutStack.peek())
-		layoutStack.push(layout);
-	contentFrame = (FrameLayout) findViewById(R.id.content_frame);
-	View child = getLayoutInflater().inflate(layout, null);
-	//Remove the old view and set a new one
-	contentFrame.removeAllViews();
-	contentFrame.addView(child);
+	if(layout != R.layout.help)
+	{
+		if(layoutStack.size() == 0 || layout != layoutStack.peek())
+			layoutStack.push(layout);
+		contentFrame = (FrameLayout) findViewById(R.id.content_frame);
+		View child = getLayoutInflater().inflate(layout, null);
+		//Remove the old view and set a new one
+		contentFrame.removeAllViews();
+		contentFrame.addView(child);
+	}
 	if(layout == R.layout.activity_user_main)
 		MainMenuHandler();
 	else if(layout == R.layout.activity_update_account_setting)
